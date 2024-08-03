@@ -14,6 +14,10 @@ class SubjectController extends Controller
      */
     public function getByEducationalLevel($educationalLevelId)
     {
+
+
+
+    
         // Retrieve subjects for the specified educational level ID
         $subjects = Subject::where('educational_level_id', $educationalLevelId)->get();
 

@@ -69,3 +69,7 @@ Route::delete('/pdfs/{id}', [PDFController::class, 'destroy']);
 Route::post('/mcqs', [MCQController::class, 'store']);
 Route::get('/mcqs/lesson/{lessonId}', [MCQController::class, 'getByLessonId']);
 Route::delete('/mcqs/{id}', [MCQController::class, 'destroy']);
+
+
+
+//  hello

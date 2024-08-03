@@ -80,23 +80,49 @@ class CodeController extends Controller
 
         return response()->json(['codes' => $codes], 200);
     }
-    public function checkUserCodeStatus($userId,$macAddress)
-    {
-        $code = Code::where('user_id', $userId)->first();
+    // public function checkUserCodeStatus($userId,$macAddress)
+    // {
+    //     $code = Code::where('user_id', $userId)->first();
 
-        if (!$code) {
-            return response()->json(['message' => 'User has no code.'], 404);
-        }
+    //     if (!$code) {
+    //         return response()->json(['message' => 'User has no code.'], 404);
+    //     }
 
-        if (Carbon::now()->greaterThan($code->expires_at)) {
-            return response()->json(['message' => 'Code has expired.'], 410);
-        }
+    //     if (Carbon::now()->greaterThan($code->expires_at)) {
+    //         return response()->json(['message' => 'Code has expired.'], 410);
+    //     }
 
-        if ($code->mac_address!==$macAddress) {
-            return response()->json(['message' => 'MAC address mismatch.'], 403);
-        }
+    //     if ($code->mac_address!==$macAddress) {
+    //         return response()->json(['message' => 'MAC address mismatch.'], 403);
+    //     }
 
-        return response()->json(['message' => 'User has a valid code.', 'code' => $code], 200);
+    //     return response()->json(['message' => 'User has a valid code.', 'code' => $code], 200);
+    // }
+
+
+
+
+
+
+public function checkUserCodeStatus($userId, $macAddress)
+{
+    $code = Code::where('user_id', $userId)->first();
+
+    if (!$code) {
+        return response()->json(['message' => 'User has no code.'], 404);
     }
+
+    if (Carbon::now()->greaterThan($code->expires_at)) {
+        return response()->json(['message' => 'Code has expired.'], 410);
+    }
+
+    // Normalize the MAC address for comparison
+    $normalizedMacAddress = strtolower($macAddress);
+    if (strtolower($code->mac_address) !== $normalizedMacAddress) {
+        return response()->json(['message' => 'MAC address mismatch.'], 403);
+    }
+
+    return response()->json(['message' => 'User has a valid code.', 'code' => $code], 200);
+}
 
 }

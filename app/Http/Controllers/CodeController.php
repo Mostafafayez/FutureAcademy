@@ -80,7 +80,7 @@ class CodeController extends Controller
 
         return response()->json(['codes' => $codes], 200);
     }
-    public function checkUserCodeStatus($userId, $macAddress)
+    public function checkUserCodeStatus($userId,$macAddress)
     {
         $code = Code::where('user_id', $userId)->first();
 

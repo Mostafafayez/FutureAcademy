@@ -30,7 +30,8 @@ Route::post('/login', [AuthController::class, 'login']);
 
 
 // Route::group(['middleware' => 'auth:sanctum'], function(){
-    Route::get('/teacher/educational-level/{educationalLevelId}', [TeacherController::class, 'getTeachersByEducationalLevel'])->middleware('auth:sanctum');
+    Route::get('/teacher/educational-level/{educationalLevelId}', [TeacherController::class, 'getTeachersByEducationalLevel']);
+    // ->middleware('auth:sanctum');
 // });
 
 Route::post('/logout', [AuthController::class, 'logout'])->Middleware('auth:sanctum');

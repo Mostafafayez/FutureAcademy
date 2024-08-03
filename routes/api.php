@@ -36,7 +36,8 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
 
 Route::post('/logout', [AuthController::class, 'logout'])->Middleware('auth:sanctum');
 //subject
-Route::get('/getsubjects/{educationalLevelId}', [SubjectController::class, 'getByEducationalLevel']) ->middleware('auth:sanctum');
+Route::get('/getsubjects/{educationalLevelId}', [SubjectController::class, 'getByEducationalLevel']);
+//  ->middleware('auth:sanctum');
 Route::post('/addsubject', [SubjectController::class, 'store']);
 Route::delete('/deletesubject/{id}', [SubjectController::class, 'destroy']);
 //teacher

@@ -32,6 +32,7 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::get('/teacher/educational-level/{educationalLevelId}', [TeacherController::class, 'getTeachersByEducationalLevel']);
     Route::get('/getsubjects/{educationalLevelId}', [SubjectController::class, 'getByEducationalLevel']);
+    Route::get('/videos/lesson/{lessonId}', [VideoController::class, 'getByLessonId']);
 });
 
 Route::post('/logout', [AuthController::class, 'logout'])->Middleware('auth:sanctum');
@@ -58,7 +59,7 @@ Route::get('/code/users', [CodeController::class, 'getAllCodesWithUsers']);
 
 // Video
 Route::post('/videos', [VideoController::class, 'store']);
-Route::get('/videos/lesson/{lessonId}', [VideoController::class, 'getByLessonId']);
+
 Route::delete('/videos/{id}', [VideoController::class, 'destroy']);
 
 // PDF

@@ -31,12 +31,12 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::get('/teacher/educational-level/{educationalLevelId}', [TeacherController::class, 'getTeachersByEducationalLevel']);
-
+    Route::get('/getsubjects/{educationalLevelId}', [SubjectController::class, 'getByEducationalLevel']);
 });
 
 Route::post('/logout', [AuthController::class, 'logout'])->Middleware('auth:sanctum');
 //subject
-Route::get('/getsubjects/{educationalLevelId}', [SubjectController::class, 'getByEducationalLevel']);
+
 //  ->middleware('auth:sanctum');
 Route::post('/addsubject', [SubjectController::class, 'store']);
 Route::delete('/deletesubject/{id}', [SubjectController::class, 'destroy']);

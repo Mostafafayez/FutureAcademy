@@ -19,9 +19,12 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'email',
+        'phone',
         'password',
+        'educational_level_id'
     ];
+
+    public $timestamps = false;
 
     /**
      * The attributes that should be hidden for serialization.
@@ -42,4 +45,17 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function codes()
+    {
+        return $this->hasMany(Code::class);
+    }
+
+
+    public function educationalLevel()
+    {
+        return $this->belongsTo(EducationalLevel::class);
+    }
+
+
 }

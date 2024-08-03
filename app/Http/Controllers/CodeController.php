@@ -92,7 +92,7 @@ class CodeController extends Controller
             return response()->json(['message' => 'Code has expired.'], 410);
         }
 
-        if ($code->mac_address !== $macAddress) {
+        if ($code->mac_address!==$macAddress) {
             return response()->json(['message' => 'MAC address mismatch.'], 403);
         }
 

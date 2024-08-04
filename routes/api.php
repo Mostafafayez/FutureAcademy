@@ -28,7 +28,7 @@ Route::post('/signup', [AuthController::class, 'signUp']);
 Route::post('/login', [AuthController::class, 'login']);
 
 
-Route::middleware(['auth:sanctum','cors'])->group(function () {
+Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/teacher/educational-level/{educationalLevelId}', [TeacherController::class, 'getTeachersByEducationalLevel']);
     Route::get('/getsubjects/{educationalLevelId}', [SubjectController::class, 'getByEducationalLevel']);
     // Route::get('/videos/lesson/{lessonId}', [VideoController::class, 'getByLessonId']);
@@ -37,15 +37,7 @@ Route::middleware(['auth:sanctum','cors'])->group(function () {
 
 });
 
-
-
-Route::middleware('cors')->group(function(){
-    Route::get('/videos/lesson/{lessonId}', [VideoController::class, 'getByLessonId']);
-    Route::get('/test-me', function(Request $request){
-        return "it's work " . $request->testname;
-    });
-});
-
+Route::get('/videos/lesson/{lessonId}', [VideoController::class, 'getByLessonId']);
 
 
 

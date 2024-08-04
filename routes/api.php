@@ -83,13 +83,21 @@ Route::delete('/mcqs/{id}', [MCQController::class, 'destroy']);
 
 use Illuminate\Support\Facades\Artisan;
 
+
 Route::get('/manage-cache', function () {
     // Clear existing caches
     Artisan::call('config:clear');
     Artisan::call('cache:clear');
+    Artisan::call('view:clear');
+    Artisan::call('route:clear');
+
+    // Clear optimized files
+    Artisan::call('optimize:clear');
 
     // Re-cache configuration
     Artisan::call('config:cache');
+    Artisan::call('route:cache');
+    Artisan::call('view:cache');
 
     return 'Cache cleared and configuration cached!';
 });

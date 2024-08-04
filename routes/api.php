@@ -28,12 +28,13 @@ Route::post('/signup', [AuthController::class, 'signUp']);
 Route::post('/login', [AuthController::class, 'login']);
 
 
-
-Route::group(['middleware' => ['auth:sanctum','course']], function() {
+Route::middleware(['auth:sanctum','cors'])->group(function () {
     Route::get('/teacher/educational-level/{educationalLevelId}', [TeacherController::class, 'getTeachersByEducationalLevel']);
     Route::get('/getsubjects/{educationalLevelId}', [SubjectController::class, 'getByEducationalLevel']);
-    Route::get('/videos/lesson/{lessonId}', [VideoController::class, 'getByLessonId']);
+    Route::get('/videos/lesson/{lessonId}', [VideoController::class, 'getByLessonId']); 
 });
+
+
 
 Route::post('/logout', [AuthController::class, 'logout'])->Middleware('auth:sanctum');
 //subject

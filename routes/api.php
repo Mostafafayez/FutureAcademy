@@ -29,7 +29,7 @@ Route::post('/login', [AuthController::class, 'login']);
 
 
 
-Route::group(['middleware' => 'auth:sanctum'], function(){
+Route::group(['middleware' => ['auth:sanctum', 'course']], function() {
     Route::get('/teacher/educational-level/{educationalLevelId}', [TeacherController::class, 'getTeachersByEducationalLevel']);
     Route::get('/getsubjects/{educationalLevelId}', [SubjectController::class, 'getByEducationalLevel']);
     Route::get('/videos/lesson/{lessonId}', [VideoController::class, 'getByLessonId']);

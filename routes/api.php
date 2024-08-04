@@ -29,7 +29,7 @@ Route::post('/login', [AuthController::class, 'login']);
 
 
 
-Route::group(['middleware' => ['auth:sanctum', 'course']], function() {
+Route::group(['middleware' => ['auth:sanctum','course']], function() {
     Route::get('/teacher/educational-level/{educationalLevelId}', [TeacherController::class, 'getTeachersByEducationalLevel']);
     Route::get('/getsubjects/{educationalLevelId}', [SubjectController::class, 'getByEducationalLevel']);
     Route::get('/videos/lesson/{lessonId}', [VideoController::class, 'getByLessonId']);
@@ -74,3 +74,11 @@ Route::delete('/mcqs/{id}', [MCQController::class, 'destroy']);
 
 
 
+use Illuminate\Support\Facades\Artisan;
+
+Route::get('/clear-cache', function () {
+    Artisan::call('config:clear');
+    Artisan::call('cache:clear');
+
+    return 'Cache and config cleared!';
+});

@@ -32,12 +32,12 @@ Route::middleware(['auth:sanctum','cors'])->group(function () {
     Route::get('/teacher/educational-level/{educationalLevelId}', [TeacherController::class, 'getTeachersByEducationalLevel']);
     Route::get('/getsubjects/{educationalLevelId}', [SubjectController::class, 'getByEducationalLevel']);
     // Route::get('/videos/lesson/{lessonId}', [VideoController::class, 'getByLessonId']);
-    Route::middleware('cors')->get('/videos/lesson/{lessonId}', [VideoController::class, 'getByLessonId']);
+    Route::get('/videos/lesson/{lessonId}', [VideoController::class, 'getByLessonId']);
 
 
 });
 
-Route::middleware('cor')->get('/videos/lesson/{lessonId}', [VideoController::class, 'getByLessonId']);
+// Route::middleware('cor')->get('/videos/lesson/{lessonId}', [VideoController::class, 'getByLessonId']);
 
 
 

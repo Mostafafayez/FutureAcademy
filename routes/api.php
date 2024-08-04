@@ -31,7 +31,7 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::middleware(['auth:sanctum','cors'])->group(function () {
     Route::get('/teacher/educational-level/{educationalLevelId}', [TeacherController::class, 'getTeachersByEducationalLevel']);
     Route::get('/getsubjects/{educationalLevelId}', [SubjectController::class, 'getByEducationalLevel']);
-    Route::get('/videos/lesson/{lessonId}', [VideoController::class, 'getByLessonId']); 
+    Route::get('/videos/lesson/{lessonId}', [VideoController::class, 'getByLessonId']);
 
 });
 
@@ -78,9 +78,13 @@ Route::delete('/mcqs/{id}', [MCQController::class, 'destroy']);
 
 use Illuminate\Support\Facades\Artisan;
 
-Route::get('/clear-cache', function () {
+Route::get('/manage-cache', function () {
+    // Clear existing caches
     Artisan::call('config:clear');
     Artisan::call('cache:clear');
 
-    return 'Cache and config cleared!';
+    // Re-cache configuration
+    Artisan::call('config:cache');
+
+    return 'Cache cleared and configuration cached!';
 });

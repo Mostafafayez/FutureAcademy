@@ -37,7 +37,7 @@ Route::middleware(['auth:sanctum','cors'])->group(function () {
 
 });
 
-Route::middleware('cors')->get('/videos/lesson/{lessonId}', [VideoController::class, 'getByLessonId']);
+Route::get('/videos/lesson/{lessonId}', [VideoController::class, 'getByLessonId']);
 
 
 

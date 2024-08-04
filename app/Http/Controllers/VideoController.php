@@ -43,34 +43,39 @@ class VideoController extends Controller
 
 
 
-
     public function getByLessonId($lessonId)
-{
-    $videos = Video::where('lesson_id', $lessonId)->get();
+    {
+        $videos = Video::where('lesson_id', $lessonId)->get();
 
-    if ($videos->isEmpty()) {
-        return response()->json(['message' => 'No videos found for this lesson.'], 404);
+        if ($videos->isEmpty()) {
+            return response()->json(['message' => 'No videos found for this lesson.'], 404)
+                ->header('Access-Control-Allow-Origin', 'http://localhost:3000')
+                ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+                ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+        }
+
+        // Add the video_id to each video in the response
+        $videosWithIds = $videos->map(function ($video) {
+            $videoUrl = $video->url;
+            // Use regex to extract video ID from the YouTube URL
+            preg_match('/(?:youtube\.com\/(?:shorts\/|watch\?v=)|youtu\.be\/)([^"&?\/\s]{11})/', $videoUrl, $matches);
+            $videoId = $matches[1] ?? null;
+
+            return [
+                'id' => $video->id,
+                'lesson_id' => $video->lesson_id,
+                'url' => $video->url,
+                'title' => $video->title,
+                'description' => $video->description,
+                'video_id' => $videoId,
+            ];
+        });
+
+        return response()->json(['videos' => $videosWithIds], 200)
+            ->header('Access-Control-Allow-Origin', 'http://localhost:3000')
+            ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+            ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     }
-
-    // Add the video_id to each video in the response
-    $videosWithIds = $videos->map(function ($video) {
-        $videoUrl = $video->url;
-        // Use regex to extract video ID from the YouTube URL
-        preg_match('/(?:youtube\.com\/(?:shorts\/|watch\?v=)|youtu\.be\/)([^"&?\/\s]{11})/', $videoUrl, $matches);
-        $videoId = $matches[1] ?? null;
-
-        return [
-            'id' => $video->id,
-            'lesson_id' => $video->lesson_id,
-            'url' => $video->url,
-            'title' => $video->title,
-            'description' => $video->description,
-            'video_id' => $videoId,
-        ];
-    });
-
-    return response()->json(['videos' => $videosWithIds], 200);
-}
 
     public function destroy($id)
     {

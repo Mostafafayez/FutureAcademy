@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 use Illuminate\Http\Request;
+use App\Exceptions\ApiAuthException;
 
 class Authenticate extends Middleware
 {
@@ -13,6 +14,11 @@ class Authenticate extends Middleware
     protected function redirectTo(Request $request): ?string
     {
         return $request->expectsJson() ? null :"here";
+    }
+
+
+    protected function unauthenticated($request, array $guards){
+        throw new ApiAuthException("here your message");
     }
 
 

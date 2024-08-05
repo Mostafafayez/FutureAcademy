@@ -28,10 +28,10 @@ Route::post('/signup', [AuthController::class, 'signUp']);
 Route::post('/login', [AuthController::class, 'login']);
 
 
-Route::middleware(['auth:sanctum', 'sanctum'])->group(function () {
+Route::middleware([ 'sanctum'])->group(function () {
     Route::get('/teacher/educational-level/{educationalLevelId}', [TeacherController::class, 'getTeachersByEducationalLevel']);
     Route::get('/getsubjects/{educationalLevelId}', [SubjectController::class, 'getByEducationalLevel']);
-
+    Route::get('/getteachers', [TeacherController::class, 'index']);
     Route::get('/videos/lesson/{lessonId}', [VideoController::class, 'getByLessonId']);
 
 
@@ -50,7 +50,7 @@ Route::delete('/deletesubject/{id}', [SubjectController::class, 'destroy']);
 //teacher
 Route::post('/addteacher', [TeacherController::class, 'store']);
 Route::delete('/teachers/{id}', [TeacherController::class, 'destroy']);
-Route::get('/getteachers', [TeacherController::class, 'index']);
+
 Route::get('/getteacher/{id}', [TeacherController::class, 'show']);
 // Route::get('/teacher/educational-level/{educationalLevelId}', [TeacherController::class, 'getTeachersByEducationalLevel']);
 //lesson

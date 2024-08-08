@@ -50,7 +50,6 @@ use Illuminate\Support\Facades\Auth;
             return response()->json(['user' => $user], 201);
         }
 
-
         public function login(Request $request)
         {
 

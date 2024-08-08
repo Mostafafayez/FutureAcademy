@@ -18,7 +18,7 @@ class Authenticate extends Middleware
 
 
     protected function unauthenticated($request, array $guards){
-        throw new ApiAuthException("here your message");
+        throw new ApiAuthException("you should login first");
     }
 
 

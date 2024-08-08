@@ -9,12 +9,16 @@ class EducationalLevel extends Model
 {
     use HasFactory;
 
+
+
+    protected $table = 'educational_levels';
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
+        'id',
         'name',
     ];
 

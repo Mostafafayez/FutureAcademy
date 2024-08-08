@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EducationalLevelController;
 use GuzzleHttp\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -33,9 +34,14 @@ Route::middleware(['auth:sanctum', 'sanctum'])->group(function () {
     Route::get('/getsubjects/{educationalLevelId}', [SubjectController::class, 'getByEducationalLevel']);
     Route::get('/getteachers', [TeacherController::class, 'index']);
     Route::get('/videos/lesson/{lessonId}', [VideoController::class, 'getByLessonId']);
+    Route::get('/getteacher/{id}', [TeacherController::class, 'show']);
 
 
 });
+
+
+
+Route::get('educational-levels/{id}', [EducationalLevelController::class, 'show']);
 
 // Route::get('/videos/lesson/{lessonId}', [VideoController::class, 'getByLessonId']);
 
@@ -51,7 +57,7 @@ Route::delete('/deletesubject/{id}', [SubjectController::class, 'destroy']);
 Route::post('/addteacher', [TeacherController::class, 'store']);
 Route::delete('/teachers/{id}', [TeacherController::class, 'destroy']);
 
-Route::get('/getteacher/{id}', [TeacherController::class, 'show']);
+// Route::get('/getteacher/{id}', [TeacherController::class, 'show']);
 // Route::get('/teacher/educational-level/{educationalLevelId}', [TeacherController::class, 'getTeachersByEducationalLevel']);
 //lesson
 Route::post('/addlesson', [LessonController::class, 'store']);

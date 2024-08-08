@@ -36,7 +36,7 @@ class CodeController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'code' => 'required|string',
-            'mac_address' => 'string|max:255|unique:codes,mac_address',
+            'mac_address' => 'string|max:255|:codes,mac_address',
             'teacher_name' => 'required|string',
             'user_id' => 'required|exists:users,id',
         ]);

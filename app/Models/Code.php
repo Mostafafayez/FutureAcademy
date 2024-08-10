@@ -14,10 +14,10 @@ class Code extends Model
     protected $fillable = [
         'mac_address',
         'expires_at',
-        'access_type',
+
         'code',
         'user_id',
-        'teacher_name'
+        'lesson_id'
     ];
 
     public $timestamps = false;
@@ -35,6 +35,11 @@ class Code extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function lesson()
+{
+    return $this->belongsTo(Lesson::class);
+}
 
 }
 

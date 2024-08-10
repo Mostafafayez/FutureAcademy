@@ -60,4 +60,11 @@ class Lesson extends Model
         return $this->belongsTo(teacher::class, 'teacher_id');
     }
 
+
+
+    public function codes()
+{
+    return $this->hasMany(Code::class);
+}
+
 }

@@ -36,7 +36,7 @@ class CodeController extends Controller
         return response()->json(['message' => 'Code created successfully', 'code' => $code], 201);
     }
 
-    
+
 
     public function validateCode(Request $request)
     {

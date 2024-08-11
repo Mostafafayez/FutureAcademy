@@ -61,7 +61,7 @@ Route::delete('/teachers/{id}', [TeacherController::class, 'destroy']);
 // Route::get('/teacher/educational-level/{educationalLevelId}', [TeacherController::class, 'getTeachersByEducationalLevel']);
 //lesson
 Route::post('/addlesson', [LessonController::class, 'store']);
-Route::get('/getlessons/{teacherId}', [LessonController::class, 'getLessonsByteacherId']);
+Route::get('/getlessons/{teacherId}/{educationalLevel}', [LessonController::class, 'getLessonsByteacherId']);
 Route::delete('/deletelesson/{id}', [LessonController::class, 'destroy']);
 //code
 Route::post('/addcode', [CodeController::class, 'store']);

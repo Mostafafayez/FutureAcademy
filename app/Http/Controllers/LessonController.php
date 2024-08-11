@@ -44,17 +44,20 @@ class LessonController extends Controller
 
 
 
-    public function getLessonsByteacherId($teacherId)
+    public function getLessonsByteacherId($teacherId, $educationalLevel)
     {
-        $lessons = Lesson::where('teacher_id', $teacherId)->with('teacher')->get();
+
+        $lessons = Lesson::where('teacher_id', $teacherId)
+            ->where('educational_level_id', $educationalLevel) // Adjust according to your column name
+            ->with(['educationalLevel']) // Eager load relationships
+            ->get();
 
         if ($lessons->isEmpty()) {
-            return response()->json(['message' => 'No lessons found for this teacher.'], 404);
+            return response()->json(['message' => 'No lessons found for this teacher at the specified educational level.'], 404);
         }
 
         return response()->json(['lessons' => $lessons], 200);
     }
-
 
 
 

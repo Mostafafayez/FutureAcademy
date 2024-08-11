@@ -37,4 +37,10 @@ class EducationalLevel extends Model
     {
         return $this->hasMany(User::class);
     }
+
+
+    public function lesson()
+    {
+        return $this->hasMany(Lesson::class);
+    }
 }

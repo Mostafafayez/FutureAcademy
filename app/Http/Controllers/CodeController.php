@@ -70,7 +70,7 @@ class CodeController extends Controller
             $code->user_id = $request->user_id;
             $code->lesson_id = $request->lesson_id;
             $code->mac_address = $request->mac_address;
-            // $code->teacher_name = $request->teacher_name;
+   
             $code->type = 'used';
             $code->save();
 

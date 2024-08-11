@@ -53,7 +53,10 @@ class Lesson extends Model
         return $this->hasMany(MCQS::class);
     }
 
-
+    public function educationalLevel()
+    {
+        return $this->belongsTo(EducationalLevel::class);
+    }
 
     public function teacher()
     {

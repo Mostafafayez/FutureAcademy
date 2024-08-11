@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\EducationalLevelController;
+use App\Http\Controllers\QuestionController;
 use GuzzleHttp\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -87,6 +88,13 @@ Route::post('/mcqs', [MCQController::class, 'store']);
 Route::get('/mcqs/lesson/{lessonId}', [MCQController::class, 'getByLessonId']);
 Route::delete('/mcqs/{id}', [MCQController::class, 'destroy']);
 
+
+
+
+
+//questions
+Route::post('/questions', [QuestionController::class, 'store']);
+Route::get('/questions/lesson/{lessonId}', [QuestionController::class, 'getByLessonId']);
 
 
 use Illuminate\Support\Facades\Artisan;

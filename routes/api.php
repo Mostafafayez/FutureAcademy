@@ -115,7 +115,7 @@ Route::get('/manage-cache', function () {
     // Artisan::call('route:cache');
     // Artisan::call('view:cache');
 
-    return 'Cache cleared and configuration cached!';
+    return 'storage linked!';
 });
 
 Route::get('/link', function () {

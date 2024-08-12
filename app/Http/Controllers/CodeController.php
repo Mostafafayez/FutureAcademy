@@ -65,12 +65,22 @@ class CodeController extends Controller
             return response()->json(['message' => 'Code is already used.'], 400);
         }
 
+        // Check if the user is already subscribed to the lesson
+        $existingSubscription = Code::where('user_id', $request->user_id)
+                                    ->where('lesson_id', $request->lesson_id)
+                                    ->where('type', 'used')
+                                    ->first();
+
+        if ($existingSubscription) {
+            return response()->json(['message' => 'User already has a code for this lesson.'], 400);
+        }
+
         // If the code type is 'notused', update the fields and set type to 'used'
         if ($code->type === 'notused') {
             $code->user_id = $request->user_id;
             $code->lesson_id = $request->lesson_id;
             $code->mac_address = $request->mac_address;
-   
+
             $code->type = 'used';
             $code->save();
 
@@ -79,7 +89,6 @@ class CodeController extends Controller
 
         return response()->json(['message' => 'Unknown error occurred.'], 500);
     }
-
 
     public function getAllCodesWithUsers()
     {

@@ -43,7 +43,7 @@ class VideoController extends Controller
 
 
 
-    public function getByLessonId($lessonId)
+    public function getByLessonsId($lessonId)
     {
         $videos = Video::where('lesson_id', $lessonId)->get();
 
@@ -89,4 +89,22 @@ class VideoController extends Controller
 
         return response()->json(['message' => 'Video deleted successfully.'], 200);
     }
+
+
+
+    public function getByLessonId($lessonId)
+    {
+ 
+        $videos = Video::where('lesson_id', $lessonId)
+                       ->select('title', 'description', 'url')
+                       ->get();
+
+
+        if ($videos->isEmpty()) {
+            return response()->json(['message' => 'No videos found for this lesson.'], 404);
+        }
+
+        return response()->json($videos);
+    }
+
 }

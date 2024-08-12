@@ -44,6 +44,7 @@ class PDFController extends Controller
             return response()->json(['message' => 'No PDFs found for this lesson.'], 404);
         }
 
+        // Since 'FullSrc' is already appended to the model, you don't need to manually add it
         return response()->json(['pdfs' => $pdfs], 200);
     }
 

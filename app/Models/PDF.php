@@ -20,7 +20,6 @@ class Pdf extends Model
 
 
 
-
      protected $appends=['FullSrc'];
     protected $fillable = [
         'lesson_id',

@@ -117,3 +117,16 @@ Route::get('/manage-cache', function () {
 
     return 'Cache cleared and configuration cached!';
 });
+
+Route::get('/link', function () {
+    try {
+        // Run the artisan command to create a symbolic link
+        Artisan::call('storage:link');
+
+        // Return success response
+        return response()->json(['message' => 'Storage linked successfully.'], 200);
+    } catch (\Exception $e) {
+        // Return error response if something goes wrong
+        return response()->json(['message' => 'Failed to link storage.', 'error' => $e->getMessage()], 500);
+    }
+});

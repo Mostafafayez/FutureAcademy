@@ -81,7 +81,7 @@ Route::delete('/videos/{id}', [VideoController::class, 'destroy']);
 
 // PDF
 Route::post('/pdfs', [PDFController::class, 'store']);
-// Route::get('/pdfs/lesson/{lessonId}', [PDFController::class, 'getByLessonId']);
+Route::get('/pdfs/lesson/{lessonId}', [PDFController::class, 'getByLessonId']);
 Route::delete('/pdfs/{id}', [PDFController::class, 'destroy']);
 
 //  MCQ

@@ -72,7 +72,7 @@ class CodeController extends Controller
                                     ->first();
 
         if ($existingSubscription) {
-            return response()->json(['message' => 'User already has a code for this lesson.'], 400);
+            return response()->json(['message' => 'you already has a code for this lesson.'], 400);
         }
 
         // If the code type is 'notused', update the fields and set type to 'used'
@@ -140,7 +140,7 @@ class CodeController extends Controller
             return response()->json(['message' => 'MAC address mismatch.'], 403);
         }
 
-        return response()->json(['message' => 'you has a valid code.', 'code' => $code], 200);
+        return response()->json(['message' => 'User has a valid code.', 'code' => $code], 200);
     }
 
 

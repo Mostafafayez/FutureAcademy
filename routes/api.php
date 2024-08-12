@@ -102,31 +102,31 @@ use Illuminate\Support\Facades\Artisan;
 
 Route::get('/manage-cache', function () {
     // Clear existing caches
-    Artisan::call('config:clear');
-    Artisan::call('cache:clear');
-    Artisan::call('view:clear');
-    Artisan::call('route:clear');
+    Artisan::call('storage:link');
+    // Artisan::call('cache:clear');
+    // Artisan::call('view:clear');
+    // Artisan::call('route:clear');
 
-    // Clear optimized files
-    Artisan::call('optimize:clear');
+    // // Clear optimized files
+    // Artisan::call('optimize:clear');
 
-    // Re-cache configuration
-    Artisan::call('config:cache');
-    Artisan::call('route:cache');
-    Artisan::call('view:cache');
+    // // Re-cache configuration
+    // Artisan::call('config:cache');
+    // Artisan::call('route:cache');
+    // Artisan::call('view:cache');
 
     return 'Cache cleared and configuration cached!';
 });
 
 Route::get('/link', function () {
     try {
-        // Run the artisan command to create a symbolic link
+
         Artisan::call('storage:link');
 
-        // Return success response
+
         return response()->json(['message' => 'Storage linked successfully.'], 200);
     } catch (\Exception $e) {
-        // Return error response if something goes wrong
+
         return response()->json(['message' => 'Failed to link storage.', 'error' => $e->getMessage()], 500);
     }
 });

@@ -13,6 +13,7 @@ use App\Http\Controllers\CodeController;
 use App\Http\Controllers\VideoController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\MCQController;
+use Illuminate\Support\Facades\Response;
 /*
 |--------------------------------------------------------------------------
 | API Routes

@@ -103,20 +103,20 @@ use Illuminate\Support\Facades\Artisan;
 
 Route::get('/manage-cache', function () {
     // Clear existing caches
-    Artisan::call('storage:link');
-    // Artisan::call('cache:clear');
-    // Artisan::call('view:clear');
-    // Artisan::call('route:clear');
+    // Artisan::call('storage:link');
+    Artisan::call('cache:clear');
+    Artisan::call('view:clear');
+    Artisan::call('route:clear');
 
-    // // Clear optimized files
-    // Artisan::call('optimize:clear');
+    // Clear optimized files
+    Artisan::call('optimize:clear');
 
-    // // Re-cache configuration
-    // Artisan::call('config:cache');
-    // Artisan::call('route:cache');
-    // Artisan::call('view:cache');
+    // Re-cache configuration
+    Artisan::call('config:cache');
+    Artisan::call('route:cache');
+    Artisan::call('view:cache');
 
-    return 'storage linked!';
+    return 'cache linked!';
 });
 
 Route::get('/link', function () {
@@ -134,5 +134,5 @@ Route::get('/link', function () {
 
 
 
-Route::get('/uuid', [UUIDController::class, 'getUUID']);
+Route::get('/uuid', [UUIDController::class,'getUUID']);
 

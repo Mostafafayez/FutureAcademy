@@ -92,7 +92,7 @@ Route::delete('/mcqs/{id}', [MCQController::class, 'destroy']);
 
 
 
-
+Route::get('/uuid', [UUIDController::class, 'getUUID']);
 
 //questions
 Route::post('/questions', [QuestionController::class, 'store']);
@@ -135,4 +135,4 @@ Route::get('/link', function () {
 
 
 
-Route::get('/uuid', [UUIDController::class, 'getUUID']);
+

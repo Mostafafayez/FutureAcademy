@@ -147,7 +147,7 @@ class CodeController extends Controller
 
 
 
-    public function getUserLessonsWithCode()
+    public function getUserLessonsWithCode($userId)
 {
     // Retrieve codes associated with the user and their lessons
     $codes = Code::where('user_id', $userId)

@@ -68,7 +68,7 @@ Route::get('/getlessons/{teacherId}/{educationalLevel}', [LessonController::clas
 Route::delete('/deletelesson/{id}', [LessonController::class, 'destroy']);
 //code
 Route::post('/addcode', [CodeController::class, 'store']);
-// Route::post('/codes/validate', [CodeController::class, 'validateCode']);
+Route::post('/codes/validate', [CodeController::class, 'validateCode']);
 Route::get('/code/check/{userId}/{macaddress}/{lesson_id}', [CodeController::class, 'checkUserCodeStatus']);
 Route::get('/code/users', [CodeController::class, 'getAllCodesWithUsers']);
 Route::get('/code/{user_id}', [CodeController::class, 'getUserLessonsWithCode']);

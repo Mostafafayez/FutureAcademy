@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Artisan;
 use App\Models\Code;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -147,28 +147,31 @@ class CodeController extends Controller
 
 
 
-    public function getUserLessonsWithCode($userId)
+    public function getUserLessonsWithCode()
 {
-    // Retrieve codes associated with the user and their lessons
-    $codes = Code::where('user_id', $userId)
-                ->with('lesson') // Eager load the lesson relationship
-                ->get();
+    // // Retrieve codes associated with the user and their lessons
+    // $codes = Code::where('user_id', $userId)
+    //             ->with('lesson') // Eager load the lesson relationship
+    //             ->get();
 
-    if ($codes->isEmpty()) {
-        return response()->json(['message' => 'No codes found for this user.'], 404);
-    }
+    // if ($codes->isEmpty()) {
+    //     return response()->json(['message' => 'No codes found for this user.'], 404);
+    // }
 
-    // Extract lessons and associated code details
-    $lessons = $codes->map(function ($code) {
-        return [
-            'lesson' => $code->lesson, // The lesson details
-            'code' => $code->code,     // The code details
-            'expires_at' => $code->expires_at, // Expiration date
-            'mac_address' => $code->mac_address // MAC address
-        ];
-    });
+    // // Extract lessons and associated code details
+    // $lessons = $codes->map(function ($code) {
+    //     return [
+    //         'lesson' => $code->lesson, // The lesson details
+    //         'code' => $code->code,     // The code details
+    //         'expires_at' => $code->expires_at, // Expiration date
+    //         'mac_address' => $code->mac_address // MAC address
+    //     ];
+    // });
 
-    return response()->json(['lessons' => $lessons], 200);
+    // return response()->json(['lessons' => $lessons], 200);
+
+    Artisan::call('route:clear');
+    return 'Routes cleared';
 }
 
 

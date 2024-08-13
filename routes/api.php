@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\EducationalLevelController;
 use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\UUIDController;
 use GuzzleHttp\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -131,3 +132,7 @@ Route::get('/link', function () {
         return response()->json(['message' => 'Failed to link storage.', 'error' => $e->getMessage()], 500);
     }
 });
+
+
+
+Route::get('/uuid', [UUIDController::class, 'getUUID']);

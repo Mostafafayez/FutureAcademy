@@ -136,3 +136,10 @@ Route::get('/link', function () {
 
 Route::get('/uuid', [UUIDController::class,'getUUID']);
 
+Route::get('/clear', function () {
+
+
+    Artisan::call('route:clear');
+
+    return 'cleard';
+});

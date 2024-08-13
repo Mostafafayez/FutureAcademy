@@ -1,14 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Support\Facades\Log;
+
 use App\Models\Code;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Http;
-    use Illuminate\Http\JsonResponse;
 class CodeController extends Controller
 {
     public function store(Request $request)
@@ -38,16 +36,13 @@ class CodeController extends Controller
         return response()->json(['message' => 'Code created successfully', 'code' => $code], 201);
     }
 
-    // use Illuminate\Http\Request;
 
-    // use Illuminate\Support\Facades\Validator;
-    // use Carbon\Carbon;
-    // use App\Models\Code;
 
-    public function validateCode(Request $request): JsonResponse
+    public function validateCode(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'code' => 'required|string',
+            'mac_address' => 'string|max:255',
             'user_id' => 'required|exists:users,id',
             'lesson_id' => 'required|exists:lessons,id',
         ]);
@@ -77,31 +72,22 @@ class CodeController extends Controller
                                     ->first();
 
         if ($existingSubscription) {
-            return response()->json(['message' => 'You already have a code for this lesson.'], 400);
+            return response()->json(['message' => 'you already has a code for this lesson.'], 400);
         }
 
-        // Fetch UUID from the backend
-        try {
-            $response = Http::get(url('/api/uuid')); // Adjust URL as necessary
-            $uuid = $response->json('uuid');
+        // If the code type is 'notused', update the fields and set type to 'used'
+        if ($code->type === 'notused') {
+            $code->user_id = $request->user_id;
+            $code->lesson_id = $request->lesson_id;
+            $code->mac_address = $request->mac_address;
 
-            // If the code type is 'notused', update the fields and set type to 'used'
-            if ($code->type === 'notused') {
-                $code->user_id = $request->user_id;
-                $code->lesson_id = $request->lesson_id;
-                $code->mac_address = $uuid; // Use the UUID here
+            $code->type = 'used';
+            $code->save();
 
-                $code->type = 'used';
-                $code->save();
-
-                return response()->json(['message' => 'Code validated and updated successfully.'], 200);
-            }
-
-            return response()->json(['message' => 'Unknown error occurred.'], 500);
-        } catch (\Exception $e) {
-            Log::error('Error fetching UUID: ' . $e->getMessage());
-            return response()->json(['error' => 'Failed to fetch UUID'], 500);
+            return response()->json(['message' => 'Code validated and updated successfully.'], 200);
         }
+
+        return response()->json(['message' => 'Unknown error occurred.'], 500);
     }
 
     public function getAllCodesWithUsers()

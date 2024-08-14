@@ -59,6 +59,27 @@ class LessonController extends Controller
         return response()->json(['lessons' => $lessons], 200);
     }
 
+    public function getLessonsByTeacherIds($teacherId)
+    {
+        // Define the array of educational level IDs
+        $educationalLevelIds = [1, 2, 3];
+
+        // Retrieve lessons for the specified teacher and educational level IDs
+        $lessons = Lesson::where('teacher_id', $teacherId)
+            ->whereIn('educational_level_id', $educationalLevelIds)
+            ->with('educationalLevel') // Eager load relationships
+            ->get()
+            ->groupBy('educational_level_id')
+            ->map(function ($group) {
+                return $group->take(3); // Get the first 3 lessons for each educational level ID
+            });
+
+        if ($lessons->isEmpty()) {
+            return response()->json(['message' => 'No lessons found for this teacher at the specified educational levels.'], 404);
+        }
+
+        return response()->json(['lessons' => $lessons], 200);
+    }
 
 
 

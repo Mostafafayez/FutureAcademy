@@ -65,6 +65,7 @@ Route::delete('/teachers/{id}', [TeacherController::class, 'destroy']);
 //lesson
 Route::post('/addlesson', [LessonController::class, 'store']);
 Route::get('/getlessons/{teacherId}/{educationalLevel}', [LessonController::class, 'getLessonsByteacherId']);
+Route::get('/getlessons', [LessonController::class, 'getLessonsByteacherIds']);
 Route::delete('/deletelesson/{id}', [LessonController::class, 'destroy']);
 //code
 Route::post('/addcode', [CodeController::class, 'store']);

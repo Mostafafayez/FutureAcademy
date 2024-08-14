@@ -71,7 +71,7 @@ class LessonController extends Controller
             ->get()
             ->groupBy('educational_level_id')
             ->map(function ($group) {
-                return $group->take(3); // Get the first 3 lessons for each educational level ID
+                return $group->take(6); // Get the first 3 lessons for each educational level ID
             });
 
         if ($lessons->isEmpty()) {

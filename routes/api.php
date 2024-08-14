@@ -42,7 +42,7 @@ Route::middleware(['auth:sanctum', 'sanctum'])->group(function () {
 
 });
 
-
+Route::get('/getsubjects', [SubjectController::class, 'getByEducationalLevels']);
 
 Route::get('educational-levels/{id}', [EducationalLevelController::class, 'show']);
 

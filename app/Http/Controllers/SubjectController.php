@@ -17,9 +17,25 @@ class SubjectController extends Controller
 
 
 
-    
+
         // Retrieve subjects for the specified educational level ID
         $subjects = Subject::where('educational_level_id', $educationalLevelId)->get();
+
+        return response()->json(['subjects' => $subjects], 200);
+    }
+    public function getByEducationalLevels()
+    {
+        // Define the array of educational level IDs
+        $educationalLevelIds = [1, 2, 3];
+
+        // Retrieve the subjects, grouped by educational level ID
+        $subjects = Subject::whereIn('educational_level_id', $educationalLevelIds)
+            ->orderBy('educational_level_id')
+            ->get()
+            ->groupBy('educational_level_id')
+            ->map(function ($group) {
+                return $group->take(3); // Get the first 3 records for each educational level ID
+            });
 
         return response()->json(['subjects' => $subjects], 200);
     }

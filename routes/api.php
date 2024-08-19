@@ -38,7 +38,7 @@ Route::middleware(['auth:sanctum', 'sanctum'])->group(function () {
     Route::get('/getteachers', [TeacherController::class, 'index']);
     Route::get('/videos/lesson/{lessonId}', [VideoController::class, 'getByLessonId']);
     Route::get('/getteacher/{id}', [TeacherController::class, 'show']);
-
+    Route::get('/getlessons/{teacherId}/{educationalLevel}', [LessonController::class, 'getLessonsByteacherId']);
 
 });
 
@@ -65,7 +65,7 @@ Route::delete('/teachers/{id}', [TeacherController::class, 'destroy']);
 //lesson
 Route::post('/addlesson', [LessonController::class, 'store']);
 Route::get('/getlessons/{teacherId}/{educationalLevel}', [LessonController::class, 'getLessonsByteacherId']);
-Route::get('/getlessons/{teacherId}', [LessonController::class, 'getLessonsByteacherIds']);
+// Route::get('/getlessons/{teacherId}', [LessonController::class, 'getLessonsByteacherIds']);
 Route::delete('/deletelesson/{id}', [LessonController::class, 'destroy']);
 //code
 Route::post('/addcode', [CodeController::class, 'store']);

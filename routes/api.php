@@ -38,7 +38,7 @@ Route::middleware(['auth:sanctum', 'sanctum'])->group(function () {
     Route::get('/getteachers', [TeacherController::class, 'index']);
     Route::get('/videos/lesson/{lessonId}', [VideoController::class, 'getByLessonId']);
     Route::get('/getteacher/{id}', [TeacherController::class, 'show']);
-    Route::get('/getlessons/{teacherId}/{educationalLevel}', [LessonController::class, 'getLessonsByteacherId']);
+    // Route::get('/getlessons/{teacherId}/{educationalLevel}', [LessonController::class, 'getLessonsByteacherId']);
 
 });
 

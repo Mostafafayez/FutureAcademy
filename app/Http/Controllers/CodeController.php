@@ -44,7 +44,7 @@ class CodeController extends Controller
             'code' => 'required|string',
             'mac_address' => 'string|max:255',
             'user_id' => 'required|exists:users,id',
-            'lesson_id' => 'required|exists:lessons,id',
+            'lesson_id' => 'required|exists:packages,id',
         ]);
 
         if ($validator->fails()) {
@@ -72,7 +72,7 @@ class CodeController extends Controller
                                     ->first();
 
         if ($existingSubscription) {
-            return response()->json(['message' => 'you already has a code for this lesson.'], 400);
+            return response()->json(['message' => 'you already has a code for this package.'], 400);
         }
 
         // If the code type is 'notused', update the fields and set type to 'used'
@@ -126,7 +126,7 @@ class CodeController extends Controller
                     ->first();
 
         if (!$code) {
-            return response()->json(['message' => 'No code found for this user and lesson.'], 404);
+            return response()->json(['message' => 'No code found for this user and package.'], 404);
         }
 
         // Check if the code has expired

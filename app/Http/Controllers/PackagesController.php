@@ -60,22 +60,6 @@ class PackagesController extends Controller
         return response()->json(['packages' => $lessons], 200);
     }
 
-    public function getLessonsByTeacherIds($teacherId)
-    {
-        // Define the array of educational level IDs
-        $educationalLevelIds = [1, 2, 3];
-
-        // Retrieve lessons for the specified teacher and educational level IDs
-        $lessons = packages::where('teacher_id', $teacherId)
-            ->whereIn('educational_level_id', $educationalLevelIds)
-            ->get();
-
-        if ($lessons->isEmpty()) {
-            return response()->json(['message' => 'No lessons found for this teacher at the specified educational levels.'], 404);
-        }
-
-        return response()->json(['lessons' => $lessons], 200);
-    }
 
     public function destroy($id)
     {

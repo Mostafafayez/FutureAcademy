@@ -61,6 +61,21 @@ class LessonController extends Controller
 
 
 
+    public function getLessonsByTeacherIds($teacherId)
+    {
+        // Define the array of educational level IDs
+
+
+        // Retrieve lessons for the specified teacher and educational level IDs
+        $lessons = Lesson::take(8)->get();
+
+
+        if ($lessons->isEmpty()) {
+            return response()->json(['message' => 'No lessons found for this teacher at the specified educational levels.'], 404);
+        }
+
+        return response()->json(['lessons' => $lessons], 200);
+    }
 
 
 

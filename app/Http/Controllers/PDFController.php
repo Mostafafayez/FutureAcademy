@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Models\PDF;
+use App\Models\pdfs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -26,7 +26,7 @@ class PDFController extends Controller
             return response()->json(['errors' => ['pdf' => 'PDF file is required']], 422);
         }
 
-        $pdf = PDF::create([
+        $pdf = pdfs::create([
             'title' => $request->title,
             'description' => $request->description,
             'pdf' => $fileName,
@@ -38,7 +38,7 @@ class PDFController extends Controller
 
     public function getByLessonId($lessonId)
     {
-        $pdfs = PDF::where('lesson_id', $lessonId)->get();
+        $pdfs = pdfs::where('lesson_id', $lessonId)->get();
 
         if ($pdfs->isEmpty()) {
             return response()->json(['message' => 'No PDFs found for this lesson.'], 404);
@@ -50,7 +50,7 @@ class PDFController extends Controller
 
     public function destroy($id)
     {
-        $pdf = PDF::find($id);
+        $pdf = pdfs::find($id);
 
         if (!$pdf) {
             return response()->json(['message' => 'PDF not found.'], 404);

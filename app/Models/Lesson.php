@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -8,30 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class Lesson extends Model
 {
     use HasFactory;
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'subject_id',
-        'teacher_id',
-        'title',
-        'description',
-    ];
     public $timestamps = false;
-    /**
-     * Get the subject that owns the lesson.
-     */
-    public function subject()
-    {
-        return $this->belongsTo(Subject::class);
-    }
+    protected $fillable = ['title', 'description', 'package_id'];
 
-    /**
-     * Get the videos for the lesson.
-     */
+    public function package()
+    {
+        return $this->belongsTo(packages::class);
+    }
     public function videos()
     {
         return $this->hasMany(Video::class);
@@ -42,7 +24,7 @@ class Lesson extends Model
      */
     public function pdfs()
     {
-        return $this->hasMany(Pdf::class);
+        return $this->hasMany(pdfs::class);
     }
 
     /**
@@ -52,25 +34,9 @@ class Lesson extends Model
     {
         return $this->hasMany(MCQS::class);
     }
-
-    public function educationalLevel()
-    {
-        return $this->belongsTo(EducationalLevel::class);
-    }
-
-    public function teacher()
-    {
-        return $this->belongsTo(teacher::class, 'teacher_id');
-    }
     public function questions()
     {
         return $this->hasMany(Question::class);
     }
-
-
-    public function codes()
-{
-    return $this->hasMany(Code::class);
-}
 
 }

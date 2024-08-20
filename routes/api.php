@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\EducationalLevelController;
+use App\Http\Controllers\PackagesController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\UUIDController;
 use GuzzleHttp\Middleware;
@@ -38,15 +39,19 @@ Route::middleware(['auth:sanctum', 'sanctum'])->group(function () {
     Route::get('/getteachers', [TeacherController::class, 'index']);
     Route::get('/videos/lesson/{lessonId}', [VideoController::class, 'getByLessonId']);
     Route::get('/getteacher/{id}', [TeacherController::class, 'show']);
-    Route::get('/getlessons/{teacherId}/{educationalLevel}', [LessonController::class, 'getLessonsByteacherId']);
+    Route::get('/getPackages/{teacherId}/{educationalLevel}', [PackagesController::class, 'getpackagesByteacherId']);
 
 });
+
+
+
+
 
 Route::get('/getsubjects', [SubjectController::class, 'getByEducationalLevels']);
 
 Route::get('educational-levels/{id}', [EducationalLevelController::class, 'show']);
 
-// Route::get('/videos/lesson/{lessonId}', [VideoController::class, 'getByLessonId']);
+
 
 
 
@@ -60,13 +65,16 @@ Route::delete('/deletesubject/{id}', [SubjectController::class, 'destroy']);
 Route::post('/addteacher', [TeacherController::class, 'store']);
 Route::delete('/teachers/{id}', [TeacherController::class, 'destroy']);
 
-// Route::get('/getteacher/{id}', [TeacherController::class, 'show']);
-// Route::get('/teacher/educational-level/{educationalLevelId}', [TeacherController::class, 'getTeachersByEducationalLevel']);
-//lesson
-Route::post('/addlesson', [LessonController::class, 'store']);
-// Route::get('/getlessons/{teacherId}/{educationalLevel}', [LessonController::class, 'getLessonsByteacherId']);
+//packages
+Route::post('/addpackage', [PackagesController::class, 'store']);
 Route::get('/getlessons/{teacherId}', [LessonController::class, 'getLessonsByteacherIds']);
-Route::delete('/deletelesson/{id}', [LessonController::class, 'destroy']);
+Route::delete('/deletepackage/{id}', [PackagesController::class, 'destroy']);
+
+// lessons
+Route::post('/addlessons', [LessonController::class, 'store']); // For adding a lesson
+Route::get('/lessons/package/{packageId}', [LessonController::class, 'getByPackageId']); // For getting lessons by package ID
+Route::delete('/lessons/{id}', [LessonController::class, 'destroy']); // For deleting a lesson by ID
+
 //code
 Route::post('/addcode', [CodeController::class, 'store']);
 Route::post('/codes/validate', [CodeController::class, 'validateCode']);
@@ -102,7 +110,7 @@ Route::get('/questions/lesson/{lessonId}', [QuestionController::class, 'getByLes
 use Illuminate\Support\Facades\Artisan;
 
 
-Route::get('/manage-cache', function () {
+Route::get('/manage-cache', function ( ){
     // Clear existing caches
     // Artisan::call('storage:link');
     Artisan::call('route:clear');
@@ -135,7 +143,7 @@ Route::get('/link', function () {
 
 
 
-Route::get('/uuid', [UUIDController::class,'getUUID']);
+// Route::get('/uuid', [UUIDController::class,'getUUID']);
 
 Route::get('/clear', function () {
 

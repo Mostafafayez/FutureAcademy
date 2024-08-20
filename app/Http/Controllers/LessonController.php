@@ -1,93 +1,106 @@
 <?php
-
 namespace App\Http\Controllers;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
+use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\Process;
 
 use App\Models\Lesson;
-use App\Models\Subject;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+
 
 class LessonController extends Controller
-{public function store(Request $request)
+{
+    /**
+     * Store a new lesson.
+     */
+    public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'description' => 'required|string|max:1000',
-            'subject' => 'required|string|exists:subjects,name',
-            'teacher_id' => 'required|exists:teachers,id',  // Validate teacher_id
+            'description' => 'nullable|string',
+            'package_id' => 'required|exists:packages,id',
         ]);
 
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
+        $lesson = Lesson::create($validated);
 
-        // Retrieve the subject ID based on the name
-        $subject = Subject::where('name', $request->subject)->first();
-
-        if (!$subject) {
-            return response()->json(['message' => 'Subject not found.'], 404);
-        }
-
-        $lesson = Lesson::create([
-            'title' => $request->title,
-            'description' => $request->description,
-            'subject_id' => $subject->id,
-            'teacher_id' => $request->teacher_id,  // Add teacher_id
-        ]);
-
-        return response()->json(['message' => 'Lesson created successfully', 'lesson' => $lesson], 201);
+        return response()->json($lesson, 200);
     }
 
-
-
-
-
-
-
-    public function getLessonsByteacherId($teacherId, $educationalLevel)
+    /**
+     * Get lessons by package ID.
+     */
+    public function getByPackageId($packageId)
     {
-
-        $lessons = Lesson::where('teacher_id', $teacherId)
-            ->where('educational_level_id', $educationalLevel) // Adjust according to your column name
-            ->with(['educationalLevel']) // Eager load relationships
-            ->get();
+        $lessons = Lesson::where('package_id', $packageId)->get();
 
         if ($lessons->isEmpty()) {
-            return response()->json(['message' => 'No lessons found for this teacher at the specified educational level.'], 404);
+            return response()->json(['message' => 'No lessons found'], 404);
         }
 
-        return response()->json(['lessons' => $lessons], 200);
+        return response()->json($lessons);
     }
 
-    public function getLessonsByTeacherIds($teacherId)
-    {
-        // Define the array of educational level IDs
-        $educationalLevelIds = [1, 2, 3];
-
-        // Retrieve lessons for the specified teacher and educational level IDs
-        $lessons = Lesson::where('teacher_id', $teacherId)
-            ->whereIn('educational_level_id', $educationalLevelIds)
-            ->get();
-
-        if ($lessons->isEmpty()) {
-            return response()->json(['message' => 'No lessons found for this teacher at the specified educational levels.'], 404);
-        }
-
-        return response()->json(['lessons' => $lessons], 200);
-    }
-
+    /**
+     * Delete a lesson by ID.
+     */
     public function destroy($id)
     {
-        $Lesson = Lesson::find($id);
+        $lesson = Lesson::find($id);
 
-        if (!$Lesson) {
-            return response()->json(['message' => 'Lesson not found.'], 404);
+        if (!$lesson) {
+            return response()->json(['message' => 'Lesson not found'], 404);
         }
 
-        $Lesson->delete();
+        $lesson->delete();
 
-        return response()->json(['message' => 'Lesson deleted successfully'], 200);
+        return response()->json(['message' => 'Lesson deleted'], 200);
     }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // public function getUUID(): JsonResponse
+    // {
+    //     try {
+    //         $process = new Process(['wmic', 'csproduct', 'get', 'uuid']);
+    //         $process->run();
+
+    //         if (!$process->isSuccessful()) {
+    //             throw new ProcessFailedException($process);
+    //         }
+
+    //         $output = $process->getOutput();
+    //         $output = trim($output);
+
+    //         // Extract UUID from Windows command output
+    //         $lines = explode("\n", $output);
+    //         $uuid = trim($lines[1] ?? '');
+
+    //         // Clean up any unwanted characters
+    //         $uuid = preg_replace('/[^a-fA-F0-9-]/', '', $uuid);
+
+    //         return response()->json(['uuid' => $uuid]);
+    //     } catch (\Exception $e) {
+    //         Log::error('Error fetching UUID: ' . $e->getMessage());
+    //         return response()->json(['error' => 'Failed to fetch UUID'], 500);
+    //     }
+    // }
 }

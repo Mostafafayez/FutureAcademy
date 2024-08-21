@@ -82,7 +82,7 @@ class LessonController extends Controller
     public function getLessonsforassistant()
     {
         // Retrieve lessons for the specified teacher ID
-        $lessons = Lesson::select('id', 'title', 'description') // Specify all columns except 'teacher_id'
+        $lessons = Lesson::select('id', 'title', 'description', 'description_assistant') // Specify all columns except 'teacher_id'
                       ->get();
 
         // Check if lessons were found

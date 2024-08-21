@@ -24,7 +24,7 @@ class ScoreController extends Controller
 
         if ($existingScore) {
             // If the score already exists, return a message
-            return response()->json(['message' => 'تم حفظ الدرجه الاوله .', 'score' => $existingScore], 200);
+            return response()->json(['message' => 'تم حفظ الدرجه الاولي  .', 'score' => $existingScore], 200);
         }
 
         // Create the score if it doesn't exist

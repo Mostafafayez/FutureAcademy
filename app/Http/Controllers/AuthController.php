@@ -97,6 +97,7 @@ use Illuminate\Support\Facades\Auth;
             }
         }
 
+        
         public function isApproved($id)
         {
             // Find the user by ID
@@ -107,10 +108,16 @@ use Illuminate\Support\Facades\Auth;
                 return response()->json(['message' => 'User not found.'], 404);
             }
 
-            // Check if the user's status is approved
-           $user->isApproved();
+            // Set the user's status to 'approval'
+            $user->status = 'approval';
 
+            // Save the changes to the database
+            $user->save();
+
+            // Return a success response
+            return response()->json(['message' => 'User approved successfully.'], 200);
         }
+
 
 
 

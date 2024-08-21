@@ -10,12 +10,24 @@ class ScoreController extends Controller
     // Store a new score
     public function store(Request $request)
     {
+        // Validate the incoming request
         $validatedData = $request->validate([
             'score' => 'required|integer',
             'user_id' => 'required|exists:users,id',
             'lesson_id' => 'required|exists:lessons,id',
         ]);
 
+        // Check if the score already exists for the given user and lesson
+        $existingScore = Score::where('user_id', $validatedData['user_id'])
+                              ->where('lesson_id', $validatedData['lesson_id'])
+                              ->first();
+
+        if ($existingScore) {
+            // If the score already exists, return a message
+            return response()->json(['message' => 'Score already saved.', 'score' => $existingScore], 200);
+        }
+
+        // Create the score if it doesn't exist
         $score = Score::create($validatedData);
 
         return response()->json(['message' => 'Score created successfully.', 'score' => $score], 201);

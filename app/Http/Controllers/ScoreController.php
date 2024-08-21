@@ -48,7 +48,7 @@ class ScoreController extends Controller
     // Get all scores with user and lesson details
     public function getAllScores()
     {
-        $scores = Score::with(['user:name', 'lesson:title,description'])->get();
+        $scores = Score::with(['user:id,name', 'lesson:id,title,description'])->get();
 
         if ($scores->isEmpty()) {
             return response()->json(['message' => 'No scores found.'], 404);
@@ -56,4 +56,5 @@ class ScoreController extends Controller
 
         return response()->json(['scores' => $scores], 200);
     }
+
 }

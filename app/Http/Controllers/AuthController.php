@@ -51,53 +51,42 @@ use Illuminate\Support\Facades\Auth;
             return response()->json(['user' => $user], 201);
         }
 
-        public function login(Request $request)
-        {
-            // Validate the input
-            $validator = Validator::make($request->all(), [
-                'phone' => 'required|string|max:255',
-                'password' => 'required|string',
-            ]);
 
-            if ($validator->fails()) {
-                return response()->json(['errors' => $validator->errors()], 422);
-            }
+public function login(Request $request)
+{
+    // Validate the input
+    $validator = Validator::make($request->all(), [
+        'phone' => 'required|string|max:255',
+        'password' => 'required|string',
+    ]);
 
-            // Check if the user exists and the password matches
-            $credentials = ['phone' => $request->phone, 'password' => $request->password];
-            if (Auth::attempt($credentials)) {
-                $user = Auth::user(); // Retrieve the authenticated user
+    if ($validator->fails()) {
+        return response()->json(['errors' => $validator->errors()], 422);
+    }
 
-                // Check the status of the user
-                if ($user->status === 'pending') {
-                    // Return a message indicating the account is still pending
-                    return response()->json([
-                        'message' => 'Your account is still pending approval. Please wait for the approval process to complete.'
-                    ], 403);
-                } elseif ($user->status === 'approval') {
-                    // Generate a token and log in the user
-                    $token = $user->createToken('personalAccessToken')->plainTextToken;
+    // Check if the user exists and the password matches
+    $credentials = $request->only('phone', 'password');
 
-                    return response()->json([
-                        'user' => $user,
-                        'token' => $token,
-                        // 'educational_level' => $user->educationalLevel->name ?? null
-                    ], 200);
-                } else {
-                    // Handle any other status if necessary
-                    return response()->json([
-                        'message' => 'Your account status does not allow login at this time.'
-                    ], 403);
-                }
-            } else {
-                // Authentication failed
-                throw ValidationException::withMessages([
-                    'phone' => ['The provided credentials are incorrect.'],
-                ]);
-            }
-        }
+    if (Auth::attempt($credentials)) {
+        $user = Auth::user(); // Retrieve the authenticated user
 
-        
+        // Generate the token for the user
+        $token = $user->createToken('personalAccessToken')->plainTextToken;
+
+        return response()->json([
+            'user' => $user,
+            'token' => $token,
+            // 'educational_level' => $user->educationalLevel->name ?? null // Uncomment if educational level is needed
+        ], 200);
+    } else {
+        // Authentication failed
+        return response()->json([
+            'message' => 'The provided credentials are incorrect.',
+        ], 403);
+    }
+} 
+
+
         public function isApproved($id)
         {
             // Find the user by ID

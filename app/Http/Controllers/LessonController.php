@@ -67,7 +67,7 @@ class LessonController extends Controller
 
 
         // Retrieve lessons for the specified teacher and educational level IDs
-        $lessons = Lesson::take(9)->get();
+        $lessons = Lesson::take(6)->get();
 
 
         if ($lessons->isEmpty()) {

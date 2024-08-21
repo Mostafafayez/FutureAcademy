@@ -108,11 +108,8 @@ use Illuminate\Support\Facades\Auth;
             }
 
             // Check if the user's status is approved
-            if ($user->isApproved()) {
-                return response()->json(['message' => 'User is approved.'], 200);
-            } else {
-                return response()->json(['message' => 'User is not approved.'], 403);
-            }
+           $user->isApproved();
+
         }
 
 

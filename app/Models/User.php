@@ -65,7 +65,7 @@ class User extends Authenticatable
 
     public function isApproved()
     {
-        return $this->status === self::STATUS_APPROVAL;
+        return $this->status = self::STATUS_APPROVAL;
     }
 
 

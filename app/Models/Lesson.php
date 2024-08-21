@@ -8,7 +8,7 @@ class Lesson extends Model
 {
     use HasFactory;
     public $timestamps = false;
-    protected $fillable = ['title', 'description', 'package_id'];
+    protected $fillable = ['title', 'description', 'package_id','description_assistant'];
 
     public function package()
     {

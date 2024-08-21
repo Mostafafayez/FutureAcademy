@@ -17,11 +17,16 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+
+
+
+     const STATUS_APPROVAL = 'approval';
     protected $fillable = [
         'name',
         'phone',
         'password',
-        'educational_level_id'
+        'educational_level_id',
+        'status'
     ];
 
     public $timestamps = false;
@@ -55,6 +60,12 @@ class User extends Authenticatable
     public function educationalLevel()
     {
         return $this->belongsTo(EducationalLevel::class);
+    }
+
+
+    public function isApproved()
+    {
+        return $this->status === self::STATUS_APPROVAL;
     }
 
 

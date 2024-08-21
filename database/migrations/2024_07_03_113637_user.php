@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('phone')->unique();
             $table->string('password');
+            $table->enum('status', ['approval', 'pending'])->default('pending');
             $table->unsignedBigInteger('educational_level_id');
             // $table->timestamps(0); // This line is optional; if $timestamps is set to false, you might remove it
         });

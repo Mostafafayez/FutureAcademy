@@ -109,6 +109,11 @@ Route::post('/questions', [QuestionController::class, 'store']);
 Route::get('/questions/lesson/{lessonId}', [QuestionController::class, 'getByLessonId']);
 
 
+
+
+//approval user
+Route::get('/approve_user/{id}', [AuthController::class, 'isApproved']);
+
 use Illuminate\Support\Facades\Artisan;
 
 

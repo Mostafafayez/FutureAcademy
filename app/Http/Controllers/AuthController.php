@@ -97,7 +97,23 @@ use Illuminate\Support\Facades\Auth;
             }
         }
 
+        public function isApproved($id)
+        {
+            // Find the user by ID
+            $user = User::find($id);
 
+            // Check if the user exists
+            if (!$user) {
+                return response()->json(['message' => 'User not found.'], 404);
+            }
+
+            // Check if the user's status is approved
+            if ($user->isApproved()) {
+                return response()->json(['message' => 'User is approved.'], 200);
+            } else {
+                return response()->json(['message' => 'User is not approved.'], 403);
+            }
+        }
 
 
 

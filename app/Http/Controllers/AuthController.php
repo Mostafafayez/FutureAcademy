@@ -44,6 +44,7 @@ use Illuminate\Support\Facades\Auth;
                 'phone' => $request->phone,
                 'password' => Hash::make($request->password),
                 'educational_level_id' => $educationalLevel->id,
+
             ]);
 
             // Return the created user
@@ -52,7 +53,7 @@ use Illuminate\Support\Facades\Auth;
 
         public function login(Request $request)
         {
-
+            // Validate the input
             $validator = Validator::make($request->all(), [
                 'phone' => 'required|string|max:255',
                 'password' => 'required|string',
@@ -62,27 +63,41 @@ use Illuminate\Support\Facades\Auth;
                 return response()->json(['errors' => $validator->errors()], 422);
             }
 
-
-            if (Auth::attempt(['phone' => $request->phone, 'password' => $request->password])) {
+            // Check if the user exists and the password matches
+            $credentials = ['phone' => $request->phone, 'password' => $request->password];
+            if (Auth::attempt($credentials)) {
                 $user = Auth::user(); // Retrieve the authenticated user
-                $token = $user->createToken('personalAccessToken')->plainTextToken; // Generate the token
 
-                // Optionally, you can retrieve additional user information
-                $educationalLevelName = $user->educationalLevel->name ?? null;
+                // Check the status of the user
+                if ($user->status === 'pending') {
+                    // Return a message indicating the account is still pending
+                    return response()->json([
+                        'message' => 'Your account is still pending approval. Please wait for the approval process to complete.'
+                    ], 403);
+                } elseif ($user->status === 'approval') {
+                    // Generate a token and log in the user
+                    $token = $user->createToken('personalAccessToken')->plainTextToken;
 
-                // Return user data with token and educational level name
-                return response()->json([
-                    'user' => $user,
-                    'token' => $token,
-                    // 'educational_level' => $educationalLevelName
-                ], 200);
+                    return response()->json([
+                        'user' => $user,
+                        'token' => $token,
+                        // 'educational_level' => $user->educationalLevel->name ?? null
+                    ], 200);
+                } else {
+                    // Handle any other status if necessary
+                    return response()->json([
+                        'message' => 'Your account status does not allow login at this time.'
+                    ], 403);
+                }
             } else {
                 // Authentication failed
                 throw ValidationException::withMessages([
                     'phone' => ['The provided credentials are incorrect.'],
                 ]);
             }
-}
+        }
+
+
 
 
 

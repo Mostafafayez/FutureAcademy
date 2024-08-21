@@ -36,9 +36,9 @@ class Code extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function lesson()
+    public function package()
 {
-    return $this->belongsTo(Lesson::class);
+    return $this->belongsTo(packages::class);
 }
 
 }

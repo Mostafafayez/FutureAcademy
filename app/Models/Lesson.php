@@ -19,6 +19,13 @@ class Lesson extends Model
         return $this->hasMany(Video::class);
     }
 
+
+
+
+    public function score()
+    {
+        return $this->hasOne(Score::class);
+    }
     /**
      * Get the PDFs for the lesson.
      */

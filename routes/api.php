@@ -16,6 +16,7 @@ use App\Http\Controllers\VideoController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\MCQController;
 use Illuminate\Support\Facades\Response;
+use App\Http\Controllers\ScoreController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -104,7 +105,9 @@ Route::post('/mcqs', [MCQController::class, 'store']);
 Route::get('/mcqs/lesson/{lessonId}', [MCQController::class, 'getByLessonId']);
 Route::delete('/mcqs/{id}', [MCQController::class, 'destroy']);
 
-
+Route::post('/submit-score', [ScoreController::class, 'store']);
+Route::get('/scores/user/{user_id}', [ScoreController::class, 'getByUserId']);
+Route::get('/scores', [ScoreController::class, 'getAllScores']);
 
 
 //questions

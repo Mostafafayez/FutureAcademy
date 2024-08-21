@@ -77,6 +77,9 @@ Route::post('/addlessons', [LessonController::class, 'store']); // For adding a 
 Route::get('/lessons/package/{packageId}', [LessonController::class, 'getByPackageId']); // For getting lessons by package ID
 Route::delete('/lessons/{id}', [LessonController::class, 'destroy']); // For deleting a lesson by ID
 Route::get('/getlessons/{teacherId}', [LessonController::class, 'getLessonsByteacherIds']);
+
+
+Route::get('/getlesson/assistant', [LessonController::class, 'getLessonsforassistant']);
 //code
 Route::post('/addcode', [CodeController::class, 'store']);
 Route::post('/codes/validate', [CodeController::class, 'validateCode']);

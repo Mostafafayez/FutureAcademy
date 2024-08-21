@@ -79,6 +79,20 @@ class LessonController extends Controller
 
 
 
+    public function getLessonsforassistant()
+    {
+        // Retrieve lessons for the specified teacher ID
+        $lessons = Lesson::select('id', 'title', 'description') // Specify all columns except 'teacher_id'
+                      ->get();
+
+        // Check if lessons were found
+        if ($lessons->isEmpty()) {
+            return response()->json(['message' => 'No lessons found for this teacher.'], 404);
+        }
+
+        // Return the lessons in the response
+        return response()->json(['lessons' => $lessons], 200);
+    }
 
 
 

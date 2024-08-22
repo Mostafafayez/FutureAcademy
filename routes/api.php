@@ -48,7 +48,7 @@ Route::middleware(['auth:sanctum', 'sanctum'])->group(function () {
 
 });
 
-
+Route::get('/encryption_videos/lesson/{lessonId}', [VideoController::class, 'getEncryptionByLessonId']);
 
 Route::get('/getsubjects', [SubjectController::class, 'getByEducationalLevels']);
 

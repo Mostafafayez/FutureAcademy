@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Support\Facades\Crypt;
 class VideoController extends Controller
 {
     public function store(Request $request)
@@ -94,7 +94,7 @@ class VideoController extends Controller
 
     public function getByLessonId($lessonId)
     {
- 
+
         $videos = Video::where('lesson_id', $lessonId)
                        ->select('title', 'description', 'url')
                        ->get();
@@ -106,5 +106,30 @@ class VideoController extends Controller
 
         return response()->json($videos);
     }
+
+
+
+
+
+
+public function getEncryptionByLessonId($lessonId)
+{
+    $videos = Video::where('lesson_id', $lessonId)
+                   ->select('title', 'description', 'url')
+                   ->get();
+
+    if ($videos->isEmpty()) {
+        return response()->json(['message' => 'No videos found for this lesson.'], 404);
+    }
+
+    // Encrypt the URLs
+    $videos->transform(function ($video) {
+        $video->url = Crypt::encryptString($video->url);
+        return $video;
+    });
+
+    return response()->json($videos);
+}
+
 
 }

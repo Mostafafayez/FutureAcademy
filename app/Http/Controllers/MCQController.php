@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\MCQ;
-use App\Models\MCQs;
+use App\Models\MCQS;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -22,7 +22,7 @@ class MCQController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        $mcq = MCQs::create([
+        $mcq = MCQS::create([
             'title' => $request->title,
             'description' => $request->description,
             'url' => $request->url,

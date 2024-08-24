@@ -47,10 +47,8 @@ Route::middleware(['auth:sanctum', 'sanctum'])->group(function () {
     Route::get('/getPackages/{teacherId}/{educationalLevel}', [PackagesController::class, 'getpackagesByteacherId']);
     Route::get('/lessons/package/{packageId}', [LessonController::class, 'getByPackageId']);
 });
-Route::middleware(['auth:sanctum', 'sanctum'])->group(function () {
-
+Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/messages', [MessageController::class, 'store']);
-
 });
 // Route::post('/messages', [MessageController::class, 'store']);
 

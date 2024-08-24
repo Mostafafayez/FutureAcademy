@@ -84,7 +84,7 @@ public function login(Request $request)
             'message' => 'The provided credentials are incorrect.',
         ], 403);
     }
-} 
+}
 
 
         public function isApproved($id)
@@ -126,6 +126,23 @@ public function logout(Request $request)
     $user->tokens()->delete();
 
     return response()->json(['message' => 'Logged out successfully'], 200);
+}
+
+
+
+
+public function userinfo() {
+    $users = User::with('educationalLevel:name,id')->get(['name', 'phone', 'educational_level_id']);
+
+    $usersData = $users->map(function ($user) {
+        return [
+            'name' => $user->name,
+            'phone' => $user->phone,
+            'educational_level' => $user->educationalLevel->name ?? 'N/A',
+        ];
+    });
+
+    return response()->json($usersData);
 }
 
     }

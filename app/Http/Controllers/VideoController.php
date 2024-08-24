@@ -122,7 +122,6 @@ public function getEncryptionByLessonId($lessonId)
         return response()->json(['message' => 'No videos found for this lesson.'], 404);
     }
 
-    // Encrypt the URLs
     $videos->transform(function ($video) {
         $video->url = Crypt::encryptString($video->url);
         return $video;

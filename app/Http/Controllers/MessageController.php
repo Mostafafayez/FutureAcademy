@@ -50,7 +50,7 @@ class MessageController extends Controller
     public function getAllMessages()
     {
         // Retrieve all messages with related user and educational level
-        $messages = MAessage::with(['user.educationalLevel'])->get();
+        $messages = Message::with(['user.educationalLevel'])->get();
 
         // Prepare the response data
         $data = $messages->map(function ($message) {

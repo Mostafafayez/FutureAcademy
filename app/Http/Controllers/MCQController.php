@@ -43,6 +43,23 @@ class MCQController extends Controller
         return response()->json(['mcqs' => $mcqs], 200);
     }
 
+
+    public function getByPackageId($id)
+    {
+        // Retrieve the MCQs associated with the package ID
+        $mcqs = MCQS::with('packages')
+                    ->where('packages_id', $id)
+                    ->get();
+
+        // Check if any MCQs are found
+        if ($mcqs->isEmpty()) {
+            return response()->json(['message' => 'No MCQs found for this package'], 404);
+        }
+
+        // Return the MCQs along with the package information
+        return response()->json(['package_name' => $mcqs->first()->packages->name, 'mcqs' => $mcqs], 200);
+    }
+
     public function destroy($id)
     {
         $mcq = MCQs::find($id);

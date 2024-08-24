@@ -112,6 +112,9 @@ Route::delete('/pdfs/{id}', [PDFController::class, 'destroy']);
 Route::post('/mcqs', [MCQController::class, 'store']);
 Route::get('/mcqs/lesson/{lessonId}', [MCQController::class, 'getByLessonId']);
 Route::delete('/mcqs/{id}', [MCQController::class, 'destroy']);
+Route::get('mcqs/package/{id}', [MCQController::class, 'getByPackageId']);
+
+
 
 Route::post('/submit-score', [ScoreController::class, 'store']);
 Route::get('/scores/user/{user_id}', [ScoreController::class, 'getByUserId']);

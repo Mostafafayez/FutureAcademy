@@ -20,11 +20,19 @@ class MCQS extends Model
         'url',
         'title',
         'description',
+        'packages_id',
     ];
 
     /**
      * Get the lesson that owns the link.
      */
+
+
+
+     public function packages()
+     {
+         return $this->belongsTo(packages::class);
+     }
     public function lesson()
     {
         return $this->belongsTo(Lesson::class);

@@ -54,4 +54,14 @@ public function lessons()
 {
     return $this->hasMany(Lesson::class);
 }
+
+
+
+
+
+
+public function MCQS()
+    {
+        return $this->hasMany(MCQS::class);
+    }
 }

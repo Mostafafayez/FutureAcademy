@@ -135,18 +135,18 @@ use Illuminate\Support\Facades\Artisan;
 
 Route::get('/manage-cache', function ( ){
     // Clear existing caches
-    // Artisan::call('storage:link');
-    Artisan::call('route:clear');
-    // Artisan::call('view:clear');
+    Artisan::call('storage:link');
     // Artisan::call('route:clear');
+    Artisan::call('view:clear');
+    Artisan::call('route:clear');
 
-    // // Clear optimized files
-    // Artisan::call('optimize:clear');
+    // Clear optimized files
+    Artisan::call('optimize:clear');
 
-    // // Re-cache configuration
-    // Artisan::call('config:cache');
-    // Artisan::call('route:cache');
-    // Artisan::call('view:cache');
+    // Re-cache configuration
+    Artisan::call('config:cache');
+    Artisan::call('route:cache');
+    Artisan::call('view:cache');
 
     return 'cache linked!';
 });

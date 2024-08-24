@@ -43,4 +43,30 @@ class MessageController extends Controller
         // Return the data as a JSON response
         return response()->json($data);
     }
+
+
+
+
+    public function getAllMessages()
+    {
+        // Retrieve all messages with related user and educational level
+        $messages = Message::with(['user.educationalLevel'])->get();
+
+        // Prepare the response data
+        $data = $messages->map(function ($message) {
+            return [
+                'message' => $message->message,
+                'user_name' => $message->user->name,
+                'user_phone' => $message->user->phone,
+                'educational_level' => $message->user->educationalLevel->name ?? 'N/A',
+            ];
+        });
+
+        // Return the data as a JSON response
+        return response()->json($data);
+    }
+
+
+
+
 }

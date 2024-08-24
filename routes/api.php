@@ -53,6 +53,11 @@ Route::middleware(['auth:sanctum', 'sanctum'])->group(function () {
 
 });
 
+
+
+Route::get('/user/{id}/messages', [MessageController::class, 'getUserMessages']);
+
+
 Route::get('/encryption_videos/lesson/{lessonId}', [VideoController::class, 'getEncryptionByLessonId']);
 
 Route::get('/getsubjects', [SubjectController::class, 'getByEducationalLevels']);

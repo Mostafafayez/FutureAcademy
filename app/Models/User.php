@@ -29,7 +29,7 @@ class User extends Authenticatable
         'status'
     ];
 
-    public $timestamps = false;
+
 
     /**
      * The attributes that should be hidden for serialization.
@@ -62,6 +62,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(Code::class);
     }
+
+
+    public function message()
+    {
+        return $this->hasMany(message::class);
+    }
+
 
 
     public function educationalLevel()

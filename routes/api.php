@@ -17,6 +17,7 @@ use App\Http\Controllers\PDFController;
 use App\Http\Controllers\MCQController;
 use Illuminate\Support\Facades\Response;
 use App\Http\Controllers\ScoreController;
+use App\Http\Controllers\MessageController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -48,6 +49,7 @@ Route::middleware(['auth:sanctum', 'sanctum'])->group(function () {
 });
 Route::middleware(['auth:sanctum', 'sanctum'])->group(function () {
 
+    Route::post('/messages', [MessageController::class, 'store']);
 
 });
 

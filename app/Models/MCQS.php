@@ -9,7 +9,7 @@ class MCQS extends Model
 {
     use HasFactory;
     public $timestamps = false;
-
+    protected $table = 'MCQS';
     /**
      * The attributes that are mass assignable.
      *

@@ -50,7 +50,7 @@ Route::middleware(['auth:sanctum', 'sanctum'])->group(function () {
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/messages', [MessageController::class, 'store']);
 });
-// Route::post('/messages', [MessageController::class, 'store']);
+
 
 
 Route::get('/getusermessages', [MessageController::class, 'getUserMessages']);

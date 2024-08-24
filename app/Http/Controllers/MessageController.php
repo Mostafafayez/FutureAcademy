@@ -25,23 +25,20 @@ class MessageController extends Controller
 
 
 
-
-    public function getUserMessages($id)
+    public function getUserMessages()
     {
-        // Retrieve the user with their messages and educational level
-        $user = User::with(['messages', 'educationalLevel'])->find($id);
-
-        if (!$user) {
-            return response()->json(['error' => 'User not found'], 404);
-        }
+        // Retrieve all users with their messages and educational level
+        $users = User::with(['messages', 'educationalLevel'])->get();
 
         // Prepare the response data
-        $data = [
-            'name' => $user->name,
-            'phone' => $user->phone,
-            'educational_level' => $user->educationalLevel->name ?? 'N/A', // Retrieve the educational level's name
-            'messages' => $user->messages->pluck('message'), // Retrieve only the message content
-        ];
+        $data = $users->map(function ($user) {
+            return [
+                'user_name' => $user->name,
+                'user_phone' => $user->phone,
+                'educational_level' => $user->educationalLevel->name ?? 'N/A',
+                'messages' => $user->messages->pluck('message'), // Retrieve only the message content
+            ];
+        });
 
         // Return the data as a JSON response
         return response()->json($data);

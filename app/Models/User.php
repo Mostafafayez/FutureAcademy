@@ -63,7 +63,7 @@ class User extends Authenticatable
     }
 
 
-    public function message()
+    public function messages()
     {
         return $this->hasMany(message::class);
     }

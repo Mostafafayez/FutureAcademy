@@ -102,10 +102,9 @@ class TeacherController extends Controller
         if (!$user) {
             return response()->json(['message' => 'Unauthorized'], 401);
         }
-        // $user = Auth::user();
 
         // Fetch teachers based on educational level
-        $teachers = teacher::where('educational_level_id', $educationalLevelId)
+        $teachers = Teacher::where('educational_level_id', $educationalLevelId)
             ->with(['subject', 'educationalLevel'])
             ->get();
 
@@ -114,17 +113,15 @@ class TeacherController extends Controller
             return response()->json(['message' => 'No teachers found for this educational level.'], 404);
         }
 
-
         $teachersData = $teachers->map(function ($teacher) {
             return [
                 'id' => $teacher->id,
                 'name' => $teacher->name,
-                'educational_level' => $teacher->educationalLevel->name,
-                'subject' => $teacher->subject->name,
+                'educational_level' => $teacher->educationalLevel ? $teacher->educationalLevel->name : 'N/A',  // Check if educationalLevel exists
+                'subject' => $teacher->subject ? $teacher->subject->name : 'N/A',  // Check if subject exists
                 'FullSrc' => url('storage/' . $teacher->image)
             ];
         });
-
 
         return response()->json(['teachers' => $teachersData], 200);
     }

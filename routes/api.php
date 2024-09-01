@@ -74,6 +74,9 @@ Route::post('/addsubject', [SubjectController::class, 'store']);
 Route::delete('/deletesubject/{id}', [SubjectController::class, 'destroy']);
 //teacher
 Route::post('/addteacher', [TeacherController::class, 'store']);
+
+Route::post('/getteachers', [TeacherController::class, 'getTeaddchers']);
+
 Route::delete('/teachers/{id}', [TeacherController::class, 'destroy']);
 
 //packages

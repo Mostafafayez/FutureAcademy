@@ -140,4 +140,34 @@ class TeacherController extends Controller
 
         return response()->json(['message' => 'Teacher deleted successfully'], 200);
     }
+
+
+    public function getTeaddchers()
+    {
+        $user = auth('sanctum')->user();
+
+        if (!$user) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
+        // Fetch teachers based on educational level
+        $teachers = teacher:: with(['subject', 'educationalLevel'])
+            ->get();
+
+        // Check if any teachers were found
+        if ($teachers->isEmpty()) {
+            return response()->json(['message' => 'No teachers found for this educational level.'], 404);
+        }
+        $teachersData = $teachers->map(function ($teacher) {
+            return [
+                'id' => $teacher->id,
+                'name' => $teacher->name,
+                'educational_level' => $teacher->educationalLevel ? $teacher->educationalLevel->name : 'N/A',  // Check if educationalLevel exists
+                'subject' => $teacher->subject ? $teacher->subject->name : 'N/A',  // Check if subject exists
+                'FullSrc' => url('storage/' . $teacher->image)
+            ];
+        });
+
+        return response()->json(['teachers' => $teachersData], 200);
+}
 }

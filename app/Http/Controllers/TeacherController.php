@@ -42,7 +42,7 @@ class TeacherController extends Controller
         $subject = Subject::where('name', $request->subject)->first();
 
 
-        $teacher = Teacher::create([
+        $teacher = teacher::create([
             'name' => $request->name,
             'image' => $fileName,
             'educational_level_id' => $educationalLevel->id,
@@ -133,7 +133,7 @@ class TeacherController extends Controller
 
     public function destroy($id)
     {
-        $teacher = Teacher::find($id);
+        $teacher = teacher::find($id);
 
         if (!$teacher) {
             return response()->json(['message' => 'Teacher not found.'], 404);

@@ -105,7 +105,7 @@ class TeacherController extends Controller
         // $user = Auth::user();
 
         // Fetch teachers based on educational level
-        $teachers = taeacher::where('educational_level_id', $educationalLevelId)
+        $teachers = teacher::where('educational_level_id', $educationalLevelId)
             ->with(['subject', 'educationalLevel'])
             ->get();
 

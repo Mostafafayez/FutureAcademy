@@ -104,7 +104,7 @@ class TeacherController extends Controller
         }
 
         // Fetch teachers based on educational level
-        $teachers = Teacher::where('educational_level_id', $educationalLevelId)
+        $teachers = teacher::where('educational_level_id', $educationalLevelId)
             ->with(['subject', 'educationalLevel'])
             ->get();
 

@@ -17,7 +17,7 @@ class Subject extends Model
     protected $fillable = [
         'name',
         'educational_level_id',
-        'teacher_id',
+
         'type'
     ];
 
@@ -39,6 +39,6 @@ class Subject extends Model
     }
     public function teachers()
     {
-        return $this->hasMany(Teacher::class);
+        return $this->hasMany(teacher::class);
     }
 }

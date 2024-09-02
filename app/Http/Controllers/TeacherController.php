@@ -62,6 +62,7 @@ class TeacherController extends Controller
             return [
                 'id' => $teacher->id,
                 'name' => $teacher->name,
+   
                 'educational_level' => $teacher->educationalLevel,
                 'subject' => $teacher->subject,
                 'image' => $teacher->FullSrc

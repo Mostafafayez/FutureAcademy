@@ -9,7 +9,7 @@ use App\Models\Lesson;
 use Illuminate\Http\Request;
 
 
-class LessonController extends Controller
+class lessonController extends Controller
 {
     /**
      * Store a new lesson.
@@ -82,8 +82,9 @@ class LessonController extends Controller
     public function getLessonsforassistant()
     {
         // Retrieve lessons for the specified teacher ID
-        $lessons = Lesson::select('id', 'title', 'description', 'description_assistant') // Specify all columns except 'teacher_id'
-                      ->get();
+        $lessons = Lesson::select('id', 'title', 'description', 'description_assistant','teacher_id') // Specify all columns except 'teacher_id'
+        ->with('teacher:id,name')
+        ->get();
 
         // Check if lessons were found
         if ($lessons->isEmpty()) {
@@ -93,7 +94,6 @@ class LessonController extends Controller
         // Return the lessons in the response
         return response()->json(['lessons' => $lessons], 200);
     }
-
 
 
 

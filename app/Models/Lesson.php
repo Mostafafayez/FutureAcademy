@@ -8,7 +8,7 @@ class Lesson extends Model
 {
     use HasFactory;
     public $timestamps = false;
-    protected $fillable = ['title', 'description', 'package_id','description_assistant'];
+    protected $fillable = ['title', 'description', 'package_id','description_assistant','teacher_id'];
 
     public function package()
     {
@@ -19,6 +19,10 @@ class Lesson extends Model
         return $this->hasMany(Video::class);
     }
 
+    public function teacher()
+    {
+        return $this->belongsTo(teacher::class);
+    }
 
 
 

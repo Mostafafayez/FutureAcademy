@@ -30,4 +30,26 @@ class EducationalLevelController extends Controller
             'educational_level' => $educationalLevel
         ], 200);
     }
+
+
+
+
+
+    public function showw()
+    {
+        // Find the educational level by ID
+        $educationalLevel = EducationalLevel::get();
+
+        // Check if the educational level was found
+        if (!$educationalLevel) {
+            return response()->json([
+                'error' => 'Educational level not found.'
+            ], 404);
+        }
+
+        // Return the educational level
+        return response()->json([
+            'educational_level' => $educationalLevel
+        ], 200);
+    }
 }

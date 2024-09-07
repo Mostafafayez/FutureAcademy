@@ -124,7 +124,7 @@ class CodeController extends Controller
         }
 
         if ($code->type2 === 'used') {
-            return response()->json(['message' => 'Code is already used for type2.'], 400);
+            return response()->json(['message' => 'Code is already used .'], 400);
         }
 
         // Check if the user is already subscribed to the lesson using type2
@@ -134,7 +134,7 @@ class CodeController extends Controller
                                     ->first();
 
         if ($existingSubscription) {
-            return response()->json(['message' => 'You already have a code for this package using type2.'], 400);
+            return response()->json(['message' => 'You already have a code for this package .'], 400);
         }
 
         // If the code type2 is 'notused', update the fields and set type2 to 'used'
@@ -146,7 +146,7 @@ class CodeController extends Controller
             $code->type2 = 'used';
             $code->save();
 
-            return response()->json(['message' => 'Code validated and updated successfully for type2.'], 200);
+            return response()->json(['message' => 'Code validated and updated successfully .'], 200);
         }
 
         return response()->json(['message' => 'Unknown error occurred.'], 500);

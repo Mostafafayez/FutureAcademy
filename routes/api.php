@@ -94,13 +94,15 @@ Route::get('/getlessons/{teacherId}', [LessonController::class, 'getLessonsBytea
 Route::get('/getlesson/assistant', [LessonController::class, 'getLessonsforassistant']);
 //code
 Route::post('/addcode', [CodeController::class, 'store']);
+Route::get('/addcode/fixed', [CodeController::class, 'storefixed']);
 Route::post('/codes/validate', [CodeController::class, 'validateCode']);
 Route::get('/code/check/{userId}/{macaddress}/{lesson_id}', [CodeController::class, 'checkUserCodeStatus']);
 Route::get('/code/users', [CodeController::class, 'getAllCodesWithUsers']);
 Route::get('/code/{user_id}', [CodeController::class, 'getUserLessonsWithCode']);
-
-
-
+//mobile
+Route::post('/codes/validate/mobile', [CodeController::class, 'validateCodeForMacAddress2']);
+Route::get('/code/check/mobile/{userId}/{macaddress2}/{lesson_id}', [CodeController::class, 'checkUserCodeStatus2']);
+Route::get('/get/packages/{user_id}', [CodeController::class, 'getValidLessonsWithDetailsByUserId']);
 // Video
 Route::post('/videos', [VideoController::class, 'store']);
 

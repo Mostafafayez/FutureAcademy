@@ -9,7 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
         protected $table = 'teachers';
         use HasFactory ;
         protected $fillable = [
-            'name', 'image', 'educational_level_id', 'subject_id'
+            'name', 'image','description', 'educational_level_id', 'subject_id'
         ];
         public $timestamps = false;
 

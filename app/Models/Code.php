@@ -14,10 +14,11 @@ class Code extends Model
     protected $fillable = [
         'mac_address',
         'expires_at',
-
+        'mac_address2',
         'code',
         'user_id',
-        'lesson_id'
+        'lesson_id',
+        'type2',
     ];
 
     public $timestamps = false;
@@ -37,9 +38,9 @@ class Code extends Model
     }
 
     public function package()
-{
-    return $this->belongsTo(packages::class);
-}
+    {
+        return $this->belongsTo(Packages::class, 'lesson_id'); // Assuming 'lesson_id' is the foreign key
+    }
 
 }
 

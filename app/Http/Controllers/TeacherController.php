@@ -18,6 +18,7 @@ class TeacherController extends Controller
         // Validate the request
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
+           'description' =>'required|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'educational_level' => 'required|string|exists:educational_levels,name',
             'subject' => 'required|string|exists:subjects,name'
@@ -44,6 +45,7 @@ class TeacherController extends Controller
 
         $teacher = teacher::create([
             'name' => $request->name,
+            'description' =>    $request->  description,
             'image' => $fileName,
             'educational_level_id' => $educationalLevel->id,
             'subject_id' => $subject->id,
@@ -62,7 +64,7 @@ class TeacherController extends Controller
             return [
                 'id' => $teacher->id,
                 'name' => $teacher->name,
-   
+
                 'educational_level' => $teacher->educationalLevel,
                 'subject' => $teacher->subject,
                 'image' => $teacher->FullSrc
@@ -88,6 +90,7 @@ class TeacherController extends Controller
             'name' => $teacher->name,
             'educational_level' => $teacher->educationalLevel,
             'subject' => $teacher->subject,
+            'description' =>$teacher->description,
             // 'FullSrc' => url('storage/' . $teacher->image),
             'image' => $teacher->FullSrc
         ];

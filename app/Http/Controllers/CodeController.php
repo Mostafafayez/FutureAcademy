@@ -37,6 +37,17 @@ class CodeController extends Controller
     }
 
 
+    public function storefixed()
+    {
+        // Create the new code with a fixed 'expires_at' date of 2026-09-07
+        $code = Code::create([
+            'mac_address' => '', // Initialize with an empty string
+            'mac_address2' => '',
+            'expires_at' => '2026-09-07', // Set the fixed expiration date
+        ]);
+
+        return response()->json(['message' => 'Code created successfully', 'code' => $code], 201);
+    }
 
     public function validateCode(Request $request)
     {
@@ -89,6 +100,81 @@ class CodeController extends Controller
 
         return response()->json(['message' => 'Unknown error occurred.'], 500);
     }
+    public function validateCodeForMacAddress2(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'code' => 'required|string',
+            'mac_address2' => 'string|max:255',
+            'user_id' => 'required|exists:users,id',
+            'lesson_id' => 'required|exists:packages,id',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $code = Code::where('code', $request->code)->first();
+
+        if (!$code) {
+            return response()->json(['message' => 'Invalid code.'], 404);
+        }
+
+        if (Carbon::now()->greaterThan($code->expires_at)) {
+            return response()->json(['message' => 'Code has expired.'], 410);
+        }
+
+        if ($code->type2 === 'used') {
+            return response()->json(['message' => 'Code is already used for type2.'], 400);
+        }
+
+        // Check if the user is already subscribed to the lesson using type2
+        $existingSubscription = Code::where('user_id', $request->user_id)
+                                    ->where('lesson_id', $request->lesson_id)
+                                    ->where('type2', 'used')
+                                    ->first();
+
+        if ($existingSubscription) {
+            return response()->json(['message' => 'You already have a code for this package using type2.'], 400);
+        }
+
+        // If the code type2 is 'notused', update the fields and set type2 to 'used'
+        if ($code->type2 === 'notused') {
+            $code->user_id = $request->user_id;
+            $code->lesson_id = $request->lesson_id;
+            $code->mac_address2 = $request->mac_address2;
+
+            $code->type2 = 'used';
+            $code->save();
+
+            return response()->json(['message' => 'Code validated and updated successfully for type2.'], 200);
+        }
+
+        return response()->json(['message' => 'Unknown error occurred.'], 500);
+    }
+
+    public function getValidLessonsWithDetailsByUserId($userId)
+    {
+        // Retrieve all codes for the given user ID where the code is not expired
+        $validCodes = Code::with('package') // Eager load the related package
+            ->where('user_id', $userId)
+            ->where('expires_at', '>', Carbon::now()) // Check if the expiration date is in the future
+            ->get();
+
+        // If no valid codes are found, return a message
+        if ($validCodes->isEmpty()) {
+            return response()->json(['message' => 'No valid lessons found for this user.'], 404);
+        }
+
+        // Extract the packages (lessons) from the valid codes
+        $validPackages = $validCodes->map(function ($code) {
+            return $code->package; // Get the related package (lesson)
+        })->filter(); // Remove any null values just in case
+
+        return response()->json(['valid_packages' => $validPackages->values()], 200);
+    }
+
+
+
 
     public function getAllCodesWithUsers()
     {
@@ -142,6 +228,36 @@ class CodeController extends Controller
 
         return response()->json(['message' => 'User has a valid code.', 'code' => $code], 200);
     }
+
+
+
+
+
+    public function checkUserCodeStatus2($userId, $macAddress2, $lesson_id)
+    {
+        // Retrieve the code associated with the user and lesson
+        $code = Code::where('user_id', $userId)
+                    ->where('lesson_id', $lesson_id)
+                    ->first();
+
+        if (!$code) {
+            return response()->json(['message' => 'No code found for this user and package.'], 404);
+        }
+
+        // Check if the code has expired
+        if (Carbon::now()->greaterThan($code->expires_at)) {
+            return response()->json(['message' => 'Code has expired.'], 410);
+        }
+
+        // Normalize the MAC address for comparison
+        $normalizedMacAddress = strtolower($macAddress2);
+        if (strtolower($code->mac_address2) !== $normalizedMacAddress) {
+            return response()->json(['message' => 'MAC address mismatch.'], 403);
+        }
+
+        return response()->json(['message' => 'User has a valid code.', 'code' => $code], 200);
+    }
+
 
 
 

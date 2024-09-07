@@ -39,7 +39,7 @@ class Code extends Model
 
     public function package()
     {
-        return $this->belongsTo(Packages::class, 'lesson_id'); // Assuming 'lesson_id' is the foreign key
+        return $this->belongsTo(packages::class, 'lesson_id'); // Assuming 'lesson_id' is the foreign key
     }
 
 }

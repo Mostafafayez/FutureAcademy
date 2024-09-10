@@ -255,7 +255,7 @@ class CodeController extends Controller
             return response()->json(['message' => 'MAC address mismatch.'], 403);
         }
 
-        return response()->json(['message' => 'User has a valid code.', 'code' => $code], 200);
+        return response()->json(['message' => 'User has a valid code.'], 200);
     }
 
 

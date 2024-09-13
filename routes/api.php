@@ -18,6 +18,7 @@ use App\Http\Controllers\MCQController;
 use Illuminate\Support\Facades\Response;
 use App\Http\Controllers\ScoreController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\ImageController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -29,7 +30,7 @@ use App\Http\Controllers\MessageController;
 |
 */
 
-//Authentication
+//Authentication  pdf
 Route::post('/signup', [AuthController::class, 'signUp']);
 
 Route::post('/login', [AuthController::class, 'login']);
@@ -92,7 +93,7 @@ Route::get('/getlessons/{teacherId}', [LessonController::class, 'getLessonsBytea
 
 
 Route::get('/getlesson/assistant', [LessonController::class, 'getLessonsforassistant']);
-//code
+//
 Route::post('/addcode', [CodeController::class, 'store']);
 Route::get('/addcode/fixed', [CodeController::class, 'storefixed']);
 Route::post('/codes/validate', [CodeController::class, 'validateCode']);
@@ -181,3 +182,10 @@ Route::get('/clear', function () {
 
     return 'cache linked!';
 });
+
+
+
+
+
+Route::get('/images', [ImageController::class, 'index']); // Get all images
+Route::post('/images', [ImageController::class, 'store']); // Upload image

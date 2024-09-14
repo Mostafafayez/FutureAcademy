@@ -196,7 +196,7 @@ class CodeController extends Controller
         if ($code->mac_address2 !== null) {
             // Ensure the user_id and lesson_id in the DB match the request, and mac_address2 is null
             if ($code->user_id !== $request->user_id || $code->lesson_id !== $request->lesson_id) {
-                return response()->json(['message' => 'Code is already used on another device.'], 400);
+                return response()->json(['message' => 'Code is already used on another user.'], 400);
             }
 
             if ($code->mac_address2 !== null) {

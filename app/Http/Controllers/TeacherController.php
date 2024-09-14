@@ -85,6 +85,21 @@ class TeacherController extends Controller
     }
 
 
+    public function search(Request $request)
+    {
+        // Check if there's a 'name' query parameter in the request
+        $name = $request->input('name');
+
+        // If a name is provided, filter by name; otherwise, get all teachers
+        if ($name) {
+            $teachers = Teacher::where('name', 'like', '%' . $name . '%')->get();
+        } else {
+            $teachers = Teacher::all();
+        }
+
+        // Return the response with the teachers data
+        return response()->json(['teachers' => $teachers], 200);
+    }
 
 
 

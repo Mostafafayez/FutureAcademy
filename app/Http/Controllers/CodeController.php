@@ -100,57 +100,123 @@ class CodeController extends Controller
 
         return response()->json(['message' => 'Unknown error occurred.'], 500);
     }
+    // public function validateCodeForMacAddress2(Request $request)
+    // {
+    //     $validator = Validator::make($request->all(), [
+    //         'code' => 'required|string',
+    //         'mac_address2' => 'string|max:255',
+    //         'user_id' => 'required|exists:users,id',
+    //         'lesson_id' => 'required|exists:packages,id',
+    //     ]);
+
+    //     if ($validator->fails()) {
+    //         return response()->json(['errors' => $validator->errors()], 422);
+    //     }
+
+    //     $code = Code::where('code', $request->code)->first();
+
+    //     if (!$code) {
+    //         return response()->json(['message' => 'Invalid code.'], 404);
+    //     }
+
+    //     if (Carbon::now()->greaterThan($code->expires_at)) {
+    //         return response()->json(['message' => 'Code has expired.'], 410);
+    //     }
+
+    //     if ($code->type2 === 'used') {
+    //         return response()->json(['message' => 'Code is already used .'], 400);
+    //     }
+
+    //     // Check if the user is already subscribed to the lesson using type2
+    //     $existingSubscription = Code::where('user_id', $request->user_id)
+    //                                 ->where('lesson_id', $request->lesson_id)
+    //                                 ->where('type2', 'used')
+    //                                 ->first();
+
+    //     if ($existingSubscription) {
+    //         return response()->json(['message' => 'You already have a code for this package .'], 400);
+    //     }
+
+    //     // If the code type2 is 'notused', update the fields and set type2 to 'used'
+    //     if ($code->type2 === 'notused') {
+    //         $code->user_id = $request->user_id;
+    //         $code->lesson_id = $request->lesson_id;
+    //         $code->mac_address2 = $request->mac_address2;
+
+    //         $code->type2 = 'used';
+    //         $code->save();
+
+    //         return response()->json(['message' => 'Code validated and updated successfully .'], 200);
+    //     }
+
+    //     return response()->json(['message' => 'Unknown error occurred.'], 500);
+    // }
+
+
+
     public function validateCodeForMacAddress2(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'code' => 'required|string',
-            'mac_address2' => 'string|max:255',
-            'user_id' => 'required|exists:users,id',
-            'lesson_id' => 'required|exists:packages,id',
-        ]);
+{
+    $validator = Validator::make($request->all(), [
+        'code' => 'required|string',
+        'mac_address2' => 'string|max:255',
+        'user_id' => 'required|exists:users,id',
+        'lesson_id' => 'required|exists:packages,id',
+    ]);
 
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
-
-        $code = Code::where('code', $request->code)->first();
-
-        if (!$code) {
-            return response()->json(['message' => 'Invalid code.'], 404);
-        }
-
-        if (Carbon::now()->greaterThan($code->expires_at)) {
-            return response()->json(['message' => 'Code has expired.'], 410);
-        }
-
-        if ($code->type2 === 'used') {
-            return response()->json(['message' => 'Code is already used .'], 400);
-        }
-
-        // Check if the user is already subscribed to the lesson using type2
-        $existingSubscription = Code::where('user_id', $request->user_id)
-                                    ->where('lesson_id', $request->lesson_id)
-                                    ->where('type2', 'used')
-                                    ->first();
-
-        if ($existingSubscription) {
-            return response()->json(['message' => 'You already have a code for this package .'], 400);
-        }
-
-        // If the code type2 is 'notused', update the fields and set type2 to 'used'
-        if ($code->type2 === 'notused') {
-            $code->user_id = $request->user_id;
-            $code->lesson_id = $request->lesson_id;
-            $code->mac_address2 = $request->mac_address2;
-
-            $code->type2 = 'used';
-            $code->save();
-
-            return response()->json(['message' => 'Code validated and updated successfully .'], 200);
-        }
-
-        return response()->json(['message' => 'Unknown error occurred.'], 500);
+    if ($validator->fails()) {
+        return response()->json(['errors' => $validator->errors()], 422);
     }
+
+    $code = Code::where('code', $request->code)->first();
+
+    if (!$code) {
+        return response()->json(['message' => 'Invalid code.'], 404);
+    }
+
+    if (Carbon::now()->greaterThan($code->expires_at)) {
+        return response()->json(['message' => 'Code has expired.'], 410);
+    }
+
+    if ($code->type2 === 'used') {
+        return response()->json(['message' => 'Code is already used.'], 400);
+    }
+
+    // Check if the user is already subscribed to the lesson using type2
+    $existingSubscription = Code::where('user_id', $request->user_id)
+                                ->where('lesson_id', $request->lesson_id)
+                                ->where('type2', 'used')
+                                ->first();
+
+    if ($existingSubscription) {
+        return response()->json(['message' => 'You already have a code for this package.'], 400);
+    }
+
+    // Ensure that mac_address2 is null before proceeding, and if not, validate
+    if ($code->type2 === 'notused') {
+        if ($code->mac_address2 !== null) {
+            // Ensure the user_id and lesson_id in the DB match the request, and mac_address2 is null
+            if ($code->user_id !== $request->user_id || $code->lesson_id !== $request->lesson_id) {
+                return response()->json(['message' => 'Code is already used on another device.'], 400);
+            }
+
+            if ($code->mac_address2 !== null) {
+                return response()->json(['message' => 'Code already used on a second device.'], 400);
+            }
+        }
+
+        // If all checks pass, update mac_address2 and set type2 to 'used'
+        $code->user_id = $request->user_id;
+        $code->lesson_id = $request->lesson_id;
+        $code->mac_address2 = $request->mac_address2;
+        $code->type2 = 'used';
+        $code->save();
+
+        return response()->json(['message' => 'Code validated and updated successfully.'], 200);
+    }
+
+    return response()->json(['message' => 'Unknown error occurred.'], 500);
+}
+
 
     public function getValidLessonsWithDetailsByUserId($userId)
     {

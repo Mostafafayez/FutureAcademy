@@ -82,7 +82,7 @@ Route::post('/search', [TeacherController::class, 'search']);
 
 Route::delete('/teachers/{id}', [TeacherController::class, 'destroy']);
 
-//packages
+//packages  
 Route::post('/addpackage', [PackagesController::class, 'store']);
 
 Route::delete('/deletepackage/{id}', [PackagesController::class, 'destroy']);

@@ -77,6 +77,8 @@ Route::delete('/deletesubject/{id}', [SubjectController::class, 'destroy']);
 Route::post('/addteacher', [TeacherController::class, 'store']);
 
 Route::get('/getteachers', [TeacherController::class, 'index']);
+Route::get('/mobile/teacher', [TeacherController::class, 'getall']);
+
 
 Route::delete('/teachers/{id}', [TeacherController::class, 'destroy']);
 

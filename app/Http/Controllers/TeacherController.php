@@ -76,6 +76,17 @@ class TeacherController extends Controller
 
 
 
+    public function getall()
+    {
+        $teachers = Teacher::all();
+
+        // Map over the collection to format the response as needed
+        return response()->json(['teachers' => $teachers], 200);
+    }
+
+
+
+
 
     public function show($id)
     {

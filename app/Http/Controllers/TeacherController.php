@@ -91,7 +91,7 @@ class TeacherController extends Controller
         // If a name is provided, filter by name; otherwise, return no teacher found
         if ($name) {
             // Retrieve teachers with their related subjects using eager loading
-            $teachers = Teacher::with('subjects')
+            $teachers = Teacher::with('subject')
                 ->where('name', 'like', '%' . $name . '%')
                 ->get();
 
@@ -105,9 +105,9 @@ class TeacherController extends Controller
                 return [
                     'teacher_id' => $teacher->id,
                     'name' => $teacher->name,
-                    'subjects' => $teacher->subjects->map(function($subject) {
+                    'subjects' => $teacher->subject->map(function($subject) {
                         return [
-                            'subject_id' => $subject->id,   // Return subject_id
+                            // 'subject_id' => $subject->id,   // Return subject_id
                             'subject_name' => $subject->name // Return full subject details
                         ];
                     })

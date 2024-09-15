@@ -106,7 +106,7 @@ class TeacherController extends Controller
             $teachersData = $teachers->map(function($teacher) {
                 return [
                     'name' => $teacher->name,
-                    'subjects' => $teacher->subjects->pluck('name') // Get only the subject names
+                    'subjects' => $teacher->subject->pluck('name') // Get only the subject names
                 ];
             });
 

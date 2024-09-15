@@ -83,8 +83,6 @@ class TeacherController extends Controller
         // Map over the collection to format the response as needed
         return response()->json(['teachers' => $teachers], 200);
     }
-
-
     public function search(Request $request)
     {
         // Check if there's a 'name' query parameter in the request
@@ -93,7 +91,7 @@ class TeacherController extends Controller
         // If a name is provided, filter by name; otherwise, return no teacher found
         if ($name) {
             // Retrieve teachers with their related subjects using eager loading
-            $teachers = Teacher::with('subject')
+            $teachers = Teacher::with('subjects')
                 ->where('name', 'like', '%' . $name . '%')
                 ->get();
 
@@ -102,11 +100,17 @@ class TeacherController extends Controller
                 return response()->json(['message' => 'No teacher found.'], 404);
             }
 
-            // Format the data to include subjects
+            // Format the data to include subjects with subject_id
             $teachersData = $teachers->map(function($teacher) {
                 return [
+                    'teacher_id' => $teacher->id,
                     'name' => $teacher->name,
-                    'subjects' => $teacher->subject->pluck('name') // Get only the subject names
+                    'subjects' => $teacher->subjects->map(function($subject) {
+                        return [
+                            'subject_id' => $subject->id,   // Return subject_id
+                            'subject_name' => $subject->name // Return full subject details
+                        ];
+                    })
                 ];
             });
 
@@ -117,8 +121,6 @@ class TeacherController extends Controller
             return response()->json(['message' => 'No teacher name provided.'], 400);
         }
     }
-
-
 
     public function show($id)
     {

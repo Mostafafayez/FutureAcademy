@@ -31,6 +31,12 @@ class EducationalLevelController extends Controller
         ], 200);
     }
 
+    public function getall(){
+$eductional = EducationalLevel::all();
+return response() ->json(['data' => $eductional], 404 );
+
+    }
+
 
 
 

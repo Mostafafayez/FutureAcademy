@@ -63,7 +63,7 @@ Route::get('/getsubjects', [SubjectController::class, 'getByEducationalLevels'])
 
 Route::get('educational-levels/{id}', [EducationalLevelController::class, 'show']);
 
-
+Route::get('/educational-levels', [EducationalLevelController::class, 'getall']);
 
 
 
@@ -82,7 +82,7 @@ Route::post('/search', [TeacherController::class, 'search']);
 
 Route::delete('/teachers/{id}', [TeacherController::class, 'destroy']);
 
-//packages  
+//packages
 Route::post('/addpackage', [PackagesController::class, 'store']);
 
 Route::delete('/deletepackage/{id}', [PackagesController::class, 'destroy']);

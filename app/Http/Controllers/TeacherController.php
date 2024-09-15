@@ -94,7 +94,7 @@ class TeacherController extends Controller
         if ($name) {
             $teachers = Teacher::where('name', 'like', '%' . $name . '%')->get();
         } else {
-            $teachers = Teacher::all();
+        return[ 'no teacher found'];
         }
 
         // Return the response with the teachers data

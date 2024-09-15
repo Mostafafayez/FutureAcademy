@@ -90,15 +90,32 @@ class TeacherController extends Controller
         // Check if there's a 'name' query parameter in the request
         $name = $request->input('name');
 
-        // If a name is provided, filter by name; otherwise, get all teachers
+        // If a name is provided, filter by name; otherwise, return no teacher found
         if ($name) {
-            $teachers = Teacher::where('name', 'like', '%' . $name . '%')->get();
-        } else {
-        return[ 'no teacher found'];
-        }
+            // Retrieve teachers with their related subjects using eager loading
+            $teachers = Teacher::with('subjects')
+                ->where('name', 'like', '%' . $name . '%')
+                ->get();
 
-        // Return the response with the teachers data
-        return response()->json(['teachers' => $teachers], 200);
+            // If no teachers were found, return a message
+            if ($teachers->isEmpty()) {
+                return response()->json(['message' => 'No teacher found.'], 404);
+            }
+
+            // Format the data to include subjects
+            $teachersData = $teachers->map(function($teacher) {
+                return [
+                    'name' => $teacher->name,
+                    'subjects' => $teacher->subjects->pluck('name') // Get only the subject names
+                ];
+            });
+
+            // Return the response with the teachers and their subjects
+            return response()->json(['teachers' => $teachersData], 200);
+
+        } else {
+            return response()->json(['message' => 'No teacher name provided.'], 400);
+        }
     }
 
 

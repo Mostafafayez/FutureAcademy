@@ -83,43 +83,56 @@ class TeacherController extends Controller
         // Map over the collection to format the response as needed
         return response()->json(['teachers' => $teachers], 200);
     }
-    public function search(Request $request)
+    public function search(Request $request, int $educationLevel)
     {
-        // Check if there's a 'name' query parameter in the request
+        // Retrieve 'name' from the request as a query parameter
         $name = $request->input('name');
 
-        // If a name is provided, filter by name; otherwise, return no teacher found
+        // Query the teachers with eager loading for 'subject' and filter by 'education_level'
+        $query = Teacher::with('subject')
+            ->where('educational_level_id', $educationLevel); // Filter by educationLevel
+
+        // Apply name filter if provided
         if ($name) {
-            // Retrieve teachers with their related subjects using eager loading
-            $teachers = Teacher::with('subject')
-                ->where('name', 'like', '%' . $name . '%')
-                ->get();
+            $query->where('name', 'like', '%' . $name . '%');
+        }
 
-            // If no teachers were found, return a message
-            if ($teachers->isEmpty()) {
-                return response()->json(['message' => 'No teacher found.'], 404);
-            }
+        // Execute the query and get the results
+        $teachers = $query->get();
 
-            // Format the data to include subjects with subject_id
-            $teachersData = $teachers->map(function($teacher) {
-                return [
+        // If no teachers were found, return a message
+        if ($teachers->isEmpty()) {
+            return response()->json(['message' => 'No teacher found.'], 404);
+        }
+
+        // Format the data to include subjects with subject_id
+        $teachersData = [];
+
+        foreach ($teachers as $teacher) {
+            if ($teacher->subject) { // Check if the teacher has a valid subject
+                $teachersData[] = [
                     'teacher_id' => $teacher->id,
                     'name' => $teacher->name,
-                    'subjects' => $teacher->subject->map(function($subject) {
-                        return [
-                            // 'subject_id' => $subject->id,   // Return subject_id
-                            'subject_name' => $subject->name // Return full subject details
-                        ];
-                    })
+                    'image' => $teacher->iamge,
+                    // 'education_level' => $teacher->education_level, // Add education level
+                    'subject' => [
+                        // 'subject_id' => $teacher->subject->id, // Uncomment if needed
+                        'subject_name' => $teacher->subject->name // Return subject details
+                    ]
                 ];
-            });
-
-            // Return the response with the teachers and their subjects
-            return response()->json(['teachers' => $teachersData], 200);
-
-        } else {
-            return response()->json(['message' => 'No teacher name provided.'], 400);
+            } else {
+                $teachersData[] = [
+                    'teacher_id' => $teacher->id,
+                    'name' => $teacher->name,
+                    'image' => $teacher->iamge,
+                    'description' => $teacher->description, // Add education level
+                    'subject' => null // Handle no subject case
+                ];
+            }
         }
+
+        // Return the results in JSON format
+        return response()->json($teachersData, 200);
     }
 
     public function show($id)

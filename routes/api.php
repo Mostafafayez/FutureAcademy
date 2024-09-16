@@ -78,7 +78,7 @@ Route::post('/addteacher', [TeacherController::class, 'store']);
 
 Route::get('/getteachers', [TeacherController::class, 'index']);
 Route::get('/mobile/teacher', [TeacherController::class, 'getall']);
-Route::post('/search', [TeacherController::class, 'search']);
+Route::post('/search/{educationLevel}', [TeacherController::class, 'search']);
 
 Route::delete('/teachers/{id}', [TeacherController::class, 'destroy']);
 

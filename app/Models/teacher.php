@@ -21,10 +21,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
             return $this->belongsTo(EducationalLevel::class, 'educational_level_id');
         }
 
-        public function subject()
-        {
-            return $this->belongsTo(Subject::class, 'subject_id');
+        public function subject() {
+            return $this->belongsTo(Subject::class);
+
         }
+
 
 
         public function lessons()

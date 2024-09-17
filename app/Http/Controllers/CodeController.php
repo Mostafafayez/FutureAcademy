@@ -73,6 +73,18 @@ class CodeController extends Controller
 
 
 
+    public function get_ashraf_codes()
+    {
+        $code = code :: where('expires_at' , '2026-09-07 ')
+        ->get();
+        // Create the new code with a fixed 'expires_at' date of 2026-09-07
+
+
+        return response()->json(['message' => "Codes for Mr. Mohamed's Students", 'code' => $code], 201);
+    }
+
+
+
     public function validateCode(Request $request)
     {
         $validator = Validator::make($request->all(), [

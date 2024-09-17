@@ -48,6 +48,30 @@ class CodeController extends Controller
 
         return response()->json(['message' => 'Code created successfully', 'code' => $code], 201);
     }
+    public function mohamed_math()
+    {
+        // Create the new code with a fixed 'expires_at' date of 2026-09-07
+        $code = Code::create([
+            'mac_address' => '', // Initialize with an empty string
+            'mac_address2' => 'null',
+            'expires_at' => '2027-07-07', // Set the fixed expiration date
+        ]);
+
+        return response()->json(['message' => 'Code created successfully', 'code' => $code], 201);
+    }
+
+
+    public function get_mohamed_math()
+    {
+        $code = code :: where('expires_at' , '2027-07-07 ')
+        ->get();
+        // Create the new code with a fixed 'expires_at' date of 2026-09-07
+
+
+        return response()->json(['message' => "Codes for Mr. Mohamed's Students", 'code' => $code], 201);
+    }
+
+
 
     public function validateCode(Request $request)
     {

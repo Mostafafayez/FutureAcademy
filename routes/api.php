@@ -98,6 +98,9 @@ Route::get('/getlesson/assistant', [LessonController::class, 'getLessonsforassis
 //search
 Route::post('/addcode', [CodeController::class, 'store']);
 Route::get('/addcode/fixed', [CodeController::class, 'storefixed']);
+Route::get('/addcode/mohamed_math', [CodeController::class, 'mohamed_math']);
+Route::get('/getcode/mohamed_math', [CodeController::class, 'get_mohamed_math']);
+
 Route::post('/codes/validate', [CodeController::class, 'validateCode']);
 Route::get('/code/check/{userId}/{macaddress}/{lesson_id}', [CodeController::class, 'checkUserCodeStatus']);
 Route::get('/code/users', [CodeController::class, 'getAllCodesWithUsers']);

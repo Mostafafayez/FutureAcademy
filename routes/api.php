@@ -95,7 +95,7 @@ Route::get('/getlessons/{teacherId}', [LessonController::class, 'getLessonsBytea
 
 
 Route::get('/getlesson/assistant', [LessonController::class, 'getLessonsforassistant']);
-//
+//search
 Route::post('/addcode', [CodeController::class, 'store']);
 Route::get('/addcode/fixed', [CodeController::class, 'storefixed']);
 Route::post('/codes/validate', [CodeController::class, 'validateCode']);
@@ -111,7 +111,7 @@ Route::post('/videos', [VideoController::class, 'store']);
 
 Route::delete('/videos/{id}', [VideoController::class, 'destroy']);
 
-// PDF
+// PDF    code
 Route::post('/pdfs', [PDFController::class, 'store']);
 Route::get('/pdfs/lesson/{lessonId}', [PDFController::class, 'getByLessonId']);
 Route::delete('/pdfs/{id}', [PDFController::class, 'destroy']);

@@ -114,6 +114,7 @@ class TeacherController extends Controller
                     'teacher_id' => $teacher->id,
                     'name' => $teacher->name,
                     'image' => $teacher->iamge,
+                    'FullSrc' =>$teacher->FullSrc,
                     // 'education_level' => $teacher->education_level, // Add education level
                     'subject' => [
                         // 'subject_id' => $teacher->subject->id, // Uncomment if needed

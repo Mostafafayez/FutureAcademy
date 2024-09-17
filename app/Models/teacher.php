@@ -2,17 +2,21 @@
 
 namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Foundation\Auth\User as Authenticatable;
     class teacher extends Authenticatable
     {
         protected $table = 'teachers';
-        use HasFactory ;
+        use HasApiTokens, HasFactory, Notifiable;
         protected $fillable = [
-            'name', 'image','description', 'educational_level_id', 'subject_id'
+            'name', 'phone','image','description', 'educational_level_id', 'subject_id','password'
         ];
         public $timestamps = false;
-
+        protected $hidden = [
+            'password',
+            'remember_token',
+        ];
 
         protected $appends=['FullSrc'];
         // Define relationships if applicable

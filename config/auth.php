@@ -35,18 +35,25 @@ return [
     |
     */
 
-    'guards' => [
-        'web' => [
-            'driver' => 'session',
-            'provider' => 'users',
-        ],
-        'api' => [
-            'driver' => 'sanctum',
-            'provider' => 'users',
-            'hash' => false,
-        ],
-
+'guards' => [
+    'web' => [
+        'driver' => 'session',
+        'provider' => 'users',
     ],
+    'api' => [
+        'driver' => 'sanctum',
+        'provider' => 'users',
+    ],
+    'teachers' => [
+        'driver' => 'session',
+        'provider' => 'teachers',
+    ],
+    'teachers_api' => [
+        'driver' => 'sanctum',
+        'provider' => 'teachers',
+    ],
+],
+
 
     /*
     |--------------------------------------------------------------------------
@@ -64,18 +71,27 @@ return [
     | Supported: "database", "eloquent"
     |
     */
+'providers' => [
+    'users' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\User::class,
+    ],
+    'teachers' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\teacher::class,
+    ],
+],
 
-    'providers' => [
-        'users' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\User::class,
-        ],
+
+
+
+
 
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
         // ],
-    ],
+
 
     /*
     |--------------------------------------------------------------------------

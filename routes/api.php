@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\authteacher;
 use App\Http\Controllers\EducationalLevelController;
 use App\Http\Controllers\PackagesController;
 use App\Http\Controllers\QuestionController;
@@ -37,8 +38,8 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::get('/userinfo', [AuthController::class, 'userinfo']);
 
-
-
+Route::post('/teacher/signup', [authteacher::class, 'signUp']);
+Route::post('/teacher/login', [authteacher::class, 'login']);
 Route::middleware(['auth:sanctum', 'sanctum'])->group(function () {
     Route::get('/teacher/educational-level/{educationalLevelId}', [TeacherController::class, 'getTeachersByEducationalLevel']);
     Route::get('/getsubjects/{educationalLevelId}', [SubjectController::class, 'getByEducationalLevel']);
@@ -82,7 +83,7 @@ Route::post('/search/{educationLevel}', [TeacherController::class, 'search']);
 
 Route::delete('/teachers/{id}', [TeacherController::class, 'destroy']);
 
-//packages
+//packages  signUp
 Route::post('/addpackage', [PackagesController::class, 'store']);
 
 Route::delete('/deletepackage/{id}', [PackagesController::class, 'destroy']);

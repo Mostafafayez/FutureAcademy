@@ -19,6 +19,13 @@ class Image extends Model
     protected $appends=['FullSrc'];
 
 
+    public function lesson()
+    {
+        return $this->hasMany(Lesson::class);
+    }
+
+
+
     public function getFullSrcAttribute()  {
         return asset('storage/'.$this->image);
 

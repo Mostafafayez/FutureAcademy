@@ -25,6 +25,12 @@ class Lesson extends Model
     }
 
 
+    public function image()
+    {
+        return $this->belongsTo(Image::class);
+    }
+
+
 
     public function score()
     {

@@ -19,8 +19,15 @@ class lessonController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
+
+            'teacher_id' => 'required|exists:teacher,id',
             'package_id' => 'required|exists:packages,id',
         ]);
+        if ($request->teacher_id == 1) {
+            $validated['image_id'] = 1;
+        } elseif ($request->teacher_id == 2) {
+            $validated['image_id'] = 6;
+        }
 
         $lesson = Lesson::create($validated);
 

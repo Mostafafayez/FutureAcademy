@@ -46,8 +46,8 @@ Route::middleware(['auth:sanctum', 'sanctum'])->group(function () {
     // Route::get('/getteachers', [TeacherController::class, 'index']);
     Route::get('/videos/lesson/{lessonId}', [VideoController::class, 'getByLessonId']);
     Route::get('/getteacher/{id}', [TeacherController::class, 'show']);
+    Route::get('/lessons/package/{packageId}', [lessonController::class, 'getByPackageId']);
     Route::get('/getPackages/{teacherId}/{educationalLevel}', [PackagesController::class, 'getpackagesByteacherId']);
-    // Route::get('/lessons/package/{packageId}', [lessonController::class, 'getByPackageId']);
 });
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/messages', [MessageController::class, 'store']);
@@ -196,7 +196,7 @@ Route::get('/clear', function () {
 Route::get('/images', [ImageController::class, 'index']); // Get all images
 Route::post('/images', [ImageController::class, 'store']); // Upload image
 
-Route::get('/lessons/package/{packageId}', [lessonController::class, 'getByPackageId']);
+
 
 
 //code fixed

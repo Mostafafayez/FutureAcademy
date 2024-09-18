@@ -39,7 +39,8 @@ class lessonController extends Controller
      */
     public function getByPackageId($packageId)
     {
-        $lessons = Lesson::where('package_id', $packageId)->get();
+        $lessons = Lesson::with('image')
+        ->where('package_id', $packageId)->get();
 
         if ($lessons->isEmpty()) {
             return response()->json(['message' => 'No lessons found'], 404);

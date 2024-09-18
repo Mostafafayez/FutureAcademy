@@ -20,7 +20,7 @@ class lessonController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
 
-            'teacher_id' => 'required|exists:teacher,id',
+            'teacher_id' => 'required|exists:teachers,id',
             'package_id' => 'required|exists:packages,id',
         ]);
         if ($request->teacher_id == 1) {

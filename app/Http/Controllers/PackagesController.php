@@ -16,7 +16,7 @@ class PackagesController extends Controller
             'description' => 'required|string|max:1000',
             'subject' => 'required|string|exists:subjects,name',
             'teacher_id' => 'required|exists:teachers,id',  // Validate teacher_id
-            'eductional_id' =>'required|exists:educational_levels,id',
+            'educational_id' =>'required|exists:educational_levels,id',
         ]);
 
         if ($validator->fails()) {
@@ -35,7 +35,7 @@ class PackagesController extends Controller
             'description' => $request->description,
             'subject_id' => $subject->id,
             'teacher_id' => $request->teacher_id,// Add teacher_id
-            'eductional_id' => $request->educational_level_id,
+            'educational_level_id' => $request->educational_id,
         ]);
 
         return response()->json(['message' => 'packages created successfully', 'packages' => $lesson], 201);

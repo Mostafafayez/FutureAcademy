@@ -16,7 +16,7 @@ class PackagesController extends Controller
             'description' => 'required|string|max:1000',
             'subject' => 'required|string|exists:subjects,name',
             'teacher_id' => 'required|exists:teachers,id',  // Validate teacher_id
-            'eductional_id' =>'required|exists:EducationalLevel,id',
+            'eductional_id' =>'required|exists:educational_levels,id',
         ]);
 
         if ($validator->fails()) {

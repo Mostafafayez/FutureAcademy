@@ -19,7 +19,7 @@ class packages extends Model
         'teacher_id',
         'title',
         'description',
-        'eductional_level_id'
+        'educational_level_id'
     ];
     public $timestamps = false;
     /**

@@ -35,7 +35,7 @@ class PackagesController extends Controller
             'description' => $request->description,
             'subject_id' => $subject->id,
             'teacher_id' => $request->teacher_id,// Add teacher_id
-            'eductional_id' => $request->eductional_level_id,
+            'eductional_id' => $request->educational_level_id,
         ]);
 
         return response()->json(['message' => 'packages created successfully', 'packages' => $lesson], 201);

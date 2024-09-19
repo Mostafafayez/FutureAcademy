@@ -20,10 +20,13 @@ class VideoController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
+        // Modify the URL by replacing 'view' with 'preview'
+        $url = str_replace('/view', '/preview', $request->url);
+
         $video = Video::create([
             'title' => $request->title,
             'description' => $request->description,
-            'url' => $request->url,
+            'url' => $url,
             'lesson_id' => $request->lesson_id,
         ]);
 

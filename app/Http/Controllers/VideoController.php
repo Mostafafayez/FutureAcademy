@@ -99,7 +99,7 @@ class VideoController extends Controller
     {
 
         $videos = Video::where('lesson_id', $lessonId)
-                       ->select('title', 'description', 'url')
+                       ->select('id','title', 'description', 'url')
                        ->get();
 
 

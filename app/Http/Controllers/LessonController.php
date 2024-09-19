@@ -28,7 +28,9 @@ class lessonController extends Controller
         } elseif ($request->teacher_id == 2) {
             $validated['image_id'] = 6;
         }
-
+        else  {
+            $validated['image_id'] = 2;
+        }
         $lesson = Lesson::create($validated);
 
         return response()->json($lesson, 200);

@@ -70,6 +70,12 @@ public function login(Request $request)
     if (Auth::attempt($credentials)) {
         $user = Auth::user(); // Retrieve the authenticated user
 
+//         if (substr($user->phone, -1) === '$') {
+//             return response()->json([
+//                 'message' => ' "تم تعطيل الاكونت . برجاء التواصل مع مشرفين المدرس الخاص بك"
+// ',
+//             ], 403);
+//         }
         // Generate the token for the user
         $token = $user->createToken('personalAccessToken')->plainTextToken;
 
@@ -81,10 +87,15 @@ public function login(Request $request)
     } else {
         // Authentication failed
         return response()->json([
-            'message' => 'The provided credentials are incorrect.',
+            'message' => 'The Email or password is incorrect.',
         ], 403);
     }
 }
+
+
+
+
+
 
 
         public function isApproved($id)
@@ -105,6 +116,22 @@ public function login(Request $request)
 
             // Return a success response
             return response()->json(['message' => 'User approved successfully.'], 200);
+        }
+
+
+        public function updatePassword(Request $request)
+        {
+            // Validate request
+            $validated = $request->validate([
+                'new_password' => 'required|string|min:8',
+            ]);
+
+            // Update password
+            Auth::user()->update([
+                'password' => Hash::make($validated['new_password']),
+            ]);
+
+            return response()->json(['message' => 'Password updated successfully'], 200);
         }
 
 

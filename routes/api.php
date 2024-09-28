@@ -31,7 +31,7 @@ use App\Http\Controllers\ImageController;
 |
 */
 
-//Authentication  pdf
+//Authentication  pdf   eduction
 Route::post('/signup', [AuthController::class, 'signUp']);
 
 Route::post('/login', [AuthController::class, 'login']);
@@ -206,4 +206,5 @@ Route::get('/getcode/mohamed_math', [CodeController::class, 'get_mohamed_math'])
 Route::get('/getcode/ashraf', [CodeController::class, 'get_ashraf_codes']);
 
 
+Route::post('/update-password', [AuthController::class, 'updatePassword']);
 

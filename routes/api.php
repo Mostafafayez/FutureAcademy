@@ -206,5 +206,6 @@ Route::get('/getcode/mohamed_math', [CodeController::class, 'get_mohamed_math'])
 Route::get('/getcode/ashraf', [CodeController::class, 'get_ashraf_codes']);
 
 
-Route::post('/update-password', [AuthController::class, 'updatePassword']);
+Route::middleware('auth')->post('/update-password', [AuthController::class, 'updatePassword']);
+
 

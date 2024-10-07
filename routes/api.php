@@ -209,3 +209,5 @@ Route::get('/getcode/ashraf', [CodeController::class, 'get_ashraf_codes']);
 Route::post('/update-password/{user_id}', [AuthController::class, 'updatePassword']);
 
 
+Route::post('/test', [ImageController::class, 'store']);
+

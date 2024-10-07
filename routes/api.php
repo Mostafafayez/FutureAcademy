@@ -193,7 +193,7 @@ Route::get('/clear', function () {
 
 
 
-Route::get('/storeimages', [ImageController::class, 'index']); // Get all images
+Route::get('/images', [ImageController::class, 'index']); // Get all images
 Route::post('/images', [ImageController::class, 'store']); // Upload image
 
 
@@ -211,3 +211,4 @@ Route::post('/update-password/{user_id}', [AuthController::class, 'updatePasswor
 
 Route::post('/test', [ImageController::class, 'store']);
 
+Route::ge('/tests', [ImageController::class, 'store']);

@@ -211,4 +211,4 @@ Route::post('/update-password/{user_id}', [AuthController::class, 'updatePasswor
 
 Route::post('/test', [ImageController::class, 'store']);
 
-Route::get('/tests', [ImageController::class, 'store']);
+Route::post('/tests', [ImageController::class, 'store']);

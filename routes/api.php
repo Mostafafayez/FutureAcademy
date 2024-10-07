@@ -193,7 +193,7 @@ Route::get('/clear', function () {
 
 
 
-Route::get('/images', [ImageController::class, 'index']); // Get all images
+Route::get('/storeimages', [ImageController::class, 'index']); // Get all images
 Route::post('/images', [ImageController::class, 'store']); // Upload image
 
 

@@ -26,7 +26,7 @@ class lessonController extends Controller
         if ($request->teacher_id == 1) {
             $validated['image_id'] = 1;
         } elseif ($request->teacher_id == 2) {
-            $validated['image_id'] = 6;
+            $validated['image_id'] = 36;
         }
         else  {
             $validated['image_id'] = 2;

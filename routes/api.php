@@ -201,8 +201,8 @@ Route::post('/images', [ImageController::class, 'store']); // Upload image
 
 //code fixed
 Route::get('/addcode/fixed', [CodeController::class, 'storefixed']);
-Route::get('/addcode/mohamed_math', [CodeController::class, 'mohamed_math']);
-Route::get('/getcode/mohamed_math', [CodeController::class, 'get_mohamed_math']);
+Route::get('/addcode/mohamed_english', [CodeController::class, 'mohamed_english']);
+Route::get('/getcode/mohamed_english', [CodeController::class, 'get_mohamed_english']);
 Route::get('/getcode/ashraf', [CodeController::class, 'get_ashraf_codes']);
 
 

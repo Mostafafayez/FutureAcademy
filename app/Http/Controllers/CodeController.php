@@ -48,7 +48,7 @@ class CodeController extends Controller
 
         return response()->json(['message' => 'Code created successfully', 'code' => $code], 201);
     }
-    public function mohamed_math()
+    public function mohamed_english()
     {
         // Create the new code with a fixed 'expires_at' date of 2026-09-07
         $code = Code::create([
@@ -61,7 +61,7 @@ class CodeController extends Controller
     }
 
 
-    public function get_mohamed_math()
+    public function get_mohamed_english()
     {
         $code = code :: where('expires_at' , '2027-07-07 ')
         ->get();

@@ -28,10 +28,10 @@ class Code extends Model
         parent::boot();
 
         static::creating(function ($model) {
-            $model->code = Str::uuid(); // Generating a unique code using UUID
+            // Generate a random string with a specified length (e.g., 8 characters)
+            $model->code = Str::random(8);
         });
     }
-
     public function user()
     {
         return $this->belongsTo(User::class);

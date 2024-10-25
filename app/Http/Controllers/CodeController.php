@@ -393,4 +393,23 @@ class CodeController extends Controller
 }
 
 
+public function resetCode($code)
+{
+    $result = Code::where('code', $code)->first();
+
+    if (!$result) {
+        return response()->json(['message' => 'No code found'], 404);
+    }
+
+    $result->user_id = null;
+    $result->mac_address = null;
+    $result->lesson_id = 0;
+    $result->type = 'notused';
+    $result->save();
+
+    return response()->json(['message' => 'Code reset successfully'], 200);
+}
+
+
+
 }

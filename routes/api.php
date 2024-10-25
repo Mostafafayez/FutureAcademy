@@ -212,3 +212,7 @@ Route::post('/update-password/{user_id}', [AuthController::class, 'updatePasswor
 Route::post('/test', [ImageController::class, 'store']);
 
 Route::post('/tests', [ImageController::class, 'store']);
+
+
+
+route::get('/reset_code/{code}' , [CodeController::class , 'resetcode']);

@@ -402,7 +402,7 @@ public function resetCode($code)
     }
 
     $result->user_id = null;
-    $result->mac_address = null;
+    $result->mac_address = '';
     $result->lesson_id = 0;
     $result->type = 'notused';
     $result->save();

@@ -158,30 +158,35 @@ class TeacherController extends Controller
     }
 
     public function getTeachersByEducationalLevel($educationalLevelId)
-    {
-        $user = auth('sanctum')->user();
+{
+    $user = auth('sanctum')->user();
 
-        if (!$user) {
-            return response()->json(['message' => 'Unauthorized'], 401);
-        }
-        $educationalLevelIds = is_array($educationalLevelId) ? $educationalLevelId : explode(',', $educationalLevelId);
-
-        // Fetch teachers based on the educational_level_id array
-        $teachers = Teacher::whereIn('educational_level_id', $educationalLevelIds)
-            ->with(['subject', 'educationalLevel'])
-            ->get();
-        $teachersData = $teachers->map(function ($teacher) {
-            return [
-                'id' => $teacher->id,
-                'name' => $teacher->name,
-                'educational_level' => $teacher->educationalLevel ? $teacher->educationalLevel->name : 'N/A',  // Check if educationalLevel exists
-                'subject' => $teacher->subject ? $teacher->subject->name : 'N/A',  // Check if subject exists
-                'FullSrc' => url('storage/' . $teacher->image)
-            ];
-        });
-
-        return response()->json(['teachers' => $teachersData], 200);
+    if (!$user) {
+        return response()->json(['message' => 'Unauthorized'], 401);
     }
+
+    // Fetch teachers based on the JSON array in educational_level_id
+    $teachers = Teacher::whereJsonContains('educational_level_id', $educationalLevelId)
+        ->with(['subject', 'educationalLevel'])
+        ->get();
+
+    // Check if any teachers were found
+    if ($teachers->isEmpty()) {
+        return response()->json(['message' => 'No teachers found for this educational level.'], 404);
+    }
+
+    $teachersData = $teachers->map(function ($teacher) {
+        return [
+            'id' => $teacher->id,
+            'name' => $teacher->name,
+            'educational_level' => $teacher->educationalLevel ? $teacher->educationalLevel->name : 'N/A',
+            'subject' => $teacher->subject ? $teacher->subject->name : 'N/A',
+            'FullSrc' => url('storage/' . $teacher->image)
+        ];
+    });
+
+    return response()->json(['teachers' => $teachersData], 200);
+}
 
 
 

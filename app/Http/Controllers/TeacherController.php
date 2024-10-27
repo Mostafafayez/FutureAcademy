@@ -165,11 +165,12 @@ class TeacherController extends Controller
             return response()->json(['message' => 'Unauthorized'], 401);
         }
 
-        // Fetch teachers based on the JSON array in educational_level_id
-        $teachers = Teacher::whereJsonContains('educational_level_id', $educationalLevelId)
+        $educationalLevelIdString = sprintf('%"%d"%', $educationalLevelId); // Format to match how it's stored
+
+    // Fetch teachers based on the string representation of the array
+    $teachers = Teacher::where('educational_level_id', 'LIKE', '%'.$educationalLevelIdString.'%')
         ->with(['subject', 'educationalLevel'])
         ->get();
-
         // Check if any teachers were found
         if ($teachers->isEmpty()) {
             return response()->json(['message' => 'No teachers found for this educational level.'], 404);

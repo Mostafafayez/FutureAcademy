@@ -53,7 +53,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/messages', [MessageController::class, 'store']);
 });
 
-Route::get('/test/{id}', [TeacherController::class, 'getTeachersByEducationalLevel']);
+Route::get('/test/{id}', [TeacherController::class, 'gettTeachersByEducationalLevel']);
 
 Route::get('/getusermessages', [MessageController::class, 'getUserMessages']);
 Route::get('/getmessages', [MessageController::class, 'getAllMessages']);

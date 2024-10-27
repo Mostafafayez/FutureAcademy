@@ -192,6 +192,42 @@ class TeacherController extends Controller
 
 
 
+
+
+public function gettTeachersByEducationalLevel($educationalLevelId)
+{
+    // Ensure the user is authenticated
+    $user = auth('sanctum')->user();
+    if (!$user) {
+        return response()->json(['message' => 'Unauthorized'], 401);
+    }
+
+    // Fetch teachers associated with the educational level ID using the pivot table
+    $teachers = Teacher::whereHas('educationalLevels', function ($query) use ($educationalLevelId) {
+        $query->where('educational_level_id', $educationalLevelId);
+    })
+    ->with(['subject', 'educationalLevels']) // Load subject and educationalLevels relationships
+    ->get();
+
+    // Check if any teachers were found
+    if ($teachers->isEmpty()) {
+        return response()->json(['message' => 'No teachers found for this educational level.'], 404);
+    }
+
+    // Map the response to include teacher details
+    $response = $teachers->map(function ($teacher) {
+        return [
+            'id' => $teacher->id,
+            'name' => $teacher->name,
+            'educational_level' => $teacher->educationalLevels->pluck('name')->implode(', ') ?? 'N/A', // Get names of all associated educational levels
+            'subject' => $teacher->subject ? $teacher->subject->name : 'N/A',
+            'FullSrc' => url('storage/' . $teacher->image),
+        ];
+    });
+
+    return response()->json($response);
+}
+
     public function destroy($id)
     {
         $teacher = teacher::find($id);

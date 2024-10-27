@@ -20,9 +20,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
         protected $appends=['FullSrc'];
         // Define relationships if applicable
-        public function educationalLevel()
+        public function educationalLevels()
         {
-            return $this->belongsTo(EducationalLevel::class, 'educational_level_id');
+            return $this->belongsToMany(EducationalLevel::class, 'educational_level_id');
         }
 
         public function subject() {

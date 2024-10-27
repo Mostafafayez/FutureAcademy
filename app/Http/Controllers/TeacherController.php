@@ -202,7 +202,7 @@ public function gettTeachersByEducationalLevel($educationalLevelId)
         return response()->json(['message' => 'Unauthorized'], 401);
     }
 
-    $teachers = Teacher::whereHas('eductionalLevels', function ($query) use ($educationalLevelId) {
+    $teachers = Teacher::whereHas('educationalLevels', function ($query) use ($educationalLevelId) {
         $query->where('educational_level_id', $educationalLevelId); // Correctly referencing the educational_level_id
     })
     ->with(['subject', 'educationalLevels']) // Load subject and educationalLevels relationships

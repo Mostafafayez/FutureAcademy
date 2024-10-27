@@ -47,7 +47,7 @@ class EducationalLevel extends Model
 
     public function teachers()
     {
-        return $this->belongsToMany(Teacher::class, 'educational_level_teacher', 'educational_level_id', 'teacher_id');
+        return $this->belongsToMany(Teacher::class, 'eductional_level_teacher', 'educational_level_id', 'teacher_id');
     }
 
 }

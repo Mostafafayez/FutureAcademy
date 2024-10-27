@@ -22,7 +22,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
         // Define relationships if applicable
         public function educationalLevels()
     {
-        return $this->belongsToMany(EducationalLevel::class, 'educational_level_teacher', 'teacher_id', 'educational_level_id');
+        return $this->belongsToMany(EducationalLevel::class, 'eductional_level_teacher', 'teacher_id', 'educational_level_id');
     }
 
         public function subject() {

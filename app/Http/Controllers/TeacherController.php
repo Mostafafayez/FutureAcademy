@@ -170,6 +170,8 @@ class TeacherController extends Controller
         ->with(['subject', 'educationalLevel'])
         ->get();
 
+        Log::info('Searching for educational level ID: ' . $educationalLevelId);
+
     // Check if any teachers were found
     if ($teachers->isEmpty()) {
         return response()->json(['message' => 'No teachers found for this educational level.'], 404);

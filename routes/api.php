@@ -41,7 +41,7 @@ Route::get('/userinfo', [AuthController::class, 'userinfo']);
 Route::post('/teacher/signup', [authteacher::class, 'signUp']);
 Route::post('/teacher/login', [authteacher::class, 'login']);
 Route::middleware(['auth:sanctum', 'sanctum'])->group(function () {
-    Route::post('/teacher/educational-level/{educationalLevelId}', [TeacherController::class, 'getTeachersByEducationalLevel']);
+    Route::get('/teacher/educational-level/{educationalLevelId}', [TeacherController::class, 'getTeachersByEducationalLevel']);
     Route::get('/getsubjects/{educationalLevelId}', [SubjectController::class, 'getByEducationalLevel']);
     // Route::get('/getteachers', [TeacherController::class, 'index']);
     Route::get('/videos/lesson/{lessonId}', [VideoController::class, 'getByLessonId']);
@@ -53,7 +53,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/messages', [MessageController::class, 'store']);
 });
 
-
+Route::get('/test/{id}', [MessageController::class, 'getTeachersByEducationalLevel']);
 
 Route::get('/getusermessages', [MessageController::class, 'getUserMessages']);
 Route::get('/getmessages', [MessageController::class, 'getAllMessages']);

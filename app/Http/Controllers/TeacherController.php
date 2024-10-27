@@ -157,7 +157,6 @@ class TeacherController extends Controller
         return response()->json(['teacher' => $teacherData], 200);
     }
 
-
     public function getTeachersByEducationalLevel($educationalLevelId)
     {
         $user = auth('sanctum')->user();
@@ -166,8 +165,8 @@ class TeacherController extends Controller
             return response()->json(['message' => 'Unauthorized'], 401);
         }
 
-        // Fetch teachers based on educational level
-        $teachers = teacher::whereJsonContains('educational_level_id', $educationalLevelId)
+        // Fetch teachers based on the JSON array in educational_level_id
+        $teachers = Teacher::whereJsonContains('educational_level_id', $educationalLevelId)
             ->with(['subject', 'educationalLevel'])
             ->get();
 

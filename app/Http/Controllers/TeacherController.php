@@ -190,7 +190,7 @@ public function getTeachersByEducationalLevel($educationalLevelId)
         ];
     });
 
-    return response()->json($response);
+    return response()->json(['teachers' => $response], 200);
 }
 
     public function destroy($id)

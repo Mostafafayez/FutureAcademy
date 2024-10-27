@@ -167,8 +167,8 @@ class TeacherController extends Controller
 
         // Fetch teachers based on the JSON array in educational_level_id
         $teachers = Teacher::whereJsonContains('educational_level_id', $educationalLevelId)
-            ->with(['subject', 'educationalLevel'])
-            ->get();
+        ->with(['subject', 'educationalLevel'])
+        ->get();
 
         // Check if any teachers were found
         if ($teachers->isEmpty()) {

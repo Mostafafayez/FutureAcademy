@@ -202,13 +202,11 @@ public function gettTeachersByEducationalLevel($educationalLevelId)
         return response()->json(['message' => 'Unauthorized'], 401);
     }
 
-    // Fetch teachers associated with the educational level ID using the pivot table
     $teachers = Teacher::whereHas('educationalLevels', function ($query) use ($educationalLevelId) {
-        $query->where('educational_level_id', $educationalLevelId);
+        $query->where('educational_level_id', $educationalLevelId); // Correctly referencing the educational_level_id
     })
     ->with(['subject', 'educationalLevels']) // Load subject and educationalLevels relationships
     ->get();
-
     // Check if any teachers were found
     if ($teachers->isEmpty()) {
         return response()->json(['message' => 'No teachers found for this educational level.'], 404);

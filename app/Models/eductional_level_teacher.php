@@ -14,13 +14,10 @@ public $timestamps=false;
 
 protected $fillable = [
     'id',
-    'name',
+    'eductional_level_id',
     'teacher_id'
 ];
 
-    public function teacher()
-    {
-        return $this->belongsTo(teacher::class);
-    }
+  
 
 }

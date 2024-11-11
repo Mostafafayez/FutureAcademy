@@ -63,7 +63,7 @@ class CodeController extends Controller
 
     public function get_mohamed_english()
     {
-        $code = code :: where('expires_at' , '2027-07-07 ')
+        $code = code :: where('expires_at' , '2027-10-07 ')
         ->get();
         // Create the new code with a fixed 'expires_at' date of 2026-09-07
 
@@ -81,8 +81,12 @@ class CodeController extends Controller
 
         $count = $code->count();
 
-        return response()->json(['message' => "Codes for Mr. Mohamed's Students",  'code_count' => $count, 'code' => $code], 201);
+        return response()->json(['message' => "Codes for Mr. ashraf's Students",  'code_count' => $count, 'code' => $code], 201);
     }
+
+
+
+
 
 
 

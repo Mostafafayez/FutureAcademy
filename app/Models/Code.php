@@ -29,7 +29,7 @@ class Code extends Model
 
         static::creating(function ($model) {
             // Generate a random string with a specified length (e.g., 8 characters)
-            $model->code = Str::random(25);
+            $model->code = Str::random(10);
         });
     }
     public function user()

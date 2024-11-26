@@ -63,7 +63,7 @@ class CodeController extends Controller
 
     public function get_mohamed_english()
     {
-        $code = code :: where('expires_at' , '2027-10-07 ')
+        $code = code :: with ('user') -> where('expires_at' , '2027-10-07 ')
         ->get();
         // Create the new code with a fixed 'expires_at' date of 2026-09-07
 

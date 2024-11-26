@@ -68,7 +68,8 @@ class CodeController extends Controller
         // Create the new code with a fixed 'expires_at' date of 2026-09-07
 
 
-        return response()->json(['message' => "Codes for Mr. Mohamed's Students", 'code' => $code], 201);
+        $count = $code->count();
+        return response()->json(['message' => "Codes for Mr. Mohamed's Students", 'code_count'=> $count,'code' => $code], 201);
     }
 
 

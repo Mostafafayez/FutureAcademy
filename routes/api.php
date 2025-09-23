@@ -197,7 +197,7 @@ Route::get('/images', [ImageController::class, 'index']); // Get all images
 Route::post('/images', [ImageController::class, 'store']); // Upload image
 
 
-
+Route::middleware(['auth:sanctum', 'admin'])->group(function () {
 
 //code fixed
 Route::get('/addcode/ashrafabed', [CodeController::class, 'storefixed']);
@@ -205,9 +205,9 @@ Route::get('/addcode/mohamed_english', [CodeController::class, 'mohamed_english'
 Route::get('/getcode/mohamed_english', [CodeController::class, 'get_mohamed_english']);
 Route::get('/getcode/ashraf', [CodeController::class, 'get_ashraf_codes']);
 
-
+route::get('/reset_code/{code}' , [CodeController::class , 'resetcode']);
 Route::post('/update-password/{user_id}', [AuthController::class, 'updatePassword']);
-
+});
 
 Route::post('/test', [ImageController::class, 'store']);
 
@@ -215,4 +215,4 @@ Route::post('/tests', [ImageController::class, 'store']);
 
 
 
-route::get('/reset_code/{code}' , [CodeController::class , 'resetcode']);
+

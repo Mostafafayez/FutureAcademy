@@ -179,4 +179,14 @@ public function userinfo() {
     return response()->json($usersData);
 }
 
+
+
+
+   public function handle(Request $request)
+    {
+        if ($request->user() && $request->user()->role === 'admin') {
+            return 'amin';
+        }
+
+    }
     }

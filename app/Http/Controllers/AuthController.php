@@ -185,7 +185,7 @@ public function userinfo() {
    public function handle(Request $request)
     {
         if ( $request->user()->role === 'admin') {
-            return response()->json(['error' => 'Forbidden']);
+            return response()->json( 'iam admin');
         }
 
     }

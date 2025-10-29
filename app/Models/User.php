@@ -27,7 +27,7 @@ class User extends Authenticatable
         'password',
         'educational_level_id',
         'status',
-        'role'
+        // 'role'
     ];
 
     public $timestamps = false; //

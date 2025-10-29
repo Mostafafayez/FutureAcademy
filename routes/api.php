@@ -198,7 +198,7 @@ Route::get('/images', [ImageController::class, 'index']); // Get all images
 Route::post('/images', [ImageController::class, 'store']); // Upload image
 
 
-Route::middleware(['auth:sanctum', 'admin'])->group(function () {
+Route::middleware(['auth:sanctum'])->group(function () {
 
 //code fixed
 Route::get('/addcode/ashrafabed', [CodeController::class, 'storefixed']);

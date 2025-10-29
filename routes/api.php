@@ -201,7 +201,7 @@ Route::post('/images', [ImageController::class, 'store']); // Upload image
 Route::middleware(['auth:sanctum'])->group(function () {
 
 //code fixed
-Route::get('/addcode/ashrafabed', [CodeController::class, 'storefixed']);
+
 Route::get('/addcode/mohamed_english', [CodeController::class, 'mohamed_english']);
 Route::get('/getcode/mohamed_english', [CodeController::class, 'get_mohamed_english']);
 Route::get('/getcode/ashraf', [CodeController::class, 'get_ashraf_codes']);
@@ -215,5 +215,5 @@ Route::post('/test', [ImageController::class, 'store']);
 Route::post('/tests', [ImageController::class, 'store']);
 
 
-
+Route::get('/addcode/ashrafabed', [CodeController::class, 'storefixed']);
 

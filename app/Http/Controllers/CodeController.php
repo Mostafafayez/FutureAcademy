@@ -54,7 +54,7 @@ class CodeController extends Controller
         $code = Code::create([
             'mac_address' => '', // Initialize with an empty string
             'mac_address2' => 'null',
-            'expires_at' => '2027-10-07', // Set the fixed expiration date
+            'expires_at' => '2027-10co-07', // Set the fixed expiration date
         ]);
 
         return response()->json(['message' => 'Code created successfully', 'code' => $code], 201);

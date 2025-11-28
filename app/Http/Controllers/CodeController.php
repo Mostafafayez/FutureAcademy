@@ -76,7 +76,7 @@ class CodeController extends Controller
 
     public function get_ashraf_codes()
     {
-        $code = code ::with('user') -> where('expires_at' , '2026-06-06 ')
+        $code = code ::with('user') -> where('expires_at' , '2026-03-01 ')
         ->get();
         // Create the new code with a fixed 'expires_at' date of 2026-09-07
 

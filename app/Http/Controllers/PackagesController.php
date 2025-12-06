@@ -77,4 +77,34 @@ class PackagesController extends Controller
     }
 
 
+
+    public function updatePartial(Request $request, $id)
+{
+    // Validate input (title OR description can come)
+    $validated = $request->validate([
+        'title' => 'sometimes|string|max:255',
+        'description' => 'sometimes|nullable|string',
+    ]);
+
+    // Find package
+    $package = packages::find($id);
+
+    if (!$package) {
+        return response()->json([
+            'status' => 400,
+            'message' => 'Package not found',
+        ], 400);
+    }
+
+    // Update only sent fields
+    $package->update($validated);
+
+    return response()->json([
+        'status' => 200,
+        'message' => 'Package updated successfully',
+        'data' => $package,
+    ], 200);
+}
+
+
 }

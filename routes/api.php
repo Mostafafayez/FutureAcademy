@@ -217,4 +217,4 @@ Route::post('/tests', [ImageController::class, 'store']);
 
 
 
-Route::patch('/updatepackage/{id}', [PackagesController::class, 'updatePartial']);
+Route::post('/updatepackage/{id}', [PackagesController::class, 'updatePartial']);

@@ -31,18 +31,20 @@ class VideoProgressController extends Controller
     }
 
     // 📥 Get progress for one video
-  public function show($videoId)
-{
-    $video = auth()->user()
-        ->videos()
-        ->where('video_id', $videoId)
-        ->first();
+    public function show($videoId)
+    {
+        $user = auth()->user();
 
-    return response()->json([
-        'percentage' => $video?->pivot->percentage ?? 0,
-        'status' => $video?->pivot->status ?? 'not_started',
-    ]);
-}
+        $video = $user->videos()
+            ->where('video_id', $videoId)
+            ->first();
+
+        return response()->json([
+            'percentage' => $video?->pivot->percentage ?? 0,
+            'status' => $video?->pivot->status ?? 'not_started',
+
+        ]);
+    }
 
     // 🗑 Delete progress
     public function destroy($videoId)

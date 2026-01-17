@@ -92,7 +92,7 @@ Route::delete('/deletepackage/{id}', [PackagesController::class, 'destroy']);
 
 // lessons
 Route::post('/addlessons', [LessonController::class, 'store']); // For adding a lesson
-Route::get('/lessons/package/{packageId}', [LessonController::class, 'getByPackageId']); // For getting lessons by package ID
+// Route::get('/lessons/package/{packageId}', [LessonController::class, 'getByPackageId']); // For getting lessons by package ID
 Route::delete('/lessons/{id}', [LessonController::class, 'destroy']); // For deleting a lesson by ID
 Route::get('/getlessons/{teacherId}', [LessonController::class, 'getLessonsByteacherIds']);
 

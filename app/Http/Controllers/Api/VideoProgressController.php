@@ -19,7 +19,7 @@ class VideoProgressController extends Controller
         $user = $request->user();
 
         $user->lessons()->syncWithoutDetaching([
-            $request->video_id => [
+            $request->lesson_id => [
                 'percentage' => $request->percentage
             ]
         ]);

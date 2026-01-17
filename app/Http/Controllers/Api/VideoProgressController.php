@@ -12,13 +12,13 @@ class VideoProgressController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'video_id'   => 'required|exists:videos,id',
+            'lesson_id'   => 'required|exists:lessons,id',
             'percentage' => 'required|integer|min:0|max:100',
         ]);
 
         $user = $request->user();
 
-        $user->videos()->syncWithoutDetaching([
+        $user->lessons()->syncWithoutDetaching([
             $request->video_id => [
                 'percentage' => $request->percentage
             ]
@@ -31,16 +31,16 @@ class VideoProgressController extends Controller
     }
 
     // 📥 Get progress for one video
-public function show($videoId)
+public function show($lessonid )
 {
     $user = auth()->user();
 
-    $video = $user->videos()
-        ->where('video_id', $videoId)
+    $video = $user->lessons()
+        ->where('lesson_id', $lessonid)
         ->first();
 
     return response()->json([
-        'video_id'   => (int) $videoId,
+        // 'video_id'   => (int) $lessonid,
         'percentage' => $video?->pivot->percentage ?? 0,
         'status'     => $video?->pivot->status ?? 'not_started',
     ]);
@@ -48,10 +48,10 @@ public function show($videoId)
 
 
     // 🗑 Delete progress
-    public function destroy($videoId)
+    public function destroy($lessonid)
     {
         $user = auth()->user();
-        $user->videos()->detach($videoId);
+        $user->lessons()->detach($lessonid);
 
         return response()->json([
             'status' => true,

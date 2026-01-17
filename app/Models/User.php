@@ -76,9 +76,9 @@ class User extends Authenticatable
         return $this->belongsTo(EducationalLevel::class);
     }
 
-   public function videos()
+   public function lessons()
 {
-    return $this->belongsToMany(Video::class, 'user_video_progress')
+    return $this->belongsToMany(Lesson::class, 'user_video_progress')
         ->using(UserVideoProgress::class)
         ->withPivot(['percentage'])
         ->withTimestamps();

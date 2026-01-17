@@ -31,7 +31,7 @@ class VideoProgressController extends Controller
     }
 
     // 📥 Get progress for one video
-public function show($lessonid )
+public function show($lessonid)
 {
     $user = auth()->user();
 
@@ -43,6 +43,7 @@ public function show($lessonid )
         // 'video_id'   => (int) $lessonid,
         'percentage' => $video?->pivot->percentage ?? 0,
         'status'     => $video?->pivot->status ?? 'not_started',
+        'x'  => $video->title
     ]);
 }
 

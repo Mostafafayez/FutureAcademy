@@ -43,7 +43,7 @@ public function show($lessonid)
         // 'video_id'   => (int) $lessonid,
         'percentage' => $video?->pivot->percentage ?? 0,
         'status'     => $video?->pivot->status ?? 'not_started',
- $video?->title ?? null,    ]);
+    ]);
 }
 
 

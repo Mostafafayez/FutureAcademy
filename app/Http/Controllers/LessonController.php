@@ -59,8 +59,8 @@ public function getByPackageId($packageId)
             'id'         => $lesson->id,
             'title'      => $lesson->title,
             'image'      => $lesson->image,
-            'percentage' => $userLesson?->pivot?->percentage ?? 0,
-            'status'     => $userLesson?->pivot?->status ?? 'not_started',
+            // 'percentage' => $userLesson?->pivot?->percentage ?? 0,
+            // 'status'     => $userLesson?->pivot?->status ?? 'not_started',
         ];
     });
 

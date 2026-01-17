@@ -39,17 +39,33 @@ class lessonController extends Controller
     /**
      * Get lessons by package ID.
      */
-    public function getByPackageId($packageId)
-    {
-        $lessons = Lesson::with('image')
-        ->where('package_id', $packageId)->get();
+public function getByPackageId($packageId)
+{
+    $user = auth()->user();
 
-        if ($lessons->isEmpty()) {
-            return response()->json(['message' => 'No lessons found'], 404);
-        }
+    $lessons = Lesson::with('image')
+        ->where('package_id', $packageId)
+        ->get();
 
-        return response()->json($lessons);
+    if ($lessons->isEmpty()) {
+        return response()->json(['message' => 'No lessons found'], 404);
     }
+
+    // إضافة percentage و status لكل درس بالنسبة للمستخدم الحالي
+    $lessonsWithProgress = $lessons->map(function ($lesson) use ($user) {
+        $userLesson = $lesson->users()->where('user_id', $user->id)->first();
+
+        return [
+            'id'         => $lesson->id,
+            'title'      => $lesson->title,
+            'image'      => $lesson->image,
+            'percentage' => $userLesson?->pivot?->percentage ?? 0,
+            'status'     => $userLesson?->pivot?->status ?? 'not_started',
+        ];
+    });
+
+    return response()->json($lessonsWithProgress);
+}
 
     /**
      * Delete a lesson by ID.

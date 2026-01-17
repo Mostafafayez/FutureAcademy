@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\VideoProgressController;
 use App\Http\Controllers\authteacher;
 use App\Http\Controllers\EducationalLevelController;
 use App\Http\Controllers\PackagesController;
@@ -218,3 +219,14 @@ Route::post('/tests', [ImageController::class, 'store']);
 
 
 Route::post('/updatepackage/{id}', [PackagesController::class, 'updatePartial']);
+
+
+
+
+Route::middleware('auth:sanctum')->group(function () {
+
+    Route::post('/video-progress', [VideoProgressController::class, 'store']);
+    Route::get('/video-progress/{videoId}', [VideoProgressController::class, 'show']);
+    Route::delete('/video-progress/{videoId}', [VideoProgressController::class, 'destroy']);
+
+});

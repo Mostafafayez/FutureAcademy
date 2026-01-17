@@ -76,6 +76,12 @@ class User extends Authenticatable
         return $this->belongsTo(EducationalLevel::class);
     }
 
+    public function videos()
+        {
+            return $this->belongsToMany(Video::class, 'user_video_progress')
+                ->withPivot('percentage')
+                ->withTimestamps();
+        }
 
     public function isApproved()
     {

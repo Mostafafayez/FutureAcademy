@@ -32,4 +32,13 @@ class Video extends Model
     {
         return $this->belongsTo(Lesson::class);
     }
+
+
+      public function users()
+    {
+        return $this->belongsToMany(User::class, 'user_video_progress')
+            ->withPivot('percentage')
+            ->withTimestamps();
+    }
+
 }

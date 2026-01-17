@@ -16,7 +16,7 @@ class VideoProgressController extends Controller
             'percentage' => 'required|integer|min:0|max:100',
         ]);
 
-        $user = $request->user();  
+        $user = $request->user();
 
         $user->videos()->syncWithoutDetaching([
             $request->video_id => [
@@ -31,18 +31,18 @@ class VideoProgressController extends Controller
     }
 
     // 📥 Get progress for one video
-    public function show($videoId)
-    {
-        $user = auth()->user();
+  public function show($videoId)
+{
+    $video = auth()->user()
+        ->videos()
+        ->where('video_id', $videoId)
+        ->first();
 
-        $video = $user->videos()
-            ->where('video_id', $videoId)
-            ->first();
-
-        return response()->json([
-            'percentage' => $video?->pivot->percentage ?? 0
-        ]);
-    }
+    return response()->json([
+        'percentage' => $video?->pivot->percentage ?? 0,
+        'status' => $video?->pivot->status ?? 'not_started',
+    ]);
+}
 
     // 🗑 Delete progress
     public function destroy($videoId)

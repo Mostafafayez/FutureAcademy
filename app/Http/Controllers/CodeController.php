@@ -43,7 +43,7 @@ class CodeController extends Controller
         $code = Code::create([
             'mac_address' => '', // Initialize with an empty string
             'mac_address2' => '',
-            'expires_at' => '2026-03-01', // Set the fixed expiration date
+            'expires_at' => '2027-03-01', // Set the fixed expiration date
         ]);
 
         return response()->json(['message' => 'Code created successfully', 'code' => $code], 201);
@@ -76,7 +76,7 @@ class CodeController extends Controller
 
     public function get_ashraf_codes()
     {
-        $code = code ::with('user') -> where('expires_at' , '2026-03-01 ')
+        $code = code ::with('user') -> where('expires_at' , '2027-03-01 ')
         ->get();
         // Create the new code with a fixed 'expires_at' date of 2026-09-07
 

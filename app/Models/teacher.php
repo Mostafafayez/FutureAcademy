@@ -50,4 +50,18 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
             return asset('storage/'.$this->image);
 
         }
+
+
+            public function codes()
+            {
+                return $this->hasManyThrough(
+                    Code::class,     // Final model
+                    packages::class,   // Intermediate model
+                    'teacher_id',    // FK in lessons table
+                    'lesson_id',     // FK in codes table
+                    'id',            // PK in teachers table
+                    'id'             // PK in lessons table
+                );
+            }
+
     }

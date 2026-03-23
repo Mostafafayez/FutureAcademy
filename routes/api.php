@@ -31,6 +31,8 @@ use App\Http\Controllers\ImageController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+Route::get('/code_count/teacher', [TeacherController::class, 'getTeachersCodesCount']);
+
 
 //Authentication  pdf   eduction
 Route::post('/signup', [AuthController::class, 'signUp']);

@@ -216,8 +216,8 @@ Route::post('/update-password/{user_id}', [AuthController::class, 'updatePasswor
 // Route::post('/tests', [ImageController::class, 'store']);
 
 
-  git commit -m "Initial push to Zee repo"
- git push -u origin                         
+//   git commit -m "Initial push to Zee repo"
+//  git push -u origin
 Route::post('/updatepackage/{id}', [PackagesController::class, 'updatePartial']);
 
 

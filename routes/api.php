@@ -41,6 +41,7 @@ Route::get('/userinfo', [AuthController::class, 'userinfo']);
 
 Route::post('/teacher/signup', [authteacher::class, 'signUp']);
 Route::post('/teacher/login', [authteacher::class, 'login']);
+
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/handle', [AuthController::class, 'handle']);
     Route::get('/teacher/educational-level/{educationalLevelId}', [TeacherController::class, 'getTeachersByEducationalLevel']);

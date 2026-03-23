@@ -64,7 +64,7 @@ class PackagesController extends Controller
 
         $lessons = packages::where('teacher_id', $teacherId)
             ->where('educational_level_id', $educationalLevel) // Adjust according to your column name
-            ->with(['educationalLevel','image:']) // Eager load relationships
+            ->with(['educationalLevel','image']) // Eager load relationships
             ->get();
 
         if ($lessons->isEmpty()) {

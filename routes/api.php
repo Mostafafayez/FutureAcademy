@@ -31,7 +31,6 @@ use App\Http\Controllers\ImageController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-Route::get('/code_count/teacher', [TeacherController::class, 'getTeachersCodesCount']);
 
 
 //Authentication  pdf   eduction
@@ -45,6 +44,9 @@ Route::post('/teacher/signup', [authteacher::class, 'signUp']);
 Route::post('/teacher/login', [authteacher::class, 'login']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
+
+
+
     Route::get('/handle', [AuthController::class, 'handle']);
     Route::get('/teacher/educational-level/{educationalLevelId}', [TeacherController::class, 'getTeachersByEducationalLevel']);
     Route::get('/getsubjects/{educationalLevelId}', [SubjectController::class, 'getByEducationalLevel']);
@@ -56,6 +58,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/messages', [MessageController::class, 'store']);
+
+
+Route::get('/code_count/teacher/all', [TeacherController::class, 'getallTeachersCodesCount']);
+Route::get('/code_count/teacher', [TeacherController::class, 'getTeacherCodesCount']);
+
 });
 
 

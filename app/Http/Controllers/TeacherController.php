@@ -13,16 +13,32 @@ class TeacherController extends Controller
 
 
 
-public function getTeachersCodesCount()
+    public function getallTeachersCodesCount()
+    {
+        $teachers = Teacher::withCount('codes')->get();
+
+        return response()->json([
+            'teachers' => $teachers
+        ]);
+    }
+
+
+public function getTeacherCodesCount()
 {
-    $teachers = Teacher::withCount('codes')->get();
+    $teacher = auth()->user(); // حسب الـ guard عندك
+
+    if (!$teacher) {
+        return response()->json([
+            'message' => 'Unauthorized'
+        ], 401);
+    }
+
+    $teacher->loadCount('codes');
 
     return response()->json([
-        'teachers' => $teachers
+        'teacher' => $teacher
     ]);
 }
-
-
     public function store(Request $request)
     {
         // Validate the request

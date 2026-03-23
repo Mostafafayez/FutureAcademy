@@ -46,6 +46,45 @@ public function store(Request $request)
     ], 201);
 }
 
+
+
+public function update(Request $request, $id)
+{
+    $lesson = Lesson::findOrFail($id);
+
+    $validated = $request->validate([
+        'title' => 'sometimes|string|max:255',
+        'description' => 'nullable|string',
+        'teacher_id' => 'sometimes|exists:teachers,id',
+        'package_id' => 'sometimes|exists:packages,id',
+        'image' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048'
+    ]);
+
+    // update only sent fields
+    $lesson->update($validated);
+
+    // handle image update
+    if ($request->hasFile('image')) {
+
+        // delete old image (optional but recommended)
+        if ($lesson->image) {
+            \Storage::disk('public')->delete($lesson->image->url);
+            $lesson->image()->delete();
+        }
+
+        $filePath = $request->file('image')->store('images/lessons', 'public');
+
+        $lesson->image()->create([
+            'url' => $filePath
+        ]);
+    }
+
+    return response()->json([
+        'message' => 'Lesson updated successfully',
+        'lesson' => $lesson->load('image')
+    ], 200);
+}
+
     /**
      * Get lessons by package ID.
      */

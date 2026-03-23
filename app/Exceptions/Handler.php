@@ -28,9 +28,24 @@ class Handler extends ExceptionHandler
 
         });
 
-        $this->renderable(function(ApiAuthException $e, Request $request){
-            return response()->json($e->getMessage());
+        // $this->renderable(function(ApiAuthException $e, Request $request){
+        //     return response()->json($e->getMessage());
+        // });
+
+    
+
+                $this->renderable(function (\Throwable $e, Request $request) {
+
+            if ($request->expectsJson()) {
+
+                return response()->json([
+                    'status' => false,
+                    'message' => app()->environment('production')
+                        ? 'حدث خطأ غير متوقع، حاول مرة أخرى لاحقاً'
+                        : $e->getMessage()
+                ], 500);
+            }
         });
 
-    }
-}
+
+}}

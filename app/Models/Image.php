@@ -12,16 +12,25 @@ class Image extends Model
     use HasFactory;
     public $timestamps = false;
 
-    protected $fillable = ['image'];
-
+  protected $fillable = [
+        'image_url',
+        'imageable_id',
+        'imageable_id '
+    ];
 
 
     protected $appends=['FullSrc'];
 
 
-    public function lesson()
+    // public function lesson()
+    // {
+    //     return $this->hasMany(Lesson::class);
+    // }
+
+
+      public function imageable()
     {
-        return $this->hasMany(Lesson::class);
+        return $this->morphTo();
     }
 
 

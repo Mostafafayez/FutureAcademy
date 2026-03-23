@@ -32,11 +32,6 @@ class TeacherController extends Controller
         }
 
 
-        if ($request->hasFile('image')) {
-            $fileName = $request->file('image')->store('images', 'public');
-        } else {
-            $fileName = null;
-        }
 
 
         $educationalLevel = EducationalLevel::where('name', $request->educational_level)->first();
@@ -46,10 +41,19 @@ class TeacherController extends Controller
         $teacher = teacher::create([
             'name' => $request->name,
             'description' =>    $request->  description,
-            'image' => $fileName,
             'educational_level_id' => $educationalLevel->id,
             'subject_id' => $subject->id,
         ]);
+
+
+
+                  if ($request->hasFile('image')) {
+                $fileName = $request->file('image')->store('images/teachers', 'public');
+
+                $teacher->image()->create([
+                    'image_url' => $fileName
+                ]);
+            }
 
         return response()->json(['message' => 'Teacher created successfully', 'teacher' => $teacher], 201);
     }
@@ -57,7 +61,7 @@ class TeacherController extends Controller
 
     public function index()
     {
-        $teachers = Teacher::with(['subject', 'educationalLevel'])->get();
+        $teachers = Teacher::with(['subject', 'educationalLevel','image'])->get();
 
         // Map over the collection to format the response as needed
         $teachers = $teachers->map(function ($teacher) {
@@ -67,8 +71,7 @@ class TeacherController extends Controller
 
                 'educational_level' => $teacher->educationalLevel,
                 'subject' => $teacher->subject,
-                'image' => $teacher->FullSrc
-            ];
+                 'image' => $teacher->image?->FullSrc            ];
         });
 
         return response()->json(['teachers' => $teachers], 200);
@@ -138,7 +141,7 @@ class TeacherController extends Controller
 
     public function show($id)
     {
-        $teacher = Teacher::with(['subject', 'educationalLevel'])->find($id);
+        $teacher = Teacher::with(['subject', 'educationalLevel','image'])->find($id);
 
         if (!$teacher) {
             return response()->json(['message' => 'Teacher not found.'], 404);
@@ -151,7 +154,8 @@ class TeacherController extends Controller
             'subject' => $teacher->subject,
             'description' =>$teacher->description,
             // 'FullSrc' => url('storage/' . $teacher->image),
-            'image' => $teacher->FullSrc
+            // 'image' => $teacher->FullSrc
+            'image' => $teacher->image?->FullSrc
         ];
 
         return response()->json(['teacher' => $teacherData], 200);
@@ -163,34 +167,47 @@ class TeacherController extends Controller
 
 public function getTeachersByEducationalLevel($educationalLevelId)
 {
-    // Ensure the user is authenticated
-    $user = auth('sanctum')->user();
-    if (!$user) {
-        return response()->json(['message' => 'Unauthorized'], 401);
+    // Auth check
+    if (!auth('sanctum')->check()) {
+        return response()->json([
+            'message' => 'Unauthorized'
+        ], 401);
     }
 
-    $teachers = Teacher::whereHas('educationalLevels', function ($query) use ($educationalLevelId) {
-        $query->where('educational_level_id', $educationalLevelId); // Correctly referencing the educational_level_id
-    })
-    ->with(['subject', 'educationalLevels']) // Load subject and educationalLevels relationships
-    ->get();
-    // Check if any teachers were found
+    $teachers = Teacher::query()
+        ->whereHas('educationalLevels', function ($query) use ($educationalLevelId) {
+            $query->where('educational_level_id', $educationalLevelId);
+        })
+        ->with(['subject', 'educationalLevels', 'image'])
+        ->get();
+
     if ($teachers->isEmpty()) {
-        return response()->json(['message' => 'No teachers found for this educational level.'], 404);
+        return response()->json([
+            'message' => 'No teachers found for this educational level.'
+        ], 404);
     }
 
-    // Map the response to include teacher details
     $response = $teachers->map(function ($teacher) {
         return [
             'id' => $teacher->id,
             'name' => $teacher->name,
-            'educational_level' => $teacher->educationalLevels->pluck('name')->implode(', ') ?? 'N/A', // Get names of all associated educational levels
-            'subject' => $teacher->subject ? $teacher->subject->name : 'N/A',
-            'FullSrc' => url('storage/' . $teacher->image),
+
+            // cleaner handling
+            'educational_level' => $teacher->educationalLevels
+                ->pluck('name')
+                ->filter()
+                ->implode(', ') ?: 'N/A',
+
+            'subject' => $teacher->subject?->name ?? 'N/A',
+
+            // ✅ الصورة من relation الجديدة
+            'image' => $teacher->image?->FullSrc,
         ];
     });
 
-    return response()->json(['teachers' => $response], 200);
+    return response()->json([
+        'teachers' => $response
+    ], 200);
 }
 
     public function destroy($id)
@@ -229,7 +246,7 @@ public function getTeachersByEducationalLevel($educationalLevelId)
                 'name' => $teacher->name,
                 'educational_level' => $teacher->educationalLevel ? $teacher->educationalLevel->name : 'N/A',  // Check if educationalLevel exists
                 'subject' => $teacher->subject ? $teacher->subject->name : 'N/A',  // Check if subject exists
-                'FullSrc' => url('storage/' . $teacher->image)
+                 'image' => $teacher->image?->FullSrc
             ];
         });
 

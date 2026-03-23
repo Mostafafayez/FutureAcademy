@@ -10,15 +10,28 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
         protected $table = 'teachers';
         use HasApiTokens, HasFactory, Notifiable;
         protected $fillable = [
-            'name', 'phone','image','description', 'educational_level_id', 'subject_id','password'
+            'name', 'phone','description', 'educational_level_id', 'subject_id','password'
         ];
         public $timestamps = false;
         protected $hidden = [
             'password',
             'remember_token',
         ];
+        public function image()
+            {
+                return $this->morphOne(Image::class, 'imageable');
+            }
 
-        protected $appends=['FullSrc'];
+            protected $appends = ['image_FULL_url'];
+
+           public function getImageUrlAttribute()
+{
+    if ($this->relationLoaded('image')) {
+        return $this->image?->FullSrc;
+    }
+    return $this->image()->first()?->FullSrc;
+}
+
         // Define relationships if applicable
         public function educationalLevels()
     {

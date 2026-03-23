@@ -14,27 +14,37 @@ class lessonController extends Controller
     /**
      * Store a new lesson.
      */
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
+public function store(Request $request)
+{
+    $validated = $request->validate([
+        'title' => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'teacher_id' => 'required|exists:teachers,id',
+        'package_id' => 'required|exists:packages,id',
+        'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+    ]);
 
-            'teacher_id' => 'required|exists:teachers,id',
-            'package_id' => 'required|exists:packages,id',
+    $lesson = Lesson::create([
+        'title' => $validated['title'],
+        'description' => $validated['description'] ?? null,
+        'teacher_id' => $validated['teacher_id'],
+        'package_id' => $validated['package_id'],
+    ]);
+
+
+    if ($request->hasFile('image')) {
+        $filePath = $request->file('image')->store('images/lessons', 'public');
+
+        $lesson->image()->create([
+            'url' => $filePath
         ]);
-        if ($request->teacher_id == 1) {
-            $validated['image_id'] = 1;
-        } elseif ($request->teacher_id == 2) {
-            $validated['image_id'] = 36;
-        }
-        else  {
-            $validated['image_id'] = 2;
-        }
-        $lesson = Lesson::create($validated);
-
-        return response()->json($lesson, 200);
     }
+
+    return response()->json([
+        'message' => 'Lesson created successfully',
+        'lesson' => $lesson->load('image')
+    ], 201);
+}
 
     /**
      * Get lessons by package ID.
@@ -43,7 +53,7 @@ public function getByPackageId($packageId)
 {
     $user = auth()->user();
 
-    $lessons = Lesson::with('image')
+    $lessons = Lesson::with(['image', 'users'])
         ->where('package_id', $packageId)
         ->get();
 
@@ -51,14 +61,18 @@ public function getByPackageId($packageId)
         return response()->json(['message' => 'No lessons found'], 404);
     }
 
-    // إضافة percentage و status لكل درس بالنسبة للمستخدم الحالي
     $lessonsWithProgress = $lessons->map(function ($lesson) use ($user) {
-        $userLesson = $lesson->users()->where('user_id', $user->id)->first();
+
+        $userLesson = $lesson->users()
+            ->where('user_id', $user->id)
+            ->first();
 
         return [
             'id'         => $lesson->id,
             'title'      => $lesson->title,
-            'image'      => $lesson->image,
+
+            'image'      => $lesson->image?->image_url,
+
             'percentage' => $userLesson?->pivot?->percentage ?? 0,
             'status'     => $userLesson?->pivot?->status ?? 'not_started',
         ];
@@ -93,7 +107,7 @@ public function getByPackageId($packageId)
 
 
         // Retrieve lessons for the specified teacher and educational level IDs
-        $lessons = Lesson::take(9)->get();
+        $lessons = Lesson::take(9)->image()->get();
 
 
         if ($lessons->isEmpty()) {
@@ -109,7 +123,7 @@ public function getByPackageId($packageId)
     {
         // Retrieve lessons for the specified teacher ID
         $lessons = Lesson::select('id', 'title', 'description', 'description_assistant','teacher_id') // Specify all columns except 'teacher_id'
-        ->with('teacher:id,name')
+        ->with('teacher:id,name','image')
         ->get();
 
         // Check if lessons were found

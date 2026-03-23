@@ -17,6 +17,8 @@ class PackagesController extends Controller
             'subject' => 'required|string|exists:subjects,name',
             'teacher_id' => 'required|exists:teachers,id',  // Validate teacher_id
             'educational_id' =>'required|exists:educational_levels,id',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+
         ]);
 
         if ($validator->fails()) {
@@ -30,7 +32,7 @@ class PackagesController extends Controller
             return response()->json(['message' => 'Subject not found.'], 404);
         }
 
-        $lesson = packages::create([
+        $package = packages::create([
             'title' => $request->title,
             'description' => $request->description,
             'subject_id' => $subject->id,
@@ -38,7 +40,17 @@ class PackagesController extends Controller
             'educational_level_id' => $request->educational_id,
         ]);
 
-        return response()->json(['message' => 'packages created successfully', 'packages' => $lesson], 201);
+
+
+           if ($request->hasFile('image')) {
+        $fileName = $request->file('image')->store('iamges/packages', 'public');
+
+        $package->image()->create([
+            'image_url' => $fileName
+        ]);
+    }
+
+        return response()->json(['message' => 'packages created successfully', 'packages' => $package], 201);
     }
 
 
@@ -52,7 +64,7 @@ class PackagesController extends Controller
 
         $lessons = packages::where('teacher_id', $teacherId)
             ->where('educational_level_id', $educationalLevel) // Adjust according to your column name
-            ->with(['educationalLevel']) // Eager load relationships
+            ->with(['educationalLevel','image:']) // Eager load relationships
             ->get();
 
         if ($lessons->isEmpty()) {

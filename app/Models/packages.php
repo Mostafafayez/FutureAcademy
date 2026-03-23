@@ -30,6 +30,11 @@ class packages extends Model
         return $this->belongsTo(Subject::class);
     }
 
+
+       public function image()
+    {
+        return $this->morphOne(Image::class, 'imageable');
+    }
     /**
      * Get the videos for the lesson.
      */

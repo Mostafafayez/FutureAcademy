@@ -25,10 +25,18 @@ class Lesson extends Model
     }
 
 
+
+
+
     public function image()
-    {
-        return $this->belongsTo(Image::class);
-    }
+        {
+            return $this->morphOne(Image::class, 'imageable');
+        }
+
+    // public function image()
+    // {
+    //     return $this->belongsTo(Image::class);
+    // }
 
 
 
@@ -55,6 +63,7 @@ class Lesson extends Model
     {
         return $this->hasMany(Question::class);
     }
+
 
 
     public function users()

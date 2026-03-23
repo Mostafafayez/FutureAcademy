@@ -195,8 +195,8 @@ Route::get('/clear', function () {
 
 
 
-Route::get('/images', [ImageController::class, 'index']); // Get all images
-Route::post('/images', [ImageController::class, 'store']); // Upload image
+// Route::get('/images', [ImageController::class, 'index']); // Get all images
+// Route::post('/images', [ImageController::class, 'store']); // Upload image
 
 
 // Route::middleware(['auth:sanctum'])->group(function () {
@@ -211,13 +211,13 @@ route::get('/reset_code/{code}' , [CodeController::class , 'resetcode']);
 Route::post('/update-password/{user_id}', [AuthController::class, 'updatePassword']);
 // });
 
-Route::post('/test', [ImageController::class, 'store']);
+// Route::post('/test', [ImageController::class, 'store']);
 
-Route::post('/tests', [ImageController::class, 'store']);
-
-
+// Route::post('/tests', [ImageController::class, 'store']);
 
 
+  git commit -m "Initial push to Zee repo"
+ git push -u origin                         
 Route::post('/updatepackage/{id}', [PackagesController::class, 'updatePartial']);
 
 

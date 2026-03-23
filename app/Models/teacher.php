@@ -22,16 +22,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
                 return $this->morphOne(Image::class, 'imageable');
             }
 
-            protected $appends = ['image_FULL_url'];
+                            protected $appends = ['image_url'];
 
-           public function getImageUrlAttribute()
-{
-    if ($this->relationLoaded('image')) {
-        return $this->image?->FullSrc;
-    }
-    return $this->image()->first()?->FullSrc;
-}
-
+                    public function getImageUrlAttribute()
+                    {
+                        return $this->image?->FullSrc;
+                    }
         // Define relationships if applicable
         public function educationalLevels()
     {

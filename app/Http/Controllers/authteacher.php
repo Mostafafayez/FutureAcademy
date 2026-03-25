@@ -49,7 +49,7 @@ public function signUp(Request $request)
         $filePath = $request->file('image')->store('images/teachers', 'public');
 
         $teacher->image()->create([
-            'url' => $filePath
+            'image_url' => $filePath
         ]);
     }
 

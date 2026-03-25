@@ -36,7 +36,7 @@ public function store(Request $request)
         $filePath = $request->file('image')->store('images/lessons', 'public');
 
         $lesson->image()->create([
-            'url' => $filePath
+            'image_url' => $filePath
         ]);
     }
 

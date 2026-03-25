@@ -228,7 +228,7 @@ public function getTeachersByEducationalLevel($educationalLevelId)
             'subject' => $teacher->subject?->name ?? 'N/A',
 
             // ✅ الصورة من relation الجديدة
-            'image' => $teacher->image?->FullSrc,
+            'image' => $teacher->image?->image_url,
         ];
     });
 

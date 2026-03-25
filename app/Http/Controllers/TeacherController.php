@@ -97,7 +97,7 @@ public function getTeacherCodesCount()
 
                 'educational_level' => $teacher->educationalLevel,
                 'subject' => $teacher->subject,
-                  'image'  => $teacher->image,
+                  'image'  => $teacher->image_url,
            ];
         });
 

@@ -12,10 +12,8 @@ use Validator;
 
 class authteacher extends Controller
 {
-
-    public function signUp(Request $request)
+public function signUp(Request $request)
 {
-    // Validate the request including the image upload
     $validator = Validator::make($request->all(), [
         'name' => 'required|string|max:255',
         'description' => 'required|string|max:255',
@@ -23,7 +21,7 @@ class authteacher extends Controller
         'password' => 'required|string|min:6',
         'subject' => 'required|string|exists:subjects,name',
         'educational_level' => 'required|string|exists:educational_levels,name',
-        'image' => 'required|image|mimes:jpeg,png,jpg|max:2048', // Validate the image file
+        'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
     ], [
         'educational_level.exists' => 'The selected educational level is invalid.',
     ]);
@@ -32,26 +30,33 @@ class authteacher extends Controller
         return response()->json(['errors' => $validator->errors()], 422);
     }
 
-    // Store the image in the 'images' folder under the 'public' disk
-    $imagePath = $request->file('image')->store('images', 'public');
-
-    // Find the educational level by name
+    // get subject & level
     $educationalLevel = EducationalLevel::where('name', $request->educational_level)->first();
     $subject = Subject::where('name', $request->subject)->first();
 
-    // Create the teacher
+    // create teacher FIRST ✅
     $teacher = Teacher::create([
         'name' => $request->name,
         'phone' => $request->phone,
-        'image' => $imagePath, // Save the image path in the database
         'password' => Hash::make($request->password),
         'subject_id' => $subject->id,
         'educational_level_id' => $educationalLevel->id,
         'description' => $request->description,
     ]);
 
-    // Return the created teacher
-    return response()->json(['user' => $teacher], 201);
+    // then upload image ✅
+    if ($request->hasFile('image')) {
+        $filePath = $request->file('image')->store('images/teachers', 'public');
+
+        $teacher->image()->create([
+            'url' => $filePath
+        ]);
+    }
+
+    return response()->json([
+        'message' => 'Teacher created successfully',
+        'user' => $teacher->load('image')
+    ], 201);
 }
 
 

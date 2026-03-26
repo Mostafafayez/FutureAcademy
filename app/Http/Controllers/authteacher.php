@@ -63,33 +63,28 @@ $teacher->load(['subject', 'educationalLevels', 'image']);
 
 public function login(Request $request)
 {
-    // 1️⃣ Validate the input
+    // Validate
     $request->validate([
         'phone' => 'required|string|max:255',
         'password' => 'required|string|min:6',
     ]);
 
-    // 2️⃣ Prepare credentials
-    $credentials = $request->only('phone', 'password');
+    // Find teacher by phone
+    $teacher = teacher::where('phone', $request->phone)->first();
 
-    // 3️⃣ Attempt authentication using 'teachers' guard
-    if (!Auth::guard('teacher')->attempt($credentials)) {
+    if (!$teacher || !Hash::check($request->password, $teacher->password)) {
         return response()->json([
             'status' => false,
             'message' => 'The provided credentials are incorrect.',
         ], 403);
     }
 
-    // 4️⃣ Authenticated teacher
-    $teacher = Auth::guard('teachers')->user();
-
-    // 5️⃣ Load relations (image, subject, educational levels)
+    // Load relations
     $teacher->load(['image', 'subject', 'educationalLevels']);
 
-    // 6️⃣ Generate personal access token
+    // Create token
     $token = $teacher->createToken('personalAccessToken')->plainTextToken;
 
-    // 7️⃣ Return clean response
     return response()->json([
         'status' => true,
         'message' => 'Login successful',
@@ -97,7 +92,6 @@ public function login(Request $request)
         'token' => $token,
     ], 200);
 }
-
 
 
 }

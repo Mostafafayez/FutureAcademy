@@ -11,90 +11,92 @@ use Illuminate\Http\Request;
 use Validator;
 
 class authteacher extends Controller
+{ public function signUp(Request $request)
+        {
+            // Validate the request
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|string|max:255',
+                'phone' => 'required|string|max:255|unique:teachers',
+                'description' =>'required|string|max:255',
+                'password' => 'required|string|min:6',
+                 'subject_id' => 'required|exists:subjects,id',
+                 'image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+                   'educational_levels' => 'required|array',
+                      'educational_levels.*' => 'exists:educational_levels,id'           ]);
+            if ($validator->fails()) {
+                return response()->json(['errors' => $validator->errors()], 422);
+            }
+
+
+            // Create the user
+            $teacher = teacher::create([
+                'name' => $request->name,
+                'phone' => $request->phone,
+                'description' => $request->description,
+                'password' => Hash::make($request->password),
+                'subject_id' => $request->subject_id,
+
+            ]);
+                    $teacher->educationalLevels()->sync($request->educational_levels);
+
+                      if ($request->hasFile('image')) {
+                    $file = $request->file('image');
+                    $path = $file->store('teachers', 'public');
+
+                    $teacher->image()->create([
+                        'image_url' => $path
+                    ]);
+                }
+
+
+// ✅ load relations
+$teacher->load(['subject', 'educationalLevels', 'image']);
+
+
+
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Teacher created successfully',
+                    'data' => $teacher
+                ], 200);
+            }
+
+public function login(Request $request)
 {
-public function signUp(Request $request)
-{
-    $validator = Validator::make($request->all(), [
-        'name' => 'required|string|max:255',
-        'description' => 'required|string|max:255',
+    // 1️⃣ Validate the input
+    $request->validate([
         'phone' => 'required|string|max:255',
         'password' => 'required|string|min:6',
-        'subject' => 'required|string|exists:subjects,name',
-        'educational_level' => 'required|string|exists:educational_levels,name',
-        'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-    ], [
-        'educational_level.exists' => 'The selected educational level is invalid.',
     ]);
 
-    if ($validator->fails()) {
-        return response()->json(['errors' => $validator->errors()], 422);
+    // 2️⃣ Prepare credentials
+    $credentials = $request->only('phone', 'password');
+
+    // 3️⃣ Attempt authentication using 'teachers' guard
+    if (!Auth::guard('teachers')->attempt($credentials)) {
+        return response()->json([
+            'status' => false,
+            'message' => 'The provided credentials are incorrect.',
+        ], 403);
     }
 
-    // get subject & level
-    $educationalLevel = EducationalLevel::where('name', $request->educational_level)->first();
-    $subject = Subject::where('name', $request->subject)->first();
+    // 4️⃣ Authenticated teacher
+    $teacher = Auth::guard('teachers')->user();
 
-    // create teacher FIRST ✅
-    $teacher = Teacher::create([
-        'name' => $request->name,
-        'phone' => $request->phone,
-        'password' => Hash::make($request->password),
-        'subject_id' => $subject->id,
-        'educational_level_id' => $educationalLevel->id,
-        'description' => $request->description,
-    ]);
+    // 5️⃣ Load relations (image, subject, educational levels)
+    $teacher->load(['image', 'subject', 'educationalLevels']);
 
-    // then upload image ✅
-    if ($request->hasFile('image')) {
-        $filePath = $request->file('image')->store('images/teachers', 'public');
+    // 6️⃣ Generate personal access token
+    $token = $teacher->createToken('personalAccessToken')->plainTextToken;
 
-        $teacher->image()->create([
-            'image_url' => $filePath
-        ]);
-    }
-
+    // 7️⃣ Return clean response
     return response()->json([
-        'message' => 'Teacher created successfully',
-        'user' => $teacher->load('image')
-    ], 201);
+        'status' => true,
+        'message' => 'Login successful',
+        'teacher' => $teacher,
+        'token' => $token,
+    ], 200);
 }
-
-
-    public function login(Request $request)
-    {
-        // Validate the input
-        $validator = Validator::make($request->all(), [
-            'phone' => 'required|string|max:255',
-            'password' => 'required|string',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
-
-        // Check if the teacher exists and the password matches
-        $credentials = $request->only('phone', 'password');
-
-        // Use the 'teachers' guard for authentication
-        if (Auth::guard('teachers')->attempt($credentials)) {
-            $teacher = Auth::guard('teachers')->user(); // Retrieve the authenticated teacher
-
-            // Generate the token for the teacher
-            $token = $teacher->createToken('personalAccessToken')->plainTextToken;
-
-            return response()->json([
-                'teacher' => $teacher,
-                'token' => $token,
-                // 'educational_level' => $teacher->educationalLevel->name ?? null // Uncomment if educational level is needed
-            ], 200);
-        } else {
-            // Authentication failed
-            return response()->json([
-                'message' => 'The provided credentials are incorrect.',
-            ], 403);
-        }
-    }
-
 
 
 

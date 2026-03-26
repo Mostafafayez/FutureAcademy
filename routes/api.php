@@ -5,6 +5,7 @@ use App\Http\Controllers\authteacher;
 use App\Http\Controllers\EducationalLevelController;
 use App\Http\Controllers\PackagesController;
 use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\teacherStudentsProgress;
 use App\Http\Controllers\UUIDController;
 use GuzzleHttp\Middleware;
 use Illuminate\Http\Request;
@@ -50,6 +51,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/handle', [AuthController::class, 'handle']);
     Route::get('/teacher/educational-level/{educationalLevelId}', [TeacherController::class, 'getTeachersByEducationalLevel']);
     Route::get('/getsubjects/{educationalLevelId}', [SubjectController::class, 'getByEducationalLevel']);
+
+
+    Route::get('/getsubjects', [SubjectController::class, 'getAll']);
     // Route::get('/getteachers', [TeacherController::class, 'index']);
     Route::get('/videos/lesson/{lessonId}', [VideoController::class, 'getByLessonId']);
     Route::get('/getteacher/{id}', [TeacherController::class, 'show']);
@@ -59,7 +63,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/messages', [MessageController::class, 'store']);
 
-
+Route::get('lessons/{lesson}/can-access', [LessonController::class, 'checkAccess']);
 Route::get('/code_count/teacher/all', [TeacherController::class, 'getallTeachersCodesCount']);
 Route::get('/code_count/teacher', [TeacherController::class, 'getTeacherCodesCount']);
 
@@ -72,7 +76,7 @@ Route::get('/getmessages', [MessageController::class, 'getAllMessages']);
 
 Route::get('/encryption_videos/lesson/{lessonId}', [VideoController::class, 'getEncryptionByLessonId']);
 
-Route::get('/getsubjects', [SubjectController::class, 'getByEducationalLevels']);
+// Route::get('/getsubjects', [SubjectController::class, 'getByEducationalLevels']);  //not used
 
 Route::get('educational-levels/{id}', [EducationalLevelController::class, 'show']);
 
@@ -102,6 +106,7 @@ Route::delete('/deletepackage/{id}', [PackagesController::class, 'destroy']);
 
 // lessons
 Route::post('/addlessons', [LessonController::class, 'store']);
+
 Route::post('/updatelessons/{id}', [LessonController::class, 'update']);// For adding a lesson
 // Route::get('/lessons/package/{packageId}', [LessonController::class, 'getByPackageId']); // For getting lessons by package ID
 Route::delete('/lessons/{id}', [LessonController::class, 'destroy']); // For deleting a lesson by ID
@@ -204,7 +209,7 @@ Route::get('/clear', function () {
 
 
 
-
+Route::middleware('auth:sanctum')->get('teachers/students-progress', [teacherStudentsProgress::class, 'teacherStudentsProgress']);
 
 // Route::get('/images', [ImageController::class, 'index']); // Get all images
 // Route::post('/images', [ImageController::class, 'store']); // Upload image
@@ -241,3 +246,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/video-progress/{videoId}', [VideoProgressController::class, 'destroy']);
 
 });
+
+
+
+Route::middleware('auth:sanctum')->get('/user/subscriptions', [AuthController::class, 'mySubscriptions']);

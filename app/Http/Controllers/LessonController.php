@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Controllers;
+use App\Models\teacher;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\Process\Exception\ProcessFailedException;
@@ -13,25 +14,40 @@ class lessonController extends Controller
 {
     /**
      * Store a new lesson.
-     */
-public function store(Request $request)
+     */public function store(Request $request)
 {
     $validated = $request->validate([
         'title' => 'required|string|max:255',
         'description' => 'nullable|string',
         'teacher_id' => 'required|exists:teachers,id',
         'package_id' => 'required|exists:packages,id',
-        'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'educational_level_id' => 'required|exists:educational_levels,id', // المرحلة
     ]);
 
+    $teacher = teacher::findOrFail($validated['teacher_id']);
+
+    // ✅ تحديد ترتيب الدرس الجديد
+    // احصل على آخر order موجود للمدرس في نفس المرحلة داخل نفس الباكدج
+    $lastLessonOrder = Lesson::where('teacher_id', $teacher->id)
+        ->where('package_id', $validated['package_id'])
+        ->whereHas('teacher.educationalLevels', function($q) use ($validated) {
+            $q->where('educational_levels.id', $validated['educational_level_id']);
+        })
+        ->max('order');
+
+    $newOrder = $lastLessonOrder ? $lastLessonOrder + 1 : 1;
+
+    // ✅ إنشاء الدرس
     $lesson = Lesson::create([
         'title' => $validated['title'],
         'description' => $validated['description'] ?? null,
-        'teacher_id' => $validated['teacher_id'],
+        'teacher_id' => $teacher->id,
         'package_id' => $validated['package_id'],
+        'order' => $newOrder,
     ]);
 
-
+    // ✅ رفع الصورة (اختياري)
     if ($request->hasFile('image')) {
         $filePath = $request->file('image')->store('images/lessons', 'public');
 
@@ -41,11 +57,31 @@ public function store(Request $request)
     }
 
     return response()->json([
+        'status' => true,
         'message' => 'Lesson created successfully',
         'lesson' => $lesson->load('image')
     ], 201);
 }
 
+
+
+public function checkAccess(Lesson $lesson, Request $request)
+{
+    $user = $request->user();
+    $minPassScore = 50;
+
+    if ($lesson->canAccess($user, $minPassScore)) {
+        return response()->json([
+            'status' => true,
+            'message' => 'الطالب يمكنه الدخول لهذا الدرس'
+        ]);
+    }
+
+    return response()->json([
+        'status' => false,
+        'message' => 'يجب اجتياز الدرس السابق أولاً'
+    ], 403);
+}
 
 
 public function update(Request $request, $id)

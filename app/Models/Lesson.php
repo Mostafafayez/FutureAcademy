@@ -8,7 +8,7 @@ class Lesson extends Model
 {
     use HasFactory;
     public $timestamps = false;
-    protected $fillable = ['title', 'description', 'package_id','description_assistant','teacher_id','image_id'];
+    protected $fillable = ['title', 'description', 'package_id','description_assistant','teacher_id','order'];
 
     public function package()
     {
@@ -33,10 +33,6 @@ class Lesson extends Model
             return $this->morphOne(Image::class, 'imageable');
         }
 
-    // public function image()
-    // {
-    //     return $this->belongsTo(Image::class);
-    // }
 
 
 
@@ -75,4 +71,38 @@ class Lesson extends Model
 }
 
 
+  /*
+    |--------------------------------------------------------------------------
+    | Helper Methods
+    |--------------------------------------------------------------------------
+    */
+
+    // التحقق من أن المستخدم مؤهل لدخول الدرس public function canAccess(User $user, $minPassScore = 50)
+  public function canAccess(User $user, $minPassScore = 50)
+    {
+        // إذا الدرس الأول، السماح مباشرة
+        if ($this->order == 1) {
+            return true;
+        }
+
+        // احصل على الدرس السابق في نفس الباكدج
+        $previousLesson = self::where('package_id', $this->package_id)
+            ->where('order', $this->order - 1)
+            ->first();
+
+        if (!$previousLesson) {
+            return false; // لا يوجد درس سابق
+        }
+
+        // تحقق من نتيجة الطالب للدرس السابق
+        $score = $previousLesson->score()->where('user_id', $user->id)->first();
+
+        if (!$score || $score->score < $minPassScore) {
+            return false;
+        }
+
+        return true;
+    }
 }
+
+

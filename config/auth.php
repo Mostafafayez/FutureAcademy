@@ -34,22 +34,19 @@ return [
     | Supported: "session"
     |
     */
-
 'guards' => [
     'web' => [
         'driver' => 'session',
         'provider' => 'users',
     ],
+
     'api' => [
-        'driver' => 'sanctum',
+        'driver' => 'sanctum', // أو passport إذا تستخدمه
         'provider' => 'users',
     ],
-    'teachers' => [
-        'driver' => 'session',
-        'provider' => 'teachers',
-    ],
-    'teachers_api' => [
-        'driver' => 'sanctum',
+
+    'teacher' => [
+        'driver' => 'sanctum', // نفس الـ driver اللي تستخدمه مع الـ API
         'provider' => 'teachers',
     ],
 ],
@@ -76,9 +73,10 @@ return [
         'driver' => 'eloquent',
         'model' => App\Models\User::class,
     ],
+
     'teachers' => [
         'driver' => 'eloquent',
-        'model' => App\Models\teacher::class,
+        'model' => App\Models\Teacher::class,
     ],
 ],
 

@@ -23,27 +23,24 @@ use Illuminate\Support\Facades\Auth;
         public function signUp(Request $request)
         {
             // Validate the request
-            $validator = Validator::make($request->all(), [
-                'name' => 'required|string|max:255',
-                'phone' => 'required|string|max:255|unique:users',
-                'password' => 'required|string|min:6',
-                'educational_level' => 'required|string|exists:educational_levels,name',
-            ], [
-                'educational_level.exists' => 'The selected educational level is invalid.',
-            ]);
-            if ($validator->fails()) {
-                return response()->json(['errors' => $validator->errors()], 422);
-            }
+           $request->validate([
+        'name' => 'required|string|max:255',
+        'phone' => 'required|string|max:255|unique:users,phone',
+        'password' => 'required|string|min:6',
+        'educational_level_id' => 'required|exists:educational_levels,id',
+    ]);
+            // if ($request->fails()) {
+            //     return response()->json(['errors' => $request->errors()], 422);
+            // }
 
             // Find the educational level by name
-            $educationalLevel = EducationalLevel::where('name', $request->educational_level)->first();
 
             // Create the user
             $user = User::create([
                 'name' => $request->name,
                 'phone' => $request->phone,
                 'password' => Hash::make($request->password),
-                'educational_level_id' => $educationalLevel->id,
+            'educational_level_id' => $request->educational_level_id,
 
             ]);
 
@@ -78,6 +75,7 @@ public function login(Request $request)
 //         }
         // Generate the token for the user
         $token = $user->createToken('personalAccessToken')->plainTextToken;
+    $user->load(['educationalLevel']);
 
         return response()->json([
             'user' => $user,
@@ -189,4 +187,32 @@ public function userinfo() {
         }
 
     }
+
+
+
+
+
+public function mySubscriptions(Request $request)
+{
+    $user = Auth::user(); // جلب المستخدم الحالي من token
+
+    if (!$user) {
+        return response()->json([
+            'status' => false,
+            'message' => 'User not authenticated'
+        ], 401);
+    }
+
+    // 1️⃣ الدروس المشترك فيها
+    $packages = $user->subscribedLessons()->get();
+
+    // 2️⃣ المجموعات (Packages) مباشرة
+    // $packages = $lessons->pluck('package')->unique('id')->values();
+
+    return response()->json([
+        'status' => true,
+        // 'lessons' => $lessons,
+        'packages' => $packages,
+    ]);
+}
     }

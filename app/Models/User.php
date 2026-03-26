@@ -52,6 +52,19 @@ class User extends Authenticatable
     ];
 
 
+
+    public function subscribedLessons()
+{
+    return $this->hasManyThrough(
+        packages::class,   // النموذج النهائي
+        Code::class,     // النموذج الوسيط
+        'user_id',       // FK في code يشير للمستخدم
+        'id',            // FK في lesson (عادة id)
+        'id',            // PK في user
+        'lesson_id'      // FK في code يشير للدرس
+    );
+}
+
     public function scores()
     {
         return $this->hasMany(Score::class);

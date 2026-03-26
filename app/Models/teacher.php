@@ -10,7 +10,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
         protected $table = 'teachers';
         use HasApiTokens, HasFactory, Notifiable;
         protected $fillable = [
-            'name', 'phone','description', 'educational_level_id', 'subject_id','password'
+            'name', 'phone','description',  'subject_id','password'
         ];
         public $timestamps = false;
         protected $hidden = [

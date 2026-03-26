@@ -73,7 +73,7 @@ public function login(Request $request)
     $credentials = $request->only('phone', 'password');
 
     // 3️⃣ Attempt authentication using 'teachers' guard
-    if (!Auth::guard('teachers')->attempt($credentials)) {
+    if (!Auth::guard('teacher')->attempt($credentials)) {
         return response()->json([
             'status' => false,
             'message' => 'The provided credentials are incorrect.',

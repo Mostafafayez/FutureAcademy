@@ -19,7 +19,7 @@ protected $fillable = [
 
 public function teacher()
 {
-    return $this->belongsTo(Teacher::class);
+    return $this->belongsTo(teacher::class);
 }
     // العلاقة مع EducationalLevel
     public function educationalLevel()

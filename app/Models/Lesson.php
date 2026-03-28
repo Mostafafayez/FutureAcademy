@@ -80,6 +80,8 @@ class Lesson extends Model
     // التحقق من أن المستخدم مؤهل لدخول الدرس public function canAccess(User $user, $minPassScore = 50)
   public function canAccess(User $user, $minPassScore = 50)
     {
+            dump('Current Order: ' . $this->order);
+
         // إذا الدرس الأول، السماح مباشرة
         if ($this->order == 1) {
             return true;

@@ -12,6 +12,26 @@ use Illuminate\Http\Request;
 
 class lessonController extends Controller
 {
+
+
+
+public function show($id)
+{
+    $lesson = Lesson::find($id);
+
+    if (!$lesson) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Lesson not found'
+        ], 404);
+    }
+
+    return response()->json([
+        'status' => true,
+        'lesson' => $lesson
+    ], 200);
+}
+
     /**
      * Store a new lesson.
      */public function store(Request $request)

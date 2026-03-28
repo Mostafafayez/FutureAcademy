@@ -250,3 +250,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
 Route::middleware('auth:sanctum')->get('/user/subscriptions', [AuthController::class, 'mySubscriptions']);
+
+
+
+Route::middleware('auth:sanctum')->get('lessons/{id}', [LessonController::class, 'show']);

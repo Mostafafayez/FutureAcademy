@@ -263,7 +263,10 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::get('offers', [OfferController::class, 'index']); // Get all
 Route::get('offers/educational-level/{id}', [OfferController::class, 'getByEducationalLevel']); // Get by level
 Route::post('offers', [OfferController::class, 'store']); // Add
-Route::delete('offers/{id}', [OfferController::class, 'destroy']); // Delete
+Route::delete('offers/{id}', [OfferController::class, 'destroy']);
+
+    Route::get('my-offers', [OfferController::class, 'getMyOffers']);
+
 });
 
 

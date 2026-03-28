@@ -80,4 +80,23 @@ public function getByEducationalLevel($id)
             'message' => 'Offer deleted successfully'
         ]);
     }
+
+
+    public function getMyOffers(Request $request)
+{
+    // 👇 المدرس من التوكن
+   $teacher = Auth::guard('teacher')->user();
+
+    $offers = Offer::where('teacher_id', $teacher->id)
+        ->with([
+            'teacher.subject', // عشان المادة
+            'educationalLevel'
+        ])
+        ->get();
+
+    return response()->json([
+        'status' => true,
+        'offers' => $offers
+    ]);
+}
 }

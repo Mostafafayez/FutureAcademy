@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Offer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OfferController extends Controller
 {
@@ -43,7 +44,8 @@ public function getByEducationalLevel($id)
     ]);
 
     // 👇 المدرس من التوكن
-    $teacher = $request->user();
+   $teacher = Auth::guard('teacher')->user();
+
 
     $offer = Offer::create([
         'educational_level_id' => $request->educational_level_id,

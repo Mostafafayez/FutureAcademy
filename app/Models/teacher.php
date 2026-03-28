@@ -18,7 +18,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
             'remember_token',
         ];
 
-        public function codes()
+        public function code()
 {
     return $this->hasMany(Code::class);
 }

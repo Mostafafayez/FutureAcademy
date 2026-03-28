@@ -34,6 +34,13 @@ class Code extends Model
             $model->code = Str::random(10);
         });
     }
+
+
+
+public function codes()
+{
+    return $this->hasMany(Code::class);
+}
     public function user()
     {
         return $this->belongsTo(User::class);

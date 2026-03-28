@@ -35,8 +35,8 @@ class Image extends Model
 
 
 
-    public function getFullSrcAttribute()  {
-        return asset('storage/'.$this->image);
-
-    }
+  public function getFullSrcAttribute()
+{
+    return asset('storage/' . $this->image_url);
+}
 }

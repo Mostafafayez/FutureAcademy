@@ -14,7 +14,7 @@ class TeacherController extends Controller
 public function getAllTeachers()
 {
     $teachers = Teacher::with([
-        'educationalLevel',
+        'educationalLevels',
         'subject',
         'images'
     ])->get();

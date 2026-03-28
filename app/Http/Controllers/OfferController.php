@@ -8,42 +8,56 @@ use Illuminate\Http\Request;
 class OfferController extends Controller
 {
     // Get all offers
-    public function index()
-    {
-        return response()->json([
-            'status' => true,
-            'offers' => Offer::with('educationalLevel')->get()
-        ]);
-    }
+public function index()
+{
+    $offers = Offer::with([
+        'teacher.subject', // 👈 يجيب المادة من المدرس
+    ])->get();
+
+    return response()->json([
+        'status' => true,
+        'offers' => $offers
+    ]);
+}
 
     // Get offers by educational level id
-    public function getByEducationalLevel($educational_level_id)
-    {
-        return response()->json([
-            'status' => true,
-            'offers' => Offer::where('educational_level_id', $educational_level_id)
-                              ->with('educationalLevel')
-                              ->get()
-        ]);
-    }
+public function getByEducationalLevel($id)
+{
+    $offers = Offer::where('educational_level_id', $id)
+        ->with('teacher.subject')
+        ->get();
 
+    return response()->json([
+        'status' => true,
+        'offers' => $offers
+    ]);
+}
     // Add new offer
-    public function store(Request $request)
-    {
-        $request->validate([
-            'educational_level_id' => 'required|exists:educational_levels,id',
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'discount_percentage' => 'required|integer|min:0|max:100',
-        ]);
+   public function store(Request $request)
+{
+    $request->validate([
+        'educational_level_id' => 'required|exists:educational_levels,id',
+        'title' => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'discount_percentage' => 'required|integer|min:0|max:100',
+    ]);
 
-        $offer = Offer::create($request->all());
+    // 👇 المدرس من التوكن
+    $teacher = $request->user();
 
-        return response()->json([
-            'status' => true,
-            'offer' => $offer
-        ], 201);
-    }
+    $offer = Offer::create([
+        'educational_level_id' => $request->educational_level_id,
+        'teacher_id' => $teacher->id, // 👈 أهم سطر
+        'title' => $request->title,
+        'description' => $request->description,
+        'discount_percentage' => $request->discount_percentage,
+    ]);
+
+    return response()->json([
+        'status' => true,
+        'offer' => $offer
+    ], 201);
+}
 
     // Delete offer
     public function destroy($id)

@@ -50,7 +50,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
             return asset('storage/'.$this->image);
 
         }
-
+public function offers()
+{
+    return $this->hasMany(Offer::class);
+}
 
             public function codes()
             {

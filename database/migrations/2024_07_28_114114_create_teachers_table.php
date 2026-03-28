@@ -17,11 +17,19 @@ return new class extends Migration
             $table->text('description');
             $table->string('image')->nullable();
             $table->unsignedBigInteger('educational_level_id');
+            $table->unsignedBigInteger('teacher_id');
             // $table->unsignedBigInteger('subject_id');
             // $table->timestamps(0); // This line is optional; set to false if you don't want timestamps
-            $table->foreign('educational_level_id')->references('id')->on('educational_levels')->onDelete('cascade'); // Assuming 'educational_levels' table exists
+            $table->foreign('educational_level_id')->references('id')->on('educational_levels')->onDelete('cascade');
+            $table->foreign('teacher_id')
+      ->references('id')
+      ->on('teachers')
+      ->onDelete('cascade');// Assuming 'educational_levels' table exists
         });
     }
+
+
+
 
     /**
      * Reverse the migrations.

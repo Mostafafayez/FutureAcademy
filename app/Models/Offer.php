@@ -9,13 +9,18 @@ class Offer extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'educational_level_id',
-        'title',
-        'description',
-        'discount_percentage',
-    ];
+protected $fillable = [
+    'educational_level_id',
+    'teacher_id',
+    'title',
+    'description',
+    'discount_percentage',
+];
 
+public function teacher()
+{
+    return $this->belongsTo(Teacher::class);
+}
     // العلاقة مع EducationalLevel
     public function educationalLevel()
     {

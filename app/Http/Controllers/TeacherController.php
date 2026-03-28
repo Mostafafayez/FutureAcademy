@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 class TeacherController extends Controller
 {
 
+
 public function getAllTeachers()
 {
     $teachers = Teacher::with([

@@ -30,8 +30,7 @@ public function getAllTeachers()
             'subject' => $teacher->subject?->name,
 
             // 👇 الصورة
-            'image_url' => $teacher->image_url ? $teacher->image->FullSrc : null,
-        ];
+                'image' => $teacher->image?->image_url        ];
     });
 
     return response()->json([

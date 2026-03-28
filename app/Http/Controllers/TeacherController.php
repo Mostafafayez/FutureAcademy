@@ -16,7 +16,7 @@ public function getAllTeachers()
     $teachers = Teacher::with([
         'educationalLevels',
         'subject',
-        'images'
+        'image'
     ])->get();
 
     return response()->json([

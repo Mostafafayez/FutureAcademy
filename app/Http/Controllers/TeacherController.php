@@ -10,21 +10,33 @@ use Illuminate\Support\Facades\Auth;
 class TeacherController extends Controller
 {
 
-
 public function getAllTeachers()
 {
     $teachers = Teacher::with([
         'educationalLevels',
-        'subject',
-        'image'
+        'subject'
     ])->get();
+
+    $data = $teachers->map(function ($teacher) {
+        return [
+            'name' => $teacher->name,
+
+            // 👇 أسماء المستويات بس
+            'educational_levels' => $teacher->educationalLevels->pluck('name'),
+
+            // 👇 اسم المادة
+            'subject' => $teacher->subject?->name,
+
+            // 👇 الصورة
+            'image_url' => $teacher->image_url,
+        ];
+    });
 
     return response()->json([
         'status' => true,
-        'teachers' => $teachers
+        'teachers' => $data
     ], 200);
 }
-
     public function getallTeachersCodesCount()
     {
         $teachers = Teacher::withCount('codes')->get();

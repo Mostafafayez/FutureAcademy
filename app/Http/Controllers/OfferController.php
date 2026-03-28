@@ -84,8 +84,16 @@ public function getByEducationalLevel($id)
 
     public function getMyOffers(Request $request)
 {
-    // 👇 المدرس من التوكن
+
    $teacher = Auth::guard('teacher')->user();
+
+
+if (!$teacher) {
+    return response()->json([
+        'status' => false,
+        'message' => 'Unauthenticated'
+    ], 401);
+}
 
     $offers = Offer::where('teacher_id', $teacher->id)
         ->with([

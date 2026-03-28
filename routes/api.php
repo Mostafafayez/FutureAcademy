@@ -63,7 +63,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/messages', [MessageController::class, 'store']);
 
-Route::get('lessons/{lesson}/can-access', [LessonController::class, 'checkAccess']);
+Route::get('lessons/{lessonid}/can-access', [LessonController::class, 'checkAccess']);
 Route::get('/code_count/teacher/all', [TeacherController::class, 'getallTeachersCodesCount']);
 Route::get('/code_count/teacher', [TeacherController::class, 'getTeacherCodesCount']);
 

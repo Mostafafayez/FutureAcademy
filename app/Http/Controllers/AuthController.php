@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Auth;
             // Validate the request
            $request->validate([
         'name' => 'required|string|max:255',
-        'phone' => 'required|string|max:255|unique:users,phone',
+        'phone' => 'required|string|max:255|unique:users,phone' ,
         'password' => 'required|string|min:6',
         'educational_level_id' => 'required|exists:educational_levels,id',
     ]);

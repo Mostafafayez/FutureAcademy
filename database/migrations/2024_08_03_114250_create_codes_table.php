@@ -21,6 +21,14 @@ return new class extends Migration
             $table->foreignId('lesson_id')->constrained()->onDelete('cascade');
             $table->string('teacher_name')->nullable();
             $table->timestamps(0); // Optional: if you want timestamps
+
+
+                 $table->unsignedBigInteger('teacher_id')->nullable()->after('id');
+
+        $table->foreign('teacher_id')
+            ->references('id')
+            ->on('teachers')
+            ->onDelete('cascade');
         });
     }
     /**

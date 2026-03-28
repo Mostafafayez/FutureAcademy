@@ -19,6 +19,8 @@ class Code extends Model
         'user_id',
         'lesson_id',
         'type2',
+        'teacher_id', // 👈 جديد
+
     ];
 
     public $timestamps = false;
@@ -42,5 +44,10 @@ class Code extends Model
         return $this->belongsTo(packages::class, 'lesson_id'); // Assuming 'lesson_id' is the foreign key
     }
 
+
+            public function teacher()
+        {
+            return $this->belongsTo(teacher::class);
+        }
 }
 

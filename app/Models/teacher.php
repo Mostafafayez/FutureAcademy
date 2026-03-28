@@ -17,6 +17,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
             'password',
             'remember_token',
         ];
+
+        public function codes()
+{
+    return $this->hasMany(Code::class);
+}
         public function image()
             {
                 return $this->morphOne(Image::class, 'imageable');

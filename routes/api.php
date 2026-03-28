@@ -5,6 +5,7 @@ use App\Http\Controllers\authteacher;
 use App\Http\Controllers\EducationalLevelController;
 use App\Http\Controllers\PackagesController;
 use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\TeacherCodeController;
 use App\Http\Controllers\teacherStudentsProgress;
 use App\Http\Controllers\UUIDController;
 use GuzzleHttp\Middleware;
@@ -271,3 +272,11 @@ Route::delete('offers/{id}', [OfferController::class, 'destroy']);
 
 
 Route::get('teachers', [TeacherController::class, 'getAllTeachers']);
+
+
+Route::middleware('auth:teacher')->group(function () {
+
+    Route::post('teacher/codes', [TeacherCodeController::class, 'store']);
+    Route::get('teacher/codes', [TeacherCodeController::class, 'myCodes']);
+
+});

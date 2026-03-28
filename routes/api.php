@@ -21,6 +21,7 @@ use App\Http\Controllers\MCQController;
 use Illuminate\Support\Facades\Response;
 use App\Http\Controllers\ScoreController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\OfferController;
 use App\Http\Controllers\ImageController;
 /*
 |--------------------------------------------------------------------------
@@ -254,3 +255,16 @@ Route::middleware('auth:sanctum')->get('/user/subscriptions', [AuthController::c
 
 
 Route::middleware('auth:sanctum')->get('lessons/{id}', [LessonController::class, 'show']);
+
+
+
+
+Route::middleware('auth:sanctum')->group(function () {
+Route::get('offers', [OfferController::class, 'index']); // Get all
+Route::get('offers/educational-level/{id}', [OfferController::class, 'getByEducationalLevel']); // Get by level
+Route::post('offers', [OfferController::class, 'store']); // Add
+Route::delete('offers/{id}', [OfferController::class, 'destroy']); // Delete
+});
+
+
+Route::get('teachers', [TeacherController::class, 'getAllTeachers']);

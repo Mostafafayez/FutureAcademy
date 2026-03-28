@@ -11,7 +11,19 @@ class TeacherController extends Controller
 {
 
 
+public function getAllTeachers()
+{
+    $teachers = Teacher::with([
+        'educationalLevel',
+        'subject',
+        'images'
+    ])->get();
 
+    return response()->json([
+        'status' => true,
+        'teachers' => $teachers
+    ], 200);
+}
 
     public function getallTeachersCodesCount()
     {
@@ -103,6 +115,9 @@ public function getTeacherCodesCount()
 
         return response()->json(['teachers' => $teachers], 200);
     }
+
+
+
 
 
 

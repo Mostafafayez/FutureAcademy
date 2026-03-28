@@ -64,25 +64,35 @@ class lessonController extends Controller
 }
 
 
-
-public function checkAccess(Lesson $lesson, Request $request)
+public function checkAccess($lesson_id, Request $request)
 {
     $user = $request->user();
     $minPassScore = 50;
 
+    // هات الدرس من الداتابيز
+    $lesson = Lesson::find($lesson_id);
+
+    if (!$lesson) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Lesson not found'
+        ], 404);
+    }
+
     if ($lesson->canAccess($user, $minPassScore)) {
         return response()->json([
             'status' => true,
-            'message' => 'الطالب يمكنه الدخول لهذا الدرس'
+            'message' => 'الطالب يمكنه الدخول لهذا الدرس',
+            'order' => $lesson->order // للتأكد
         ]);
     }
 
     return response()->json([
         'status' => false,
-        'message' => 'يجب اجتياز الدرس السابق أولاً'
+        'message' => 'يجب اجتياز الدرس السابق أولاً',
+        'order' => $lesson->order
     ], 403);
 }
-
 
 public function update(Request $request, $id)
 {

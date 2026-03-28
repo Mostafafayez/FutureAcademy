@@ -15,7 +15,8 @@ public function getAllTeachers()
 {
     $teachers = Teacher::with([
         'educationalLevels',
-        'subject'
+        'subject',
+        'image'
     ])->get();
 
     $data = $teachers->map(function ($teacher) {

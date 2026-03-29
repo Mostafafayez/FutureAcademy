@@ -169,23 +169,7 @@ Route::get('/approve_user/{id}', [AuthController::class, 'isApproved']);
 
 
 
-Route::get('/manage-cache', function ( ){
-    // Clear existing caches
-    Artisan::call('storage:link');
-    // Artisan::call('route:clear');
-    Artisan::call('view:clear');
-    Artisan::call('route:clear');
 
-    // Clear optimized files
-    Artisan::call('optimize:clear');
-
-    // Re-cache configuration
-    Artisan::call('config:cache');
-    Artisan::call('route:cache');
-    Artisan::call('view:cache');
-
-    return 'cache linked!';
-});
 
 Route::get('/link', function () {
     try {
@@ -283,4 +267,21 @@ Route::middleware('auth:teacher')->group(function () {
     Route::get('teacher/codes', [TeacherCodeController::class, 'myCodes']);
 
 });
+});
+Route::get('/manage-cache', function ( ){
+    // Clear existing caches
+    Artisan::call('storage:link');
+    // Artisan::call('route:clear');
+    Artisan::call('view:clear');
+    Artisan::call('route:clear');
+
+    // Clear optimized files
+    Artisan::call('optimize:clear');
+
+    // Re-cache configuration
+    Artisan::call('config:cache');
+    Artisan::call('route:cache');
+    Artisan::call('view:cache');
+
+    return 'cache linked!';
 });

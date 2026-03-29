@@ -22,18 +22,27 @@ class Handler extends ExceptionHandler
     }
 
     // ✅ هنا الصح (برا register)
+use Illuminate\Validation\ValidationException;
 
 public function render($request, Throwable $exception)
 {
-    // تحقق إذا كانت مشكلة Authentication (توكن منتهي أو غير صالح)
-    if ($exception instanceof AuthenticationException) {
+    // تحقق من ValidationException
+    if ($exception instanceof ValidationException) {
+        return response()->json([
+            'status' => false,
+            'message' => 'يوجد بيانات غير صحيحة، يرجى التحقق من المدخلات'
+        ], 422);
+    }
+
+    // AuthenticationException لتوكن منتهي
+    if ($exception instanceof \Illuminate\Auth\AuthenticationException) {
         return response()->json([
             'status' => false,
             'message' => 'تم انتهاء صلاحية التوكن، يرجى تسجيل الدخول مرة أخرى'
         ], 401);
     }
 
-    // معالجة الـ Throttle
+    // Throttle requests
     if ($exception instanceof \Illuminate\Http\Exceptions\ThrottleRequestsException) {
         return response()->json([
             'status' => false,

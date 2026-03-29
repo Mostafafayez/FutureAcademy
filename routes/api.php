@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\VideoProgressController;
 use App\Http\Controllers\authteacher;
 use App\Http\Controllers\EducationalLevelController;
+use App\Http\Controllers\LessonController;
 use App\Http\Controllers\PackagesController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\TeacherCodeController;
@@ -14,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TeacherController;
-use App\Http\Controllers\LessonController;
+
 use App\Http\Controllers\CodeController;
 use App\Http\Controllers\VideoController;
 use App\Http\Controllers\PDFController;

@@ -24,6 +24,7 @@ use App\Http\Controllers\ScoreController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\ImageController;
+use Illuminate\Support\Facades\Artisan;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -34,6 +35,7 @@ use App\Http\Controllers\ImageController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+Route::middleware(['throttle:api'])->group(function () {
 
 
 //Authentication  pdf   eduction
@@ -164,7 +166,7 @@ Route::get('/questions/lesson/{lessonId}', [QuestionController::class, 'getByLes
 //approval user
 Route::get('/approve_user/{id}', [AuthController::class, 'isApproved']);
 
-use Illuminate\Support\Facades\Artisan;
+
 
 
 Route::get('/manage-cache', function ( ){
@@ -280,4 +282,5 @@ Route::middleware('auth:teacher')->group(function () {
     Route::post('teacher/codes', [TeacherCodeController::class, 'store']);
     Route::get('teacher/codes', [TeacherCodeController::class, 'myCodes']);
 
+});
 });

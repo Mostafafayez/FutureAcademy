@@ -197,7 +197,12 @@ Route::get('/clear', function () {
     return 'cache linked!';
 });
 
-
+Route::fallback(function () {
+    return response()->json([
+        'status' => false,
+        'message' => 'Page not found'
+    ], 404);
+});
 
 Route::middleware('auth:sanctum')->get('teachers/students-progress', [teacherStudentsProgress::class, 'teacherStudentsProgress']);
 

@@ -6,7 +6,7 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Request;
 use Throwable;
 use Illuminate\Validation\ValidationException;
-
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class Handler extends ExceptionHandler
 {
     protected $dontFlash = [
@@ -25,32 +25,21 @@ class Handler extends ExceptionHandler
     // ✅ هنا الصح (برا register)
 // use Illuminate\Validation\ValidationException;
 
+
 public function render($request, Throwable $exception)
 {
-    // تحقق من ValidationException
-    if ($exception instanceof ValidationException) {
+    // لو الصفحة مش موجودة
+    if ($exception instanceof NotFoundHttpException) {
         return response()->json([
             'status' => false,
-            'message' => 'يوجد بيانات غير صحيحة، يرجى التحقق من المدخلات'
-        ], 422);
+            'message' => 'Page not found'
+        ], 404);
     }
 
-    // AuthenticationException لتوكن منتهي
-    if ($exception instanceof \Illuminate\Auth\AuthenticationException) {
-        return response()->json([
-            'status' => false,
-            'message' => 'تم انتهاء صلاحية التوكن، يرجى تسجيل الدخول مرة أخرى'
-        ], 401);
-    }
-
-    // Throttle requests
-    if ($exception instanceof \Illuminate\Http\Exceptions\ThrottleRequestsException) {
-        return response()->json([
-            'status' => false,
-            'message' => 'عدد الطلبات كبير جدًا، حاول بعد دقيقة'
-        ], 429);
-    }
-
-    return parent::render($request, $exception);
+    // لو أي خطأ تاني (500)
+    return response()->json([
+        'status' => false,
+        'message' => 'Something went wrong'
+    ], 500);
 }
 }

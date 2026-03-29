@@ -16,7 +16,7 @@ class authteacher extends Controller
             // Validate the request
             $validator = Validator::make($request->all(), [
                 'name' => 'required|string|max:255',
-                'phone' => 'required|string|max:255|unique:teachers',
+               'phone' => 'required|numeric|digits_between:8,15|unique:users,phone',
                 'description' =>'required|string|max:255',
                 'password' => 'required|string|min:6',
                  'subject_id' => 'required|exists:subjects,id',
@@ -65,7 +65,7 @@ public function login(Request $request)
 {
     // Validate
     $request->validate([
-        'phone' => 'required|string|max:255',
+        'phone' => 'required|numeric',
         'password' => 'required|string|min:6',
     ]);
 

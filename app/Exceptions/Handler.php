@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Request;
 use Throwable;
+use Illuminate\Validation\ValidationException;
 
 class Handler extends ExceptionHandler
 {
@@ -22,7 +23,7 @@ class Handler extends ExceptionHandler
     }
 
     // ✅ هنا الصح (برا register)
-use Illuminate\Validation\ValidationException;
+// use Illuminate\Validation\ValidationException;
 
 public function render($request, Throwable $exception)
 {

@@ -10,7 +10,7 @@ use App\Models\Lesson;
 use Illuminate\Http\Request;
 
 
-class lessonController extends Controller
+class LessonController extends Controller
 {
 
 

@@ -200,7 +200,7 @@ Route::get('/clear', function () {
 Route::fallback(function () {
     return response()->json([
         'status' => false,
-        'message' => 'Page not found'
+        'message' => ' not found'
     ], 404);
 });
 

@@ -22,15 +22,25 @@ class Handler extends ExceptionHandler
     }
 
     // ✅ هنا الصح (برا register)
-    public function render($request, Throwable $exception)
-    {
-        // if ($request->expectsJson()) {
-        //                 return response()->json([
-        //             'status' => false,
-        //             'message' => 'Something went wrong'
-        //         ], 500);
-        // }
 
-        return parent::render($request, $exception);
+public function render($request, Throwable $exception)
+{
+    // تحقق إذا كانت مشكلة Authentication (توكن منتهي أو غير صالح)
+    if ($exception instanceof AuthenticationException) {
+        return response()->json([
+            'status' => false,
+            'message' => 'تم انتهاء صلاحية التوكن، يرجى تسجيل الدخول مرة أخرى'
+        ], 401);
     }
+
+    // معالجة الـ Throttle
+    if ($exception instanceof \Illuminate\Http\Exceptions\ThrottleRequestsException) {
+        return response()->json([
+            'status' => false,
+            'message' => 'عدد الطلبات كبير جدًا، حاول بعد دقيقة'
+        ], 429);
+    }
+
+    return parent::render($request, $exception);
+}
 }

@@ -47,7 +47,7 @@ protected function configureRateLimiting()
         if ($request->user()) {
             // مثال: Teachers عندهم limit أعلى
             if ($request->user() instanceof \App\Models\Teacher) {
-                return Limit::perMinute(1)->by($request->user()->id);
+                return Limit::perMinute(120)->by($request->user()->id);
             }
 
             // باقي الطلاب

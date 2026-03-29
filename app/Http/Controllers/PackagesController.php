@@ -43,7 +43,7 @@ class PackagesController extends Controller
 
 
            if ($request->hasFile('image')) {
-        $fileName = $request->file('image')->store('iamges/packages', 'public');
+        $fileName = $request->file('image')->store('images/packages', 'public');
 
         $package->image()->create([
             'image_url' => $fileName

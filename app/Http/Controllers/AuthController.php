@@ -73,6 +73,12 @@ public function login(Request $request)
 // ',
 //             ], 403);
 //         }
+
+
+$user = User::where('phone', $request->phone)->first();
+
+// ❗ احذف كل التوكنز القديمة
+$user->tokens()->delete();
         // Generate the token for the user
         $token = $user->createToken('personalAccessToken')->plainTextToken;
     $user->load(['educationalLevel']);

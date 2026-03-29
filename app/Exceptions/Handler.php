@@ -32,7 +32,7 @@ public function render($request, Throwable $exception)
     if ($exception instanceof NotFoundHttpException) {
         return response()->json([
             'status' => false,
-            'message' => 'Page not found'
+            'message' => ' not found'
         ], 404);
     }
 

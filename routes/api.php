@@ -69,11 +69,12 @@ Route::get('lessons/{lessonid}/can-access', [LessonController::class, 'checkAcce
 Route::get('/code_count/teacher/all', [TeacherController::class, 'getallTeachersCodesCount']);
 Route::get('/code_count/teacher', [TeacherController::class, 'getTeacherCodesCount']);
 
+Route::get('/getusermessages', [MessageController::class, 'getUserMessages']);
 });
 
 
 
-Route::get('/getusermessages', [MessageController::class, 'getUserMessages']);
+
 Route::get('/getmessages', [MessageController::class, 'getAllMessages']);
 
 Route::get('/encryption_videos/lesson/{lessonId}', [VideoController::class, 'getEncryptionByLessonId']);

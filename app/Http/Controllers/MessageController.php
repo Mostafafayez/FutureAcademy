@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Message;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
 {
@@ -27,8 +28,10 @@ class MessageController extends Controller
 
     public function getUserMessages()
     {
+
+      $user = Auth::user();
         // Retrieve all users with their messages and educational level
-        $users = User::with(['messages', 'educationalLevel'])->get();
+        $users =  $user ::with(['messages', 'educationalLevel'])->get();
 
         // Prepare the response data
         $data = $users->map(function ($user) {

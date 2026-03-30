@@ -86,7 +86,7 @@ public function login(Request $request)
     // 3️⃣ Get authenticated user
     $user = Auth::user();
 
-  
+
 
     // 4️⃣ Delete old tokens
     $user->tokens()->delete();
@@ -234,5 +234,33 @@ public function mySubscriptions(Request $request)
         // 'lessons' => $lessons,
         'packages' => $packages,
     ]);
+}
+
+
+
+
+public function resetPassword(Request $request)
+{
+    // 1️⃣ Validate
+    $request->validate([
+        'phone' => 'required|numeric|exists:users,phone',
+        'password' => 'required|string|min:6|confirmed',
+    ]);
+
+    // 2️⃣ Get user
+    $user = User::where('phone', $request->phone)->first();
+
+    // 3️⃣ Update password
+    $user->update([
+        'password' => Hash::make($request->password)
+    ]);
+
+    // 4️⃣ حذف التوكنز القديمة (مهم 🔥)
+    // $user->tokens()->delete();
+
+    return response()->json([
+        'status' => true,
+        'message' => 'Password updated successfully'
+    ], 200);
 }
     }

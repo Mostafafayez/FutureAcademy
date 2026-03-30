@@ -291,3 +291,7 @@ Route::get('/manage-cache', function ( ){
 
     return 'cache linked!';
 });
+
+
+
+Route::middleware('auth:sanctum')->post('reset/password', [AuthController::class, 'resetPassword']);

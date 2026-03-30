@@ -49,8 +49,9 @@ public function myCodes(Request $request)
         ], 401);
     }
 
-    $codes = Code::where('teacher_id', $teacher->id)->get();
-     $codes->load('user');
+    $codes = Code::with('user')
+    ->where('teacher_id', $teacher->id)
+    ->get();
     return response()->json([
         'status' => true,
         'codes' => $codes

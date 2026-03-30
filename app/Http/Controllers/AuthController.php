@@ -20,82 +20,96 @@ use Illuminate\Support\Facades\Auth;
          * @param  \Illuminate\Http\Request  $request
          * @return \Illuminate\Http\JsonResponse
          */
-        public function signUp(Request $request)
-        {
-            // Validate the request
-           $request->validate([
+public function signUp(Request $request)
+{
+    // Validate
+    $request->validate([
         'name' => 'required|string|max:255',
-       'phone' => 'required|numeric|digits_between:8,15|unique:users,phone',
+        'phone' => 'required|numeric|digits_between:8,15|unique:users,phone',
         'password' => 'required|string|min:6',
+        'image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         'educational_level_id' => 'required|exists:educational_levels,id',
     ]);
-            // if ($request->fails()) {
-            //     return response()->json(['errors' => $request->errors()], 422);
-            // }
 
-            // Find the educational level by name
+    // Create user
+    $user = User::create([
+        'name' => $request->name,
+        'phone' => $request->phone,
+        'password' => Hash::make($request->password),
+        'educational_level_id' => $request->educational_level_id,
+    ]);
 
-            // Create the user
-            $user = User::create([
-                'name' => $request->name,
-                'phone' => $request->phone,
-                'password' => Hash::make($request->password),
-            'educational_level_id' => $request->educational_level_id,
+    // Handle image
+    if ($request->hasFile('image')) {
+        $file = $request->file('image');
 
-            ]);
+        $path = $file->store('students', 'public');
 
-            // Return the created user
-            return response()->json(['user' => $user], 201);
-        }
+        $user->image()->create([
+            'image_url' => $path
+        ]);
+    }
 
 
+    $user->load('image');
+
+    return response()->json([
+        'status' => true,
+        'user' => $user
+    ], 201);
+}
 public function login(Request $request)
 {
-    // Validate the input
+    // 1️⃣ Validate
     $validator = Validator::make($request->all(), [
         'phone' => 'required|numeric',
         'password' => 'required|string',
     ]);
 
     if ($validator->fails()) {
-        return response()->json(['errors' => $validator->errors()], 422);
+        return response()->json([
+            'status' => false,
+            'errors' => $validator->errors()
+        ], 422);
     }
 
-    // Check if the user exists and the password matches
+    // 2️⃣ Attempt login
     $credentials = $request->only('phone', 'password');
 
-    if (Auth::attempt($credentials)) {
-        $user = Auth::user(); // Retrieve the authenticated user
-
-//         if (substr($user->phone, -1) === '$') {
-//             return response()->json([
-//                 'message' => ' "تم تعطيل الاكونت . برجاء التواصل مع مشرفين المدرس الخاص بك"
-// ',
-//             ], 403);
-//         }
-
-
-$user = User::where('phone', $request->phone)->first();
-
-// ❗ احذف كل التوكنز القديمة
-$user->tokens()->delete();
-        // Generate the token for the user
-        $token = $user->createToken('personalAccessToken')->plainTextToken;
-    $user->load(['educationalLevel']);
-
+    if (!Auth::attempt($credentials)) {
         return response()->json([
-            'user' => $user,
-            'token' => $token,
-            // 'educational_level' => $user->educationalLevel->name ?? null // Uncomment if educational level is needed
-        ], 200);
-    } else {
-        // Authentication failed
-        return response()->json([
-            'message' => 'The Email or password is incorrect.',
+            'status' => false,
+            'message' => 'The phone or password is incorrect.'
         ], 403);
     }
-}
 
+    // 3️⃣ Get authenticated user
+    $user = Auth::user();
+
+  
+
+    // 4️⃣ Delete old tokens
+    $user->tokens()->delete();
+
+    // 5️⃣ Create new token
+    $token = $user->createToken('personalAccessToken')->plainTextToken;
+
+    // 6️⃣ Load relations
+    $user->load(['educationalLevel', 'image']);
+
+    // 7️⃣ Return response بشكل نظيف
+    return response()->json([
+        'status' => true,
+        'user' => [
+            'id' => $user->id,
+            'name' => $user->name,
+            'phone' => $user->phone,
+            'educational_level' => $user->educationalLevel->name ?? null,
+            'image' => $user->image ? asset('storage/' . $user->image->image_url) : null,
+        ],
+        'token' => $token,
+    ], 200);
+}
 
 
 

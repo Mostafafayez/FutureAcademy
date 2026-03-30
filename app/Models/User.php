@@ -52,6 +52,8 @@ class User extends Authenticatable
     ];
 
 
+    protected $appends=['FullSrc'];
+
 
     public function subscribedLessons()
 {
@@ -70,6 +72,15 @@ class User extends Authenticatable
         return $this->hasMany(Score::class);
     }
 
+    public function image()
+      {
+      return $this->morphOne(Image::class, 'imageable');
+      }
+
+      public function getFullSrcAttribute()
+{
+    return asset('storage/' . $this->image_url);
+}
 
     public function codes()
     {

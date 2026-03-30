@@ -105,6 +105,7 @@ public function login(Request $request)
             'name' => $user->name,
             'phone' => $user->phone,
             'educational_level' => $user->educationalLevel->name ?? null,
+            'educational_level_id' => $user->educationalLevel->id ?? null,
             'image' => $user->image ? asset('storage/' . $user->image->image_url) : null,
         ],
         'token' => $token,

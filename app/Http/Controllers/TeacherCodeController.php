@@ -50,7 +50,7 @@ public function myCodes(Request $request)
     }
 
     $codes = Code::where('teacher_id', $teacher->id)->get();
-
+     $codes->load('user');
     return response()->json([
         'status' => true,
         'codes' => $codes

@@ -5,14 +5,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\SoftDeletes;
     class teacher extends Authenticatable
     {
         protected $table = 'teachers';
-        use HasApiTokens, HasFactory, Notifiable;
+        use HasApiTokens, HasFactory, Notifiable,SoftDeletes;
         protected $fillable = [
             'name', 'phone','description',  'subject_id','password'
         ];
-        public $timestamps = false;
+        public $timestamps = true;
         protected $hidden = [
             'password',
             'remember_token',

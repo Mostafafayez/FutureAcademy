@@ -273,10 +273,36 @@ public function getTeachersByEducationalLevel($educationalLevelId)
             return response()->json(['message' => 'Teacher not found.'], 404);
         }
 
-        $teacher->delete();
+    $teacher->delete();
 
-        return response()->json(['message' => 'Teacher deleted successfully'], 200);
+    return response()->json([
+        'message' => 'Teacher deleted successfully (soft delete)'
+    ], 200);
     }
+
+
+    public function restore($id)
+{
+    $teacher = Teacher::withTrashed()->find($id);
+
+    if (!$teacher) {
+        return response()->json([
+            'message' => 'Teacher not found'
+        ], 404);
+    }
+
+    if (!$teacher->trashed()) {
+        return response()->json([
+            'message' => 'Teacher is not deleted'
+        ], 400);
+    }
+
+    $teacher->restore();
+
+    return response()->json([
+        'message' => 'Teacher restored successfully'
+    ], 200);
+}
 
 
     public function getTeaddchers()

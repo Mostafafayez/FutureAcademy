@@ -295,3 +295,8 @@ Route::get('/manage-cache', function ( ){
 
 
 Route::middleware('auth:sanctum')->post('reset/password', [AuthController::class, 'resetPassword']);
+
+
+
+Route::delete('/teachers/{id}', [TeacherController::class, 'destroy']);
+Route::post('/teachers/{id}/restore', [TeacherController::class, 'restore']);

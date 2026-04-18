@@ -5,6 +5,7 @@ use App\Http\Controllers\authteacher;
 use App\Http\Controllers\EducationalLevelController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\LogCodeController;
+use App\Http\Controllers\LogController;
 use App\Http\Controllers\PackagesController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\TeacherCodeController;
@@ -304,4 +305,5 @@ Route::post('/teachers/{id}/restore', [TeacherController::class, 'restore']);
 
 
 
-Route::get('/logs', [LogCodeController::class, 'getLogs']);
+Route::get('/logs', [LogController::class, 'getLogs']);
+Route::delete('/logs/clear', [LogController::class, 'clearLogs']);

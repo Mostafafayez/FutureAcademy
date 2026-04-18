@@ -103,7 +103,7 @@ Route::get('/getteachers', [TeacherController::class, 'index']);
 Route::get('/mobile/teacher', [TeacherController::class, 'getall']);
 Route::post('/search/{educationLevel}', [TeacherController::class, 'search']);
 
-Route::delete('/teachers/{id}', [TeacherController::class, 'destroy']);
+// Route::delete('/teachers/{id}', [TeacherController::class, 'destroy']);
 
 //packages  signUp
 Route::post('/addpackage', [PackagesController::class, 'store']);

@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\VideoProgressController;
 use App\Http\Controllers\authteacher;
 use App\Http\Controllers\EducationalLevelController;
 use App\Http\Controllers\LessonController;
+use App\Http\Controllers\LogCodeController;
 use App\Http\Controllers\PackagesController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\TeacherCodeController;
@@ -300,3 +301,7 @@ Route::middleware('auth:sanctum')->post('reset/password', [AuthController::class
 
 Route::delete('/teachers/{id}', [TeacherController::class, 'destroy']);
 Route::post('/teachers/{id}/restore', [TeacherController::class, 'restore']);
+
+
+
+Route::get('/logs', [LogCodeController::class, 'getLogs']);

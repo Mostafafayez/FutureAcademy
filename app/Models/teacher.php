@@ -40,6 +40,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
         return $this->belongsToMany(EducationalLevel::class, 'eductional_level_teacher', 'teacher_id', 'educational_level_id');
     }
 
+
+    public function messages()
+{
+    return $this->hasMany(Message::class);
+}
+
         public function subject() {
             return $this->belongsTo(Subject::class);
 

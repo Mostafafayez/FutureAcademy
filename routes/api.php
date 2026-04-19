@@ -77,6 +77,7 @@ Route::get('/code_count/teacher', [TeacherController::class, 'getTeacherCodesCou
 Route::get('/getusermessages', [MessageController::class, 'getUserMessages']);
 });
 
+    Route::get('/messages/teacher', [MessageController::class, 'getMessagesByTeacher']);
 
 
 

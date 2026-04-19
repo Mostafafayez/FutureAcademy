@@ -13,11 +13,13 @@ class MessageController extends Controller
     {
         $validatedData = $request->validate([
             'message' => 'required|string',
+            'teacher_id' => 'required|exists:teachers,id',
         ]);
 
         $message = Message::create([
             'message' => $validatedData['message'],
             'user_id' => auth()->id(),
+            'teacher_id' =>$validatedData['teacher_id'],
         ]);
 
         return response()->json(['message' => 'Message added successfully!', 'data' => $message], 201);
@@ -25,23 +27,52 @@ class MessageController extends Controller
 
 
 
+    public function getMessagesByTeacher()
+{
+       $teacher = Auth::guard('teacher')->user();
+
+
+         if (!$teacher) {
+        return response()->json([
+            'message' => 'Unauthorized'
+        ], 401);
+    }
+
+
+
+
+    $messages = Message::where('teacher_id',$teacher->id )
+        ->latest()
+        ->get();
+
+    return response()->json([
+        'message' => 'Messages retrieved successfully',
+        'data' => $messages
+    ], 200);
+}
+
+
 
 public function getUserMessages()
 {
     $user = Auth::user();
 
-    $user->load(['messages', 'educationalLevel']);
+    $user->load(['messages.teacher', 'educationalLevel']);
 
     $data = [
         'user_name' => $user->name,
         'user_phone' => $user->phone,
         'educational_level' => $user->educationalLevel->name ?? 'N/A',
-        'messages' => $user->messages->pluck('message'),
+        'messages' => $user->messages->map(function ($message) {
+            return [
+                'message' => $message->message,
+                'teacher_name' => $message->teacher?->name ?? 'Unknown',
+            ];
+        }),
     ];
 
     return response()->json($data);
 }
-
 
 
     public function getAllMessages()

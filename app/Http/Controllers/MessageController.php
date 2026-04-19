@@ -42,7 +42,7 @@ class MessageController extends Controller
 
 
     $messages = Message::where('teacher_id',$teacher->id )
-        ->latest()
+       
         ->get();
 
     return response()->json([

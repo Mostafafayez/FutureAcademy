@@ -56,4 +56,10 @@ class EducationalLevel extends Model
 {
     return $this->hasMany(Offer::class);
 }
+
+
+public function teacherBundles()
+{
+    return $this->hasMany(TeacherBundle::class);
+}
 }

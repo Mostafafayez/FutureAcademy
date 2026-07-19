@@ -31,4 +31,12 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+  
+'daily' => [
+    'api_key'  => env('DAILY_API_KEY'),
+    'base_url' => env('DAILY_BASE_URL'),
+],
+
+
+
 ];

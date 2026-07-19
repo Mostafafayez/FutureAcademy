@@ -55,6 +55,14 @@ class User extends Authenticatable
     protected $appends=['FullSrc'];
 
 
+
+
+    public function meetings()
+{
+    return $this->hasMany(Meeting::class);
+}
+
+
     public function subscribedLessons()
 {
     return $this->hasManyThrough(

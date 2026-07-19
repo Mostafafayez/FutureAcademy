@@ -79,4 +79,15 @@ public function offers()
                 );
             }
 
+
+            public function teacherBundles()
+{
+    return $this->belongsToMany(
+        TeacherBundle::class,
+        'teacher_bundle_teacher',
+        'teacher_id',
+        'teacher_bundle_id'
+    );
+}
+
     }

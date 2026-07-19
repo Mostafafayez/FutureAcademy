@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TeacherController;
-
+use App\Http\Controllers\MeetingController;
 use App\Http\Controllers\CodeController;
 use App\Http\Controllers\VideoController;
 use App\Http\Controllers\PDFController;
@@ -27,6 +27,8 @@ use App\Http\Controllers\ScoreController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\TeacherBundleController;
+use App\Models\TeacherBundle;
 use Illuminate\Support\Facades\Artisan;
 /*
 |--------------------------------------------------------------------------
@@ -308,3 +310,29 @@ Route::post('/teachers/{id}/restore', [TeacherController::class, 'restore']);
 
 Route::get('/logs', [LogController::class, 'getLogs']);
 Route::delete('/logs/clear', [LogController::class, 'clearLogs']);
+
+
+
+
+
+Route::post('/meetings/create', [MeetingController::class, 'create']);
+
+Route::post('/meetings/token', [MeetingController::class, 'token']);
+
+
+
+
+
+Route::post('/teacher-bundles', [TeacherBundleController::class, 'store']);
+
+Route::get('/teacher-bundles', [TeacherBundleController::class, 'index']);
+
+Route::get('/teacher-bundles/{id}', [TeacherBundleController::class, 'show']);
+
+Route::put('/teacher-bundles/{id}', [TeacherBundleController::class, 'update']);
+
+Route::delete('/teacher-bundles/{id}', [TeacherBundleController::class, 'destroy']);
+
+Route::get('/teacher-bundles/teacher/{teacher_id}', [TeacherBundleController::class, 'getByTeacher']);
+
+Route::get('/teacher-bundles/educational-level/{id}', [TeacherBundleController::class, 'getByEducationalLevel']);

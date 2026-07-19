@@ -19,8 +19,6 @@ class TeacherVideoController extends Controller
 
             'video_url'=>'required|url',
 
-            'thumbnail'=>'nullable|string',
-
             'status'=>'nullable|boolean',
 
     ]);

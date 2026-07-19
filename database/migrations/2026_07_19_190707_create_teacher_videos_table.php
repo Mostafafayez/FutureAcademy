@@ -22,9 +22,6 @@ return new class extends Migration
 
             $table->string('video_url');
 
-            $table->string('thumbnail')->nullable();
-
-
             $table->boolean('status')->default(true);
 
             $table->timestamps();

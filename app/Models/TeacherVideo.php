@@ -14,7 +14,6 @@ class TeacherVideo extends Model
         'title',
         'description',
         'video_url',
-        'thumbnail',
         'status',
     ];
 

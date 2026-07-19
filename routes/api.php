@@ -350,4 +350,4 @@ Route::get('/teacher-bundles/educational-level/{id}', [TeacherBundleController::
     Route::get('/educational-level/{levelId}', [TeacherVideoController::class,'getByEducationalLevel']);
 
 // });
-  Route::post('/add/teacher-videos', [TeacherVideoController::class,'store']);
+  Route::post('/intro', [TeacherVideoController::class,'store']);

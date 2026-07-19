@@ -9,23 +9,23 @@ class TeacherVideoController extends Controller
 {
     public function store(Request $request)
 {
-    // $request->validate([
+    $request->validate([
 
-    //     'teacher_id'=>'required|exists:teachers,id',
+        'teacher_id'=>'required|exists:teachers,id',
 
-    //     'title'=>'required|string|max:255',
+        'title'=>'required|string|max:255',
 
-    //     'description'=>'nullable|string',
+        'description'=>'nullable|string',
 
-    //     'video_url'=>'required|url',
+        'video_url'=>'required|url',
 
-    //     'thumbnail'=>'nullable|string',
+        'thumbnail'=>'nullable|string',
 
-    //     'sort_order'=>'nullable|integer',
+        'sort_order'=>'nullable|integer',
 
-    //     'status'=>'nullable|boolean',
+        'status'=>'nullable|boolean',
 
-    // ]);
+    ]);
 
     return TeacherVideo::create($request->all());
 }

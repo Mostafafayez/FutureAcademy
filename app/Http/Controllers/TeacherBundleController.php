@@ -118,7 +118,7 @@ public function getByEducationalLevel($id)
         'teachers',
         'educationalLevel'
     ])
-    ->where('educational_level_id', $id)
+    ->where('educational_levels_id', $id)
     ->get();
 
     return response()->json($bundles);

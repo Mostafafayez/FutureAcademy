@@ -12,20 +12,20 @@ class TeacherBundle extends Model
     protected $fillable = [
         'title',
         'description',
-        'educational_level_id',
+        'educational_levels_id',
         'price',
         'status'
     ];
 
     public function educationalLevel()
     {
-        return $this->belongsTo(EducationalLevel::class);
+        return $this->belongsTo(EducationalLevel::class,'educational_levels_id');
     }
 
     public function teachers()
     {
         return $this->belongsToMany(
-            Teacher::class,
+            teacher::class,
             'teacher_bundle_teacher',
             'teacher_bundle_id',
             'teacher_id'

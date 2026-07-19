@@ -14,7 +14,7 @@ class TeacherBundleController extends Controller
         'description' => 'nullable|string',
         'educational_level_id' => 'required|exists:educational_levels,id',
         'price' => 'required|numeric|min:0',
-        'status' => 'required|boolean',
+        // 'status' => 'required|boolean',
         'teachers' => 'required|array|min:1',
         'teachers.*' => 'exists:teachers,id',
     ]);
@@ -22,16 +22,19 @@ class TeacherBundleController extends Controller
     $bundle = TeacherBundle::create([
         'title' => $request->title,
         'description' => $request->description,
-        'educational_level_id' => $request->educational_level_id,
+        'educational_levels_id' => $request->educational_level_id,
         'price' => $request->price,
-        'status' => $request->status,
+        'status' => 1,
     ]);
 
-    $bundle->teachers()->sync($request->teachers);
+    $bundle->teachers()->sync ($request->teachers);
 
     return response()->json([
         'message' => 'Bundle created successfully',
-        'data' => $bundle->load('teachers')
+           'data' => $bundle->load([
+        'teachers',
+        'educationalLevel'
+    ])
     ]);
 }
 public function index()

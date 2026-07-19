@@ -40,6 +40,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
         return $this->belongsToMany(EducationalLevel::class, 'eductional_level_teacher', 'teacher_id', 'educational_level_id');
     }
 
+    
+
 
     public function messages()
 {
@@ -88,6 +90,12 @@ public function offers()
         'teacher_id',
         'teacher_bundle_id'
     );
+}
+
+
+public function videos()
+{
+    return $this->hasMany(TeacherVideo::class);
 }
 
     }

@@ -10,6 +10,7 @@ use App\Http\Controllers\PackagesController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\TeacherCodeController;
 use App\Http\Controllers\teacherStudentsProgress;
+use App\Http\Controllers\TeacherVideoController;
 use App\Http\Controllers\UUIDController;
 use GuzzleHttp\Middleware;
 use Illuminate\Http\Request;
@@ -336,4 +337,16 @@ Route::delete('/teacher-bundles/{id}', [TeacherBundleController::class, 'destroy
 Route::get('/teacher-bundles/teacher/{teacher_id}', [TeacherBundleController::class, 'getByTeacher']);
 
 Route::get('/teacher-bundles/educational-level/{id}', [TeacherBundleController::class, 'getByEducationalLevel']);
+});
+
+Route::prefix('teacher-videos')->group(function () {
+
+    Route::post('/', [TeacherVideoController::class,'store']);
+
+    Route::get('/', [TeacherVideoController::class,'index']);
+
+    Route::get('/teacher/{teacherId}', [TeacherVideoController::class,'getByTeacher']);
+
+    Route::get('/educational-level/{levelId}', [TeacherVideoController::class,'getByEducationalLevel']);
+
 });

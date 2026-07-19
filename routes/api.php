@@ -339,14 +339,14 @@ Route::get('/teacher-bundles/teacher/{teacher_id}', [TeacherBundleController::cl
 Route::get('/teacher-bundles/educational-level/{id}', [TeacherBundleController::class, 'getByEducationalLevel']);
 });
 
-Route::prefix('teacher-videos')->group(function () {
+// Route::prefix('teacher-videos')->group(function () {
 
-    Route::post('/', [TeacherVideoController::class,'store']);
+    Route::post('/teacher-videos', [TeacherVideoController::class,'store']);
 
-    Route::get('/', [TeacherVideoController::class,'index']);
+    Route::get('/teacher-videos', [TeacherVideoController::class,'index']);
 
     Route::get('/teacher/{teacherId}', [TeacherVideoController::class,'getByTeacher']);
 
     Route::get('/educational-level/{levelId}', [TeacherVideoController::class,'getByEducationalLevel']);
 
-});
+// });

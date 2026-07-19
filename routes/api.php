@@ -341,7 +341,7 @@ Route::get('/teacher-bundles/educational-level/{id}', [TeacherBundleController::
 
 // Route::prefix('teacher-videos')->group(function () {
 
-
+ Route::post('/intro', [TeacherVideoController::class,'store']);
 
     Route::get('/teacher-videos', [TeacherVideoController::class,'index']);
 
@@ -350,4 +350,4 @@ Route::get('/teacher-bundles/educational-level/{id}', [TeacherBundleController::
     Route::get('/educational-level/{levelId}', [TeacherVideoController::class,'getByEducationalLevel']);
 
 // });
-  Route::post('/intro', [TeacherVideoController::class,'store']);
+

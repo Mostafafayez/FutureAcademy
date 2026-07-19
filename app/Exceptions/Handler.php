@@ -26,42 +26,42 @@ class Handler extends ExceptionHandler
 // use Illuminate\Validation\ValidationException;
 
 
-public function render($request, Throwable $exception)
-{
-    // لو الصفحة مش موجودة
-    if ($exception instanceof NotFoundHttpException) {
-        return response()->json([
-            'status' => false,
-            'message' => ' not found'
-        ], 404);
-    }
-
-    // لو أي خطأ تاني (500)
-    return response()->json([
-        'status' => false,
-        'message' => 'Something went wrong'
-    ], 500);
-}
-
-
-
 // public function render($request, Throwable $exception)
 // {
-//     if (config('app.debug')) {
-//         return parent::render($request, $exception);
-//     }
-
+//     // لو الصفحة مش موجودة
 //     if ($exception instanceof NotFoundHttpException) {
 //         return response()->json([
 //             'status' => false,
-//             'message' => 'Not Found'
+//             'message' => ' not found'
 //         ], 404);
 //     }
 
+//     // لو أي خطأ تاني (500)
 //     return response()->json([
 //         'status' => false,
 //         'message' => 'Something went wrong'
 //     ], 500);
 // }
+
+
+
+public function render($request, Throwable $exception)
+{
+    if (config('app.debug')) {
+        return parent::render($request, $exception);
+    }
+
+    if ($exception instanceof NotFoundHttpException) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Not Found'
+        ], 404);
+    }
+
+    return response()->json([
+        'status' => false,
+        'message' => 'Something went wrong'
+    ], 500);
+}
 
 }

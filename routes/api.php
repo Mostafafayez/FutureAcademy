@@ -322,7 +322,7 @@ Route::post('/meetings/token', [MeetingController::class, 'token']);
 
 
 
-
+Route::middleware('auth:sanctum')->group(function () {
 Route::post('/teacher-bundles', [TeacherBundleController::class, 'store']);
 
 Route::get('/teacher-bundles', [TeacherBundleController::class, 'index']);
@@ -336,3 +336,4 @@ Route::delete('/teacher-bundles/{id}', [TeacherBundleController::class, 'destroy
 Route::get('/teacher-bundles/teacher/{teacher_id}', [TeacherBundleController::class, 'getByTeacher']);
 
 Route::get('/teacher-bundles/educational-level/{id}', [TeacherBundleController::class, 'getByEducationalLevel']);
+});

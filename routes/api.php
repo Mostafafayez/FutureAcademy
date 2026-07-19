@@ -298,7 +298,8 @@ Route::get('/manage-cache', function ( ){
     return 'cache linked!';
 });
 
-
+Route::get('/logs', [LogController::class, 'getLogs']);
+Route::delete('/logs/clear', [LogController::class, 'clearLogs']);
 
 Route::middleware('auth:sanctum')->post('reset/password', [AuthController::class, 'resetPassword']);
 
@@ -309,8 +310,7 @@ Route::post('/teachers/{id}/restore', [TeacherController::class, 'restore']);
 
 
 
-Route::get('/logs', [LogController::class, 'getLogs']);
-Route::delete('/logs/clear', [LogController::class, 'clearLogs']);
+
 
 
 

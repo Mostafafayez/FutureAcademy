@@ -30,14 +30,14 @@ class TeacherVideoController extends Controller
 public function index()
 {
     return TeacherVideo::with('teacher')
-        ->orderBy('sort_order')
+        // ->orderBy('sort_order')
         ->get();
 }
 public function getByTeacher($teacherId)
 {
     return TeacherVideo::where('teacher_id',$teacherId)
         ->where('status',1)
-        ->orderBy('sort_order')
+        // ->orderBy('sort_order')
         ->get();
 }
 public function getByEducationalLevel($levelId)
@@ -48,7 +48,7 @@ public function getByEducationalLevel($levelId)
 
     })
     ->with('teacher')
-    ->orderBy('sort_order')
+    // ->orderBy('sort_order')
     ->get();
 }
 

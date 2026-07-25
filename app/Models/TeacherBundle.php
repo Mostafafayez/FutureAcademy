@@ -31,4 +31,10 @@ class TeacherBundle extends Model
             'teacher_id'
         );
     }
+
+
+    public function bundleCodes()
+{
+    return $this->hasMany(BundleCode::class);
+}
 }

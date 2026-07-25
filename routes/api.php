@@ -16,6 +16,7 @@ use GuzzleHttp\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BundleCodeController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\MeetingController;
@@ -29,6 +30,7 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\TeacherBundleController;
+use App\Models\BundleCode;
 use App\Models\TeacherBundle;
 use Illuminate\Support\Facades\Artisan;
 /*
@@ -351,3 +353,15 @@ Route::get('/teacher-bundles/educational-level/{id}', [TeacherBundleController::
 
 // });
 
+
+
+
+Route::post('/bundle-codes', [BundleCodeController::class, 'store']);
+
+Route::middleware('auth:sanctum')->post('/bundle-codes/validate', [BundleCodeController::class, 'validateCode']);
+
+Route::middleware('auth:sanctum')->get('/bundle-codes/check/{mac}/{bundleId}', [BundleCodeController::class, 'checkUserCodeStatus']);
+
+Route::get('/bundle-codes', [BundleCodeController::class, 'index']);
+
+Route::middleware('auth:sanctum')->get('/bundle-codes/user', [BundleCodeController::class, 'getUserBundles']);

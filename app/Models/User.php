@@ -123,4 +123,9 @@ class User extends Authenticatable
     }
 
 
+    public function bundleCodes()
+{
+    return $this->hasMany(BundleCode::class);
+}
+
 }

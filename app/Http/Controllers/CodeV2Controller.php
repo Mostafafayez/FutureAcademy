@@ -80,6 +80,7 @@ class CodeV2Controller extends Controller
     }
 
     $code->user_id = $request->user_id;
+    $code->type = $request->type;
     // $code->teacher_id = $request->teacher_id;
     $code->lesson_id = $request->lesson_id;
     $code->teacher_bundle_id = $request->teacher_bundle_id;

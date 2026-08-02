@@ -31,6 +31,7 @@ class CodeController extends Controller
         $code = Code::create([
             'mac_address' => '', // Initialize with an empty string
             'expires_at' => $request->expires_at,
+            
         ]);
 
         return response()->json(['message' => 'Code created successfully', 'code' => $code], 201);

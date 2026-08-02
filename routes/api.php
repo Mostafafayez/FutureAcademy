@@ -21,6 +21,7 @@ use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\MeetingController;
 use App\Http\Controllers\CodeController;
+use App\Http\Controllers\CodeV2Controller;
 use App\Http\Controllers\VideoController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\MCQController;
@@ -134,8 +135,10 @@ Route::get('/addcode/fixed', [CodeController::class, 'storefixed']);
 Route::get('/addcode/mohamed_math', [CodeController::class, 'mohamed_math']);
 Route::get('/getcode/mohamed_math', [CodeController::class, 'get_mohamed_math']);
 
-Route::post('/codes/validate', [CodeController::class, 'validateCode']);
-Route::get('/code/check/{userId}/{macaddress}/{lesson_id}', [CodeController::class, 'checkUserCodeStatus']);
+// Route::post('/codes/validate', [CodeController::class, 'validateCode']);
+// Route::get('/code/check/{userId}/{macaddress}/{lesson_id}', [CodeController::class, 'checkUserCodeStatus']);
+Route::post('/codes/validate', [CodeV2Controller::class, 'validateCode']);
+Route::get('/code/check/{userId}/{macAddress}/{type}/{lessonId?}/{bundleId?}', [CodeV2Controller::class, 'checkUserCodeStatus']);
 Route::get('/code/users', [CodeController::class, 'getAllCodesWithUsers']);
 Route::get('/code/{user_id}', [CodeController::class, 'getUserLessonsWithCode']);
 //mobile
@@ -362,6 +365,6 @@ Route::middleware('auth:sanctum')->post('/bundle-codes/validate', [BundleCodeCon
 
 Route::middleware('auth:sanctum')->get('/bundle-codes/check/{mac}/{bundleId}', [BundleCodeController::class, 'checkUserCodeStatus']);
 
-Route::get('/bundle-codes', [BundleCodeController::class, 'index']);
+Route::middleware('auth:sanctum')->get('/bundle-codes', [BundleCodeController::class, 'index']);
 
 Route::middleware('auth:sanctum')->get('/bundle-codes/user', [BundleCodeController::class, 'getUserBundles']);

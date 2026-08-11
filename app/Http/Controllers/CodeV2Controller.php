@@ -18,7 +18,7 @@ class CodeV2Controller extends Controller
 
         'type' => 'required|in:teacher,package,bundle',
 
-        // 'teacher_id' => 'nullable|exists:teachers,id',
+      
         'lesson_id' => 'nullable|exists:packages,id',
         'teacher_bundle_id' => 'nullable|exists:teacher_bundles,id',
     ]);

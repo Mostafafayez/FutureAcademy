@@ -13,12 +13,16 @@ class CodeController extends Controller
     {
         // Custom validation messages
         $messages = [
+            'teacher_id.required' => 'The teacher field is required.',
+            'teacher_id.exists' => 'The selected teacher does not exist.',
             'expires_at.required' => 'The expiration date field is required.',
             'expires_at.date' => 'The expiration date must be a valid date format. Example format: YYYY-MM-DD.',
         ];
 
         // Validate the request
         $validator = Validator::make($request->all(), [
+            
+            'teacher_id' => 'required|exists:teachers,id',
             'expires_at' => 'required|date',
         ], $messages);
 
@@ -28,11 +32,9 @@ class CodeController extends Controller
         }
 
         // Create the new code
-        $code = Code::create([
-            'mac_address' => '', // Initialize with an empty string
-            'expires_at' => $request->expires_at,
-            
-        ]);
+   $code = Code::create([ 'mac_address' => '', // Initialize with an empty string
+    'teacher_id' => $request->teacher_id,
+    'expires_at' => $request->expires_at ]);
 
         return response()->json(['message' => 'Code created successfully', 'code' => $code], 201);
     }

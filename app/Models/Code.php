@@ -87,7 +87,7 @@ class Code extends Model
         // active | expired | blocked
         'status',
 
-  
+     'teacher_id',
 
         'code',
     ];

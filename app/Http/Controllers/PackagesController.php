@@ -89,16 +89,20 @@ class PackagesController extends Controller
     }
 
 
-
-    public function updatePartial(Request $request, $id)
+    
+public function updatePartial(Request $request, $id)
 {
-    // Validate input (title OR description can come)
+    // Validate only the fields that are provided
     $validated = $request->validate([
+        'id' => 'sometimes|integer|unique:packages,id,' . $id,
+        'subject_id' => 'sometimes|integer|exists:subjects,id',
+        'teacher_id' => 'sometimes|integer|exists:teachers,id',
+        'educational_level_id' => 'sometimes|integer|exists:educational_levels,id',
         'title' => 'sometimes|string|max:255',
         'description' => 'sometimes|nullable|string',
     ]);
 
-    // Find package
+    // Find package using the current ID
     $package = packages::find($id);
 
     if (!$package) {
@@ -108,8 +112,32 @@ class PackagesController extends Controller
         ], 400);
     }
 
-    // Update only sent fields
-    $package->update($validated);
+    // Update the provided fields
+    if ($request->has('id')) {
+        $package->id = $request->id;
+    }
+
+    if ($request->has('subject_id')) {
+        $package->subject_id = $request->subject_id;
+    }
+
+    if ($request->has('teacher_id')) {
+        $package->teacher_id = $request->teacher_id;
+    }
+
+    if ($request->has('educational_level_id')) {
+        $package->educational_level_id = $request->educational_level_id;
+    }
+
+    if ($request->has('title')) {
+        $package->title = $request->title;
+    }
+
+    if ($request->has('description')) {
+        $package->description = $request->description;
+    }
+
+    $package->save();
 
     return response()->json([
         'status' => 200,
@@ -117,6 +145,7 @@ class PackagesController extends Controller
         'data' => $package,
     ], 200);
 }
+
 
 
 }

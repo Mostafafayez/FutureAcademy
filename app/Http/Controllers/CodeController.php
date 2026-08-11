@@ -21,7 +21,7 @@ class CodeController extends Controller
 
         // Validate the request
         $validator = Validator::make($request->all(), [
-            
+
             'teacher_id' => 'required|exists:teachers,id',
             'expires_at' => 'required|date',
         ], $messages);

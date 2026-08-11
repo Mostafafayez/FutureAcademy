@@ -150,6 +150,9 @@ Route::post('/videos', [VideoController::class, 'store']);
 
 Route::delete('/videos/{id}', [VideoController::class, 'destroy']);
 
+
+Route::get('/codes/teacher/{teacherId}', [TeacherCodeController::class, 'getByTeacherId']);
+
 // PDF    code
 Route::post('/pdfs', [PDFController::class, 'store']);
 Route::get('/pdfs/lesson/{lessonId}', [PDFController::class, 'getByLessonId']);

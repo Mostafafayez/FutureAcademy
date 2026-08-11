@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
  use App\Models\Code;
-
+use Illuminate\Support\Facades\Validator;
 class TeacherCodeController extends Controller
 {
 
@@ -57,4 +57,30 @@ public function myCodes(Request $request)
         'codes' => $codes
     ]);
 }
+
+
+
+
+
+
+
+
+
+public static function getByTeacherId($teacherId)
+{
+    return Code::with([
+        'user',
+        'teacher',
+        'bundle',
+        'package'
+    ])
+    ->where('teacher_id', $teacherId)
+    ->get();
 }
+
+
+
+}
+
+
+

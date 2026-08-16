@@ -42,16 +42,11 @@ public function getAllTeachers()
 }
 public function getallTeachersCodesCount()
 {
-    $teachers = Teacher::withCount('code')
+    $teachers = teacher::withCount('codes')
         ->get(['id', 'name']);
 
     return response()->json([
-        'teachers' => $teachers->map(function ($teacher) {
-            return [
-                'name' => $teacher->name,
-                'count' => $teacher->codes_count,
-            ];
-        })
+        'teachers' => $teachers
     ], 200);
 }
 

@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 public function code()
 {
-    return $this->hasMany(Code::class, 'teacher_id', 'id');
+    return $this->hasMany(Code::class);
 }
         public function image()
             {

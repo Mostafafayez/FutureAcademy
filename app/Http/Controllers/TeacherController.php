@@ -40,25 +40,25 @@ public function getAllTeachers()
         'teachers' => $data
     ], 200);
 }
-    public function getallTeachersCodesCount()
-    {
-        $teachers = Teacher::withCount('codes')->get();
-
-        return response()->json([
-            'teachers' => $teachers
-        ]);
-    }
-
-
-    public function getCodesByTeacherId($teacherId)
+ public function getallTeachersCodesCount()
 {
-    $codes = Code::where('teacher_id', $teacherId)->get();
+    $teachers = Teacher::withCount('codes')->get();
+
+    $totalCodes = $teachers->sum('codes_count');
 
     return response()->json([
-        'codes' => $codes
+        'number' => $totalCodes
     ]);
 }
 
+public function getCodesByTeacherId($teacherId)
+{
+    $count = Code::where('teacher_id', $teacherId)->count();
+
+    return response()->json([
+        'number' => $count
+    ]);
+}
 
 public function getTeacherCodesCount()
 {

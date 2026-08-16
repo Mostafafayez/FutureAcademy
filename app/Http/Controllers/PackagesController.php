@@ -9,7 +9,32 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 class PackagesController extends Controller
-{public function store(Request $request)
+
+
+
+
+
+{
+
+
+
+
+public function index()
+{
+    $packages = packages::with([
+        'educationalLevels',
+        'subject',
+        'teacher',
+        'image'
+    ])->get();
+
+    return response()->json([
+        'message' => 'Packages retrieved successfully',
+        'packages' => $packages
+    ], 200);
+}
+
+public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
@@ -24,6 +49,8 @@ class PackagesController extends Controller
             'type' => 'required|in:package,lecture'
 
         ]);
+
+
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);

@@ -81,6 +81,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/lessons/package/{packageId}', [lessonController::class, 'getByPackageId']);
     Route::get('/getPackages/{teacherId}/{educationalLevel}', [PackagesController::class, 'getpackagesByteacherId']);
 });
+
+
+Route::get('/packages', [PackagesController::class, 'index']);
+
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/messages', [MessageController::class, 'store']);
 

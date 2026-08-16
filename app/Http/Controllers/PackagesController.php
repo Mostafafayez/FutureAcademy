@@ -16,7 +16,10 @@ class PackagesController extends Controller
             'description' => 'required|string|max:1000',
             'subject' => 'required|string|exists:subjects,name',
             'teacher_id' => 'required|exists:teachers,id',  // Validate teacher_id
-            'educational_id' =>'required|exists:educational_levels,id',
+
+             'educational_id' => 'required|array|min:1',
+        'educational_id.*' => 'required|integer|exists:educational_levels,id',
+
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'type' => 'required|in:package,lecture'
 
@@ -33,15 +36,20 @@ class PackagesController extends Controller
             return response()->json(['message' => 'Subject not found.'], 404);
         }
 
+
+
+
         $package = packages::create([
             'title' => $request->title,
             'description' => $request->description,
             'subject_id' => $subject->id,
             'teacher_id' => $request->teacher_id,// Add teacher_id
             'type' => $request->type,
-            'educational_level_id' => $request->educational_id,
+            // 'educational_level_id' => $request->educational_id,
         ]);
 
+
+           $package->educationalLevels()->sync($request->educational_id);
 
 
            if ($request->hasFile('image')) {
@@ -50,7 +58,16 @@ class PackagesController extends Controller
         $package->image()->create([
             'image_url' => $fileName
         ]);
+
     }
+
+
+        $package->load([
+        'educationalLevels',
+        'image',
+        'subject',
+        'teacher'
+    ]);
 
         return response()->json(['message' => 'packages created successfully', 'packages' => $package], 201);
     }
@@ -95,7 +112,7 @@ public function updatePartial(Request $request, $id)
 {
     // Validate only the fields that are provided
     $validated = $request->validate([
-        'id' => 'sometimes|integer|unique:packages,id,' . $id,
+        // 'id' => 'sometimes|integer|unique:packages,id,' . $id,
         'subject_id' => 'sometimes|integer|exists:subjects,id',
         'teacher_id' => 'sometimes|integer|exists:teachers,id',
         'educational_level_id' => 'sometimes|integer|exists:educational_levels,id',
@@ -119,9 +136,9 @@ public function updatePartial(Request $request, $id)
     }
 
     // Update package fields
-    if ($request->has('id')) {
-        $package->id = $request->id;
-    }
+    // if ($request->has('id')) {
+    //     $package->id = $request->id;
+    // }
 
     if ($request->has('subject_id')) {
         $package->subject_id = $request->subject_id;
@@ -147,7 +164,7 @@ public function updatePartial(Request $request, $id)
     if ($request->has('type')) {
         $package->type = $request->type;
     }
-    
+
     $package->save();
 
     /*

@@ -19,7 +19,7 @@ class packages extends Model
         'teacher_id',
         'title',
         'description',
-        'educational_level_id'
+
     ];
     public $timestamps = false;
     /**
@@ -28,6 +28,18 @@ class packages extends Model
     public function subject()
     {
         return $this->belongsTo(Subject::class);
+    }
+
+
+
+      public function educationalLevels()
+    {
+        return $this->belongsToMany(
+            EducationalLevel::class,
+            'package_educational_level',
+            'package_id',
+            'educational_level_id'
+        );
     }
 
 

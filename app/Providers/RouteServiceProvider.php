@@ -45,8 +45,8 @@ protected function configureRateLimiting()
     RateLimiter::for('api', function (Request $request) {
         // لو user مسجل
         if ($request->user()) {
-            // مثال: Teachers عندهم limit أعلى
-            if ($request->user() instanceof \App\Models\Teacher) {
+            // 
+            if ($request->user() instanceof \App\Models\teacher) {
                 return Limit::perMinute(120)->by($request->user()->id);
             }
 

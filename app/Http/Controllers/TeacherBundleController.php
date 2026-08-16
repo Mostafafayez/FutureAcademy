@@ -14,7 +14,7 @@ class TeacherBundleController extends Controller
         'description' => 'nullable|string',
         'educational_level_id' => 'required|exists:educational_levels,id',
         'price' => 'required|numeric|min:0',
-        // 'status' => 'required|boolean',
+        
         'teachers' => 'required|array|min:1',
         'teachers.*' => 'exists:teachers,id',
     ]);

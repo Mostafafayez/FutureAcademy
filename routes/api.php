@@ -33,6 +33,7 @@ use App\Http\Controllers\ImageController;
 use App\Http\Controllers\TeacherBundleController;
 use App\Models\BundleCode;
 use App\Models\TeacherBundle;
+use App\Http\Controllers\FinanceController;
 use Illuminate\Support\Facades\Artisan;
 /*
 |--------------------------------------------------------------------------
@@ -371,3 +372,9 @@ Route::middleware('auth:sanctum')->get('/bundle-codes/check/{mac}/{bundleId}', [
 Route::middleware('auth:sanctum')->get('/bundle-codes', [BundleCodeController::class, 'index']);
 
 Route::middleware('auth:sanctum')->get('/bundle-codes/user', [BundleCodeController::class, 'getUserBundles']);
+
+
+
+
+
+Route::apiResource('finances', FinanceController::class);

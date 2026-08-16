@@ -22,7 +22,11 @@ class authteacher extends Controller
                  'subject_id' => 'required|exists:subjects,id',
                  'image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
                    'educational_levels' => 'required|array',
-                      'educational_levels.*' => 'exists:educational_levels,id'           ]);
+                      'educational_levels.*' => 'exists:educational_levels,id',
+                      'role' => 'required|in:teacher,admin',
+
+
+                      ]);
             if ($validator->fails()) {
                 return response()->json(['errors' => $validator->errors()], 422);
             }
@@ -35,6 +39,7 @@ class authteacher extends Controller
                 'description' => $request->description,
                 'password' => Hash::make($request->password),
                 'subject_id' => $request->subject_id,
+                 'role' => $request->role,
 
             ]);
                     $teacher->educationalLevels()->sync($request->educational_levels);

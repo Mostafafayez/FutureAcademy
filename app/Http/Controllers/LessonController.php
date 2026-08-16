@@ -5,7 +5,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
-
+use Illuminate\Support\Facades\Storage;
 use App\Models\Lesson;
 use Illuminate\Http\Request;
 
@@ -134,7 +134,7 @@ public function update(Request $request, $id)
 
         // delete old image (optional but recommended)
         if ($lesson->image) {
-            \Storage::disk('public')->delete($lesson->image->url);
+            Storage::disk('public')->delete($lesson->image->url);
             $lesson->image()->delete();
         }
 

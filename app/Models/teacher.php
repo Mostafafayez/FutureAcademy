@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
         protected $table = 'teachers';
         use HasApiTokens, HasFactory, Notifiable,SoftDeletes;
         protected $fillable = [
-            'name', 'phone','description',  'subject_id','password'
+            'name', 'phone','description',  'subject_id','password' , 'role',
         ];
         public $timestamps = true;
         protected $hidden = [
@@ -40,7 +40,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
         return $this->belongsToMany(EducationalLevel::class, 'eductional_level_teacher', 'teacher_id', 'educational_level_id');
     }
 
-    
+
 
 
     public function messages()

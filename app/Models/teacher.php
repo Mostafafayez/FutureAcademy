@@ -19,9 +19,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
             'remember_token',
         ];
 
-        public function code()
+public function code()
 {
-    return $this->hasMany(Code::class);
+    return $this->hasMany(Code::class, 'teacher_id', 'id');
 }
         public function image()
             {

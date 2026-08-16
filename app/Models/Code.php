@@ -116,10 +116,10 @@ class Code extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function teacher()
-    {
-        return $this->belongsTo(teacher::class);
-    }
+  public function teacher()
+{
+    return $this->belongsTo(teacher::class, 'teacher_id', 'id');
+}
 
     public function bundle()
     {

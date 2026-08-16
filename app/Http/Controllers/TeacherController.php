@@ -46,7 +46,12 @@ public function getallTeachersCodesCount()
         ->get(['id', 'name']);
 
     return response()->json([
-        'teachers' => $teachers
+        'teachers' => $teachers->map(function ($teacher) {
+            return [
+                'name' => $teacher->name,
+                'count' => $teacher->codes_count,
+            ];
+        })
     ], 200);
 }
 

@@ -63,7 +63,7 @@ Route::post('/teacher/login', [authteacher::class, 'login']);
 
 Route::get('/code_count/teacher/all', [TeacherController::class, 'getallTeachersCodesCount']);
 
-Route::get('/teachers/codes{teacherId}', [TeacherController::class, 'getCodesByTeacherId']);
+Route::get('/teachers/codes/{teacherId}', [TeacherController::class, 'getCodesByTeacherId']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
 

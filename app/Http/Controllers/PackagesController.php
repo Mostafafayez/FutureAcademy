@@ -180,9 +180,7 @@ public function updatePartial(Request $request, $id)
         $package->teacher_id = $request->teacher_id;
     }
 
-    if ($request->has('educational_level_id')) {
-        $package->educational_level_id = $request->educational_level_id;
-    }
+
 
     if ($request->has('title')) {
         $package->title = $request->title;

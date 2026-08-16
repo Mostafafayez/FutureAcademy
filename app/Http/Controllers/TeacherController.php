@@ -40,15 +40,14 @@ public function getAllTeachers()
         'teachers' => $data
     ], 200);
 }
- public function getallTeachersCodesCount()
+public function getallTeachersCodesCount()
 {
-    $teachers = Teacher::withCount('codes')->get();
-
-    $totalCodes = $teachers->sum('codes_count');
+    $teachers = Teacher::withCount('codes')
+        ->get(['id', 'name']);
 
     return response()->json([
-        'number' => $totalCodes
-    ]);
+        'teachers' => $teachers
+    ], 200);
 }
 
 public function getCodesByTeacherId($teacherId)

@@ -77,23 +77,25 @@ class PackagesController extends Controller
 
 
 
+public function getPackagesByTeacherId($teacherId, $educationalLevel)
+{
+    $packages = Packages::where('teacher_id', $teacherId)
+        ->whereHas('educationalLevels', function ($query) use ($educationalLevel) {
+            $query->where('educational_levels.id', $educationalLevel);
+        })
+        ->with(['educationalLevels', 'image'])
+        ->get();
 
-    public function getpackagesByteacherId($teacherId, $educationalLevel)
-    {
-
-        $lessons = packages::where('teacher_id', $teacherId)
-            ->where('educational_level_id', $educationalLevel) // Adjust according to your column name
-            ->with(['educationalLevel','image']) // Eager load relationships
-            ->get();
-
-        if ($lessons->isEmpty()) {
-            return response()->json(['message' => 'No packages found for this teacher at the specified educational level.'], 404);
-        }
-
-        return response()->json(['packages' => $lessons], 200);
+    if ($packages->isEmpty()) {
+        return response()->json([
+            'message' => 'No packages found for this teacher at the specified educational level.'
+        ], 404);
     }
 
-
+    return response()->json([
+        'packages' => $packages
+    ], 200);
+}
     public function destroy($id)
     {
         $Lesson = packages::find($id);

@@ -58,6 +58,13 @@ Route::get('/userinfo', [AuthController::class, 'userinfo']);
 Route::post('/teacher/signup', [authteacher::class, 'signUp']);
 Route::post('/teacher/login', [authteacher::class, 'login']);
 
+
+
+
+Route::get('/code_count/teacher/all', [TeacherController::class, 'getallTeachersCodesCount']);
+
+Route::get('/teachers/codes{teacherId}', [TeacherController::class, 'getCodesByTeacherId']);
+
 Route::middleware(['auth:sanctum'])->group(function () {
 
 
@@ -78,7 +85,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/messages', [MessageController::class, 'store']);
 
 Route::get('lessons/{lessonid}/can-access', [LessonController::class, 'checkAccess']);
-Route::get('/code_count/teacher/all', [TeacherController::class, 'getallTeachersCodesCount']);
+
 Route::get('/code_count/teacher', [TeacherController::class, 'getTeacherCodesCount']);
 
 Route::get('/getusermessages', [MessageController::class, 'getUserMessages']);

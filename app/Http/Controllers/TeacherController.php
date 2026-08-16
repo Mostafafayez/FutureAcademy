@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Models\Code;
 use App\Models\teacher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -46,6 +48,16 @@ public function getAllTeachers()
             'teachers' => $teachers
         ]);
     }
+
+
+    public function getCodesByTeacherId($teacherId)
+{
+    $codes = Code::where('teacher_id', $teacherId)->get();
+
+    return response()->json([
+        'codes' => $codes
+    ]);
+}
 
 
 public function getTeacherCodesCount()

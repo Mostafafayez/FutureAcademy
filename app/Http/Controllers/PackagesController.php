@@ -144,7 +144,10 @@ public function updatePartial(Request $request, $id)
         // 'id' => 'sometimes|integer|unique:packages,id,' . $id,
         'subject_id' => 'sometimes|integer|exists:subjects,id',
         'teacher_id' => 'sometimes|integer|exists:teachers,id',
-        'educational_level_id' => 'sometimes|integer|exists:educational_levels,id',
+
+   'educational_level_id' => 'sometimes|array|min:1',
+        'educational_level_id.*' => 'integer|exists:educational_levels,id',
+
         'title' => 'sometimes|string|max:255',
         'description' => 'sometimes|nullable|string',
 
@@ -196,6 +199,22 @@ public function updatePartial(Request $request, $id)
 
     $package->save();
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Update Educational Levels
+    |--------------------------------------------------------------------------
+    */
+
+    if ($request->has('educational_level_id')) {
+        $package->educationalLevels()->sync(
+            $request->educational_level_id
+        );
+    }
+
+
+
+
     /*
     |--------------------------------------------------------------------------
     | Handle Image
@@ -242,7 +261,7 @@ public function updatePartial(Request $request, $id)
     $package->load([
         'subject',
         'teacher',
-        'educationalLevel',
+         'educationalLevels',
         'image',
     ]);
 

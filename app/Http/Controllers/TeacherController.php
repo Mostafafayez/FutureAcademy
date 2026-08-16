@@ -112,7 +112,7 @@ public function getTeacherCodesCount()
 
     public function index()
     {
-        $teachers = Teacher::with(['subject', 'educationalLevel','image'])->get();
+        $teachers = Teacher::with(['subject', 'educationalLevels','image'])->get();
 
         // Map over the collection to format the response as needed
         $teachers = $teachers->map(function ($teacher) {
@@ -196,7 +196,7 @@ public function getTeacherCodesCount()
 
     public function show($id)
     {
-        $teacher = Teacher::with(['subject', 'educationalLevel','image'])->find($id);
+        $teacher = Teacher::with(['subject', 'educationalLevels','image'])->find($id);
 
         if (!$teacher) {
             return response()->json(['message' => 'Teacher not found.'], 404);
@@ -314,7 +314,7 @@ public function getTeachersByEducationalLevel($educationalLevelId)
         }
 
         // Fetch teachers based on educational level
-        $teachers = teacher:: with(['subject', 'educationalLevel'])
+        $teachers = teacher:: with(['subject', 'educationalLevels'])
             ->get();
 
         // Check if any teachers were found

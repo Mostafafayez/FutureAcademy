@@ -154,7 +154,7 @@ public function updatePartial(Request $request, $id)
 
             'type' => 'sometimes|string|max:100',
         // Image validation
-        'image' => 'sometimes|image|mimes:jpg,jpeg,png|max:2048',
+        'image' => 'sometimes|image|mimes:jpg,jpeg,png',
     ]);
 
     // Find package
@@ -224,7 +224,7 @@ public function updatePartial(Request $request, $id)
         $file = $request->file('image');
 
         // Store new image
-        $path = $file->store('packages', 'public');
+        $path = $file->store('images/packages', 'public');
 
         // Get existing polymorphic image
         $image = $package->image;

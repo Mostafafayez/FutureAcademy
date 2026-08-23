@@ -19,7 +19,7 @@ class teacherStudentsProgress extends Controller
     if (!$teacher) {
         return response()->json([
             'status' => false,
-            'message' => 'sss   ',
+            'message' => 'notfound   ',
             'teacher'  =>  $teacher,
         ], 401);
     }

@@ -415,6 +415,7 @@ public function resetCode($code)
     $result->type = 'notused';
     $result->teacher_bundle_id	 = null;
     $result->teacher_id = 0;
+    $result->status = 'notused';
     $result->save();
 
     return response()->json(['message' => 'Code reset successfully'], 200);

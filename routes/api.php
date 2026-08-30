@@ -65,7 +65,7 @@ Route::get('/code_count/teacher/all', [TeacherController::class, 'getallTeachers
 
 Route::get('/teachers/codes/{teacherId}', [TeacherController::class, 'getCodesByTeacherId']);
 
-// Route::middleware(['auth:sanctum'])->group(function () {
+Route::middleware(['auth:sanctum'])->group(function () {
 
 
 
@@ -80,7 +80,7 @@ Route::get('/teachers/codes/{teacherId}', [TeacherController::class, 'getCodesBy
     Route::get('/getteacher/{id}', [TeacherController::class, 'show']);
     Route::get('/lessons/package/{packageId}', [lessonController::class, 'getByPackageId']);
     Route::get('/getPackages/{teacherId}/{educationalLevel}', [PackagesController::class, 'getpackagesByteacherId']);
-// });
+});
 
 
 Route::get('/packages', [PackagesController::class, 'index']);

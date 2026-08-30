@@ -413,6 +413,8 @@ public function resetCode($code)
     $result->mac_address = '';
     $result->lesson_id = 0;
     $result->type = 'notused';
+    $result->teacher_bundle_id	 = null;
+    $result->teacher_id = 0;
     $result->save();
 
     return response()->json(['message' => 'Code reset successfully'], 200);
